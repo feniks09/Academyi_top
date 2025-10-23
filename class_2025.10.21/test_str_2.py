@@ -21,5 +21,21 @@ long_words = [word for word in words if len(word) > 3]
 print(long_words)
 
 
+cnachalo = "было слово"
+potom = "потом код"
 
+rezult = cnachalo, potom
+print(type(rezult))
+print(cnachalo)
+print(potom)
+print(rezult, sep= " 8")
+
+
+a =6
+b = 6
+
+c = a + b
+
+print(a)
+print(c)
 
