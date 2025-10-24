@@ -39,5 +39,3 @@ c = a + b
 print(a)
 print(c)
 
-print("1\n2\n3\n4\n5")
-print(1, 2, 3, 4, 5, sep="\n")
