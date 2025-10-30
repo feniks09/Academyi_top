@@ -84,7 +84,7 @@ day_count = day_now - birsday_day
 print(day_count)
 # print(mes_count)
 mes_day = 0
-for i in range(1, birsday_mes + 1):
+for i in range(1, birsday_mes):
     mes_day += dict_mes[birsday_mes]
 day_all = day_count + mes_day    
 print(mes_day)
