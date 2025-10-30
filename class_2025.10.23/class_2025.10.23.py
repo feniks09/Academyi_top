@@ -31,4 +31,3 @@ for i in range(4):
 for i in range(len(myster)-1, -1, -1):
     print(i, "ароалал")
 х =10
-о = 
