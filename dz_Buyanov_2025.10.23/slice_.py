@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # t = "мама мыла раму"
 # print(t[-1:-len(t)-1:-1])
 # print(len(t))
@@ -69,3 +70,12 @@ t_list_3 = t_list[-3:]
 [print(t_list[t], end=" ") for t in range(len(t_list)-3, len(t_list))]
 
 
+=======
+t = "мама мыла раму"
+print(t[-1:-len(t)-1:-1])
+print(len(t))
+# for i in range(len(t)-1, -1, -1):
+#     print(t[i], end="")
+
+print(t[::-1])
+>>>>>>> 3928d8464ac75be9ba0b947bdda6537741473bfd
