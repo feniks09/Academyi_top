@@ -30,60 +30,52 @@
 # Пользователь: 19:35
 # Программа: О, уже вечер!
 
-class TimeError(ValueError):
+class TimeError(Exception):
     pass
 
 time_now = input("Который час (часы и минуты через \":\"): ")
 time_now = time_now.split(":")
-
+# if time_now[1] == "00":
+#     time_now[1] = "0"
 try:
 
     time_now_hour = int(time_now[0])
-    time_now_min = int(time_now[1])
-    # a = 1/0
+    time_now_min = int(time_now[1])    
 
-    if time_now_hour > 23 or time_now_min > 59:
+    if not (0 <= time_now_hour <= 23) or not (0 <= time_now_min <= 59):
         raise TimeError("TimeError - Таких времен не существует")
-except ValueError as e:
-    print("Вот такая ошибка: ", e)
-except TimeError as e:
-    print("Смотри на ошибку: ", e)
-except ZeroDivisionError as e:
-    print("Ошо про 0: ", e)
-except IndexError as e:
-    print("не выходи из списка", e)
-# except TimeError as e:
-#     print("Ошибка такая", e)
     
-# except (ValueError, TimeError) as e:
-#     if isinstance(e, ValueError):
+except (ValueError, TimeError, IndexError) as e:
+    if isinstance(e, ValueError):
+        print("Вы ввели не число", e)
+        time_now_min = None
+        time_now_hour = None
+    elif isinstance(e, IndexError):
+        print("не выходи из списка", e)
+        time_now_min = None
+        time_now_hour = None
+    else:
+        print(e)   
+
+# if 30 < time_now_min <= 59:
+#    time_now_round = time_now_hour + 1
+# else:
+#     time_now_round = time_now_hour 
+# print(time_now_min)
+# print(time_now_hour)
+# print(time_now_round)
 
 
-#         print("Вы ввели не число", e)
-#     else:
-#         print(e)   
-
-# if time_now[1] >= 30 and time_now[1] <= 59:
-#    time_now[0] += 1 
-# print(time_now)
-time_now = time_now[0]
-print(time_now)
-
-try:
-    time_now = int(time_now)
-except ValueError:
-    print("вы ввели не число")
-    time_now = None
-if time_now:
-    if time_now > 4 and time_now <= 9:
+if time_now_hour and time_now_min:
+    if 4 <= time_now_hour < 9 and 0 <= time_now_min <= 59:
         print("Сейчас утро")
-    elif time_now > 9 and time_now <= 16:
+    elif 9 <= time_now_hour < 16 and 0 <= time_now_min <= 59:
         print("Сейчас день")
-    elif time_now > 16 and time_now <= 22:
+    elif 16 <= time_now_hour < 22 and 0 <= time_now_min <= 59:
         print("Сейчас вечер")
-    elif time_now > 22 and time_now <= 23:
+    elif 22 <= time_now_hour < 23 and 0 <= time_now_min <= 59:
         print("Сейчас ночь")
-    elif time_now >= 0 and time_now <= 4:
+    elif 0 <= time_now_hour < 4 and 0 <= time_now_min <= 59:
         print("Сейчас ночь")
     
 
