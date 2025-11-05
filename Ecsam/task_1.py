@@ -43,7 +43,9 @@ try:
     # a = 1/0
 
     if time_now_hour > 23 or time_now_min > 59:
-        raise TimeError("TimeError - Таких времен не существует")
+        raise TimeError("TimeError - Машина времени в будующее")
+    if time_now_hour < 0 or time_now_min < 0:
+        raise TimeError("TimeError - Машина времени в прошлое")
 except ValueError as e:
     print("Вот такая ошибка: ", e)
 except TimeError as e:
