@@ -42,6 +42,10 @@ try:
     time_now_hour = int(time_now[0])
     time_now_min = int(time_now[1])    
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 53c25bd1776737f857d357382df020c7e805b5a5
     if time_now_hour > 23 or time_now_min > 59:
         raise TimeError("TimeError - Машина времени в будующее")
     if time_now_hour < 0 or time_now_min < 0:
@@ -56,8 +60,15 @@ except IndexError as e:
     print("не выходи из списка", e)
 # except TimeError as e:
 #     print("Ошибка такая", e)
+<<<<<<< HEAD
     if not (0 <= time_now_hour <= 23) or not (0 <= time_now_min <= 59):
         raise TimeError("TimeError - Таких времен не существует")
+=======
+=======
+    if not (0 <= time_now_hour <= 23) or not (0 <= time_now_min <= 59):
+        raise TimeError("TimeError - Таких времен не существует")
+>>>>>>> 45048a7b860607a4a3fa652dc082aa52196f0a8f
+>>>>>>> 53c25bd1776737f857d357382df020c7e805b5a5
     
 except (ValueError, TimeError, IndexError) as e:
     if isinstance(e, ValueError):
