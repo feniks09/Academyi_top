@@ -4,7 +4,6 @@
 # Пользователь: 19
 # Программа: до сна часов: 4 
 
-
 # time_now = input("Который час: ")
 # try:
 #     time_now = int(time_now)
@@ -23,8 +22,6 @@
 # else:
 #     print("До сна часов: ", time_count) 
 
-
-
 # Задача №2
 # Написать программу, которая спрашивает у пользователя, который час и выводит в ответ время суток. 
 # Границы определить любые, но в каждом времени суток должно быть непустое количество часов. 
@@ -33,41 +30,67 @@
 # Пользователь: 19:35
 # Программа: О, уже вечер!
 
-time_now = input("Который час: (минуты и часы через \":\") ")
+class TimeError(Exception):
+    pass
+
+time_now = input("Который час (часы и минуты через \":\"): ")
 time_now = time_now.split(":")
-# try:
-#     if time_now[0] > 23 or time_now[1] > 59:
-#         raise VallueError("Таких времени не существует")
-# except ValueError as e:
-#     print("вы ввели не число")   
-time_now = time_now[0]
-print(time_now)
-if time_now[1] >= 0 and time_now[1] <= 30:
-   time_now[0] += 1 
-print(time_now)
+# if time_now[1] == "00":
+#     time_now[1] = "0"
 try:
-    time_now = int(time_now)
-except ValueError:
-    print("вы ввели не число")
-    time_now = None
-if time_now:
-    if time_now > 4 and time_now <= 9:
+
+    time_now_hour = int(time_now[0])
+    time_now_min = int(time_now[1])    
+
+    if not (0 <= time_now_hour <= 23) or not (0 <= time_now_min <= 59):
+        raise TimeError("TimeError - Таких времен не существует")
+    
+except (ValueError, TimeError, IndexError) as e:
+    if isinstance(e, ValueError):
+        print("Вы ввели не число", e)
+        time_now_min = None
+        time_now_hour = None
+    elif isinstance(e, IndexError):
+        print("не выходи из списка", e)
+        time_now_min = None
+        time_now_hour = None
+    else:
+        print(e)   
+
+# if 30 < time_now_min <= 59:
+#    time_now_round = time_now_hour + 1
+# else:
+#     time_now_round = time_now_hour 
+# print(time_now_min)
+# print(time_now_hour)
+# print(time_now_round)
+
+
+if time_now_hour and time_now_min:
+    if 4 <= time_now_hour < 9 and 0 <= time_now_min <= 59:
         print("Сейчас утро")
-    elif time_now > 9 and time_now <= 16:
+    elif 9 <= time_now_hour < 16 and 0 <= time_now_min <= 59:
         print("Сейчас день")
-    elif time_now > 16 and time_now <= 22:
+    elif 16 <= time_now_hour < 22 and 0 <= time_now_min <= 59:
         print("Сейчас вечер")
-    elif time_now > 22 and time_now <= 24:
+    elif 22 <= time_now_hour < 23 and 0 <= time_now_min <= 59:
         print("Сейчас ночь")
-    elif time_now >= 0 and time_now <= 4:
+    elif 0 <= time_now_hour < 4 and 0 <= time_now_min <= 59:
         print("Сейчас ночь")
     
 
    
+<<<<<<< HEAD
 # Задача №3
 # Написать программу, которая спрашивает пользователя день его рождения (отдельно день и месяц цифрами) и
 # знает заранее текущее число (30 октября) 
 # Программа выводит количество дней до дня рождения. datetime использовать нельзя. Циклы - можно
+=======
+# # Задача №3
+# # Написать программу, которая спрашивает пользователя день его рождения (отдельно день и месяц цифрами) и
+# # знает заранее текущее число (30 октября) 
+# # Программа выводит количество дней до дня рождения. datetime использовать нельзя. Циклы - можно
+>>>>>>> a932a59dcb52d19905cc286b421d6de35cf01300
 # dict_mes = {1 : 31, 2 : 28, 3 : 31, 4: 30, 5 : 31,\
 #     6 : 30, 7 : 31, 8 : 31, 9 : 30, 10 : 31, 11 : 30, 12 : 31}
 # birsday = input("Введите свой день рождения (отдельно день и месяц цифрами): ")
