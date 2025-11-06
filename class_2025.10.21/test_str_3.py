@@ -17,6 +17,7 @@ a = 8
 old = 3
 print(a)
 print(old)
+print("")
 rezult = a + old
 
 print(rezult)
