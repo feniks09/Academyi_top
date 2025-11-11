@@ -20,11 +20,20 @@ while is_program_work:
     if is_choice_wrong:
         print("Ошибка: некорректный ввод")
         print("")
-        
-    if temperature_celsius < 16:
-            print("Температура не может быть меньше 15 градусов")
-    elif temperature_celsius > 29:
-            print("Температура не может быть больше 30 градусов")
+    
+    # Вариант с еще одной логической переменной сложнее так как
+    # появляется еще одна переменная и двойное ветвление
+    # if is_temperature_celsius_error:
+    #     if temperature_celsius <= 15:
+    #         print("Температура не может быть меньше 15 градусов")
+    #     elif temperature_celsius >= 30:
+    #         print("Температура не может быть больше 30 градусов")
+    
+            
+    if temperature_celsius <= 16:
+            print("Температура не может быть меньше 15 градусов, даже не крути!!")
+    elif temperature_celsius >= 30:
+            print("Температура не может быть больше 30 градусов, даже не крути!!")
 
 
     print(">>> ", end="")
@@ -44,13 +53,25 @@ while is_program_work:
     else:
         is_choice_wrong = True
     
-    if not 15 <= temperature_celsius <= 30:
-        # is_temperature_celsius_error = True
-        is_program_work = False
-        
+    # if not 15 <= temperature_celsius <= 30:
+    #     is_temperature_celsius_error = True
+    #     if temperature_celsius > 30:
+    #         temperature_celsius = 30
+    #     elif temperature_celsius < 15:
+    #         temperature_celsius = 15
+
+    if temperature_celsius > 30:
+        temperature_celsius = 30
+    elif temperature_celsius < 15:
+        temperature_celsius = 15
+             
+             
+
+
+
     # elif temperature_celsius > 30:
     #     is_temperature_celsius_max = True
-    #     is_program_work = False
+    # #     is_program_work = False
 
 
     
