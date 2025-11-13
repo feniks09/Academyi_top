@@ -19,7 +19,7 @@ list_2 = []
 # list_1.insert(6, None)
 count = 0
 for list_ in list_1:
-    list_2.append(str(list_)*2)
+    list_2.extend([list_, list_])
     
 
 
