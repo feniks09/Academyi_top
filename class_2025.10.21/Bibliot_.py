@@ -11,4 +11,6 @@ print(a[0])
 aria = input("Введите размер поля для ввода")
 а = aria[0]
 b = aria[2]
+
+
 print(a)
