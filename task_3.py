@@ -27,18 +27,26 @@ N = random.randint(0, 10)
 for i in range(N):
     num = random.randint(-100, 100)
     list_num.append(num)
+print(list_num)
 
+#     num_max = list_num[0]
+# else:
+#     num_max = None
+
+# for i in range(len(list_num)):
+#     for i in range(i):
+#         if list_num[i] > list_num[i+1]:
+#             list_num[i] = list_num[i+1]
+#             num_max = list_num[i]
 if list_num:
     num_max = list_num[0]
 else:
     num_max = None
 
-for i in range(1, len(list_num)):
-    if list_num[i] > num_max:
-        list_max.append(num_max)
-        num_max = list_num[i]
+print(max(list_num))
+num_max_2 = max(list_num)
 
-print(list_num)
+i = list_num.index(num_max_2)
+list_num.pop(i)
+print(max(list_num))
 
-print(list_max)
-print(list_max[-1])
