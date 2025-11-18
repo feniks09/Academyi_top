@@ -12,6 +12,11 @@ list_2 = list_1.copy() # print(list_)
 #     print(i)
 # list_1.append(1000)
 
+count = 0
+for namber in list_2:
+    list_1.insert(count, namber)
+    count += 2
+print(list_1) 
 
 # print(list_1)
 # print(list_2)
@@ -43,11 +48,7 @@ list_2 = list_1.copy() # print(list_)
 #     count += 1
 # print(list_4)
 
-count = 0
-for namber in list_2:
-    list_1.insert(count, namber)
-    count += 2
-print(list_1) 
+
 
 # a = [[namber, namber] for namber in list_1]
 # b = [namber for namber in a]
