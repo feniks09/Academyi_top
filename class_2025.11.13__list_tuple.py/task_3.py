@@ -14,12 +14,21 @@ for i in range(N):
     list_num.append(num)
 
 print(list_num)
-
+max_2 = 0
 for i in range(len(list_num)):
-    # for j in range(i + 1):
-    if list_num[i-1] > list_num[i]:
-        max = list_num[i]
-        print(max)
-        # elif j > i:
-        #     print("Это мах: ", list_num[j])
+    if i == 0:
+        max_2 = list_num[i]
+    if list_num[i] >= max_2:
+        max_2 = list_num[i]
+        # print(max_2)
+print(max_2)
 
+# list_2 = [0]
+# for num in list_num:
+#     if list_2[0] <= num:
+#         list_2[0] = num
+#     else:
+#         list_2[0] = num
+
+
+# print(list_2[0])
