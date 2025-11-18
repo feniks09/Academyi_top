@@ -14,12 +14,17 @@ for i in range(N):
     list_num.append(num)
 
 print(list_num)
-max_2 = 0
-for i in range(len(list_num)):
-    if i == 0:
-        max_2 = list_num[i]
-    if list_num[i] >= max_2:
-        max_2 = list_num[i]
+
+if list_num:
+    max_2 = list_num[0] # если список не пустой то берем первый элемент за первый максимум
+else:
+    max_2 = 0 # если список пустой то присваиваем 0 и выходим
+
+for i in range(1, len(list_num)): # перебираем элементы списка начина с первого индекса так как нулевой это уже стартовый максимум
+    print(max_2)
+    if list_num[i] >= max_2: # если каждый следующий элемент списка больше чем предыдущий начиная с нулевого
+        # сохраняем это значение в переменную max и считаем его максимумом на данной итераци
+        max_2 = list_num[i] 
         # print(max_2)
 print(max_2)
 
