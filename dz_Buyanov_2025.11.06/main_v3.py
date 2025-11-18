@@ -3,7 +3,7 @@ MAX_TEMPERATURE_CELCIUS = 30
 
 is_program_work = True
 is_choice_wrong = False
-is_temperature_celsius_error = False
+# is_temperature_celsius_error = False
 temperature_celsius = 20
 
 while is_program_work:
