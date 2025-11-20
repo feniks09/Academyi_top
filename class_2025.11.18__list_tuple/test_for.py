@@ -11,17 +11,17 @@
 N = 2
 a = 0
 b = 1
-# list_1 = []
-# for i in range(N):
-#     print("Я из первого цикала")
-#     list_1.append([])
-#     for j in range(N):
-#         if i % 2 == 0:
-#             list_1[i].append(a)
-#             list_1[i].append(b)
-#         else:
-#             list_1[i].append(b)
-#             list_1[i].append(a)
+list_1 = []
+for i in range(N):
+    print("Я из первого цикала")
+    list_1.append([])
+    for j in range(N):
+        if i % 2 == 0:
+            list_1[i].append(a)
+            list_1[i].append(b)
+        else:
+            list_1[i].append(b)
+            list_1[i].append(a)
 
 #         # list_1[j].append(b)
 
