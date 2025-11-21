@@ -40,13 +40,20 @@ print(list_num)
 #             num_max = list_num[i]
 if list_num:
     num_max = list_num[0]
+    print("это максимум :", max(list_num))
+
+    num_max_2 = max(list_num)
+
+    i = list_num.index(num_max_2)
+    list_num.pop(i)
+    if list_num:
+        print("это предмаксимум :", max(list_num))
+    else:
+        print("В списке только одно число предмаксимума нет")
 else:
     num_max = None
 
-print(max(list_num))
-num_max_2 = max(list_num)
 
-i = list_num.index(num_max_2)
-list_num.pop(i)
-print(max(list_num))
+
+
 
