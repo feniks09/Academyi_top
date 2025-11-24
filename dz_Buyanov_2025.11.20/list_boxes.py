@@ -24,15 +24,19 @@ N = input("Ввдите целое число: ")
 N = int(N)
 
 # if N >= 0:
-#     list_boxes_ = [[i, num] for i in range(N) for num in range(i)]
+#     list_boxes_ = [[] for i in range(N) for j in range(N)]
 
 # print(list_boxes_)
-list_boxces_2 = [[] for i in range(N)]
+# list_boxces_2 = [[] for i in range(N)]
+list_boxces_2 = []
 
 if N >= 0:
-    for i in range(N):
+    for i in range(N + 1):
+        list_boxces_2.append([])
         for j in range(i):
-            list_boxces_2[i].append(i)
+            list_boxces_2[i].append(N)
+    print(list_boxces_2)
+else:
+    print("такое значение не подходит")
 
-print(list_boxces_2)
 
