@@ -1,3 +1,4 @@
+
 CELL_EMPTY_FLOOR = "."
 CELL_VOID = " "
 CELL_WALL = "#"

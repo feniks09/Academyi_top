@@ -44,14 +44,16 @@ if list_num:
 
     num_max_2 = max(list_num)
 
-    i = list_num.index(num_max_2)
-    list_num.pop(i)
-    if list_num:
-        print("это предмаксимум :", max(list_num))
+    # i = list_num.index(num_max_2)
+    # list_num.pop(i)
+    list_num_2 = [num for num in list_num if not num == num_max_2 ]
+    if list_num_2:
+        print("это предмаксимум :", max(list_num_2))
     else:
-        print("В списке только одно число предмаксимума нет")
+        print("В списке только одно число предмакс нет")
 else:
     num_max = None
+    print("Список пуст")
 
 
 
