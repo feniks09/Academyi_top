@@ -75,7 +75,42 @@ table_list = []
 for i in range(10):
     table_list.append([])
     for k in range(10):
-        num = random.randint(-10, 10)
+        num = random.randint(0, 9)
         table_list[i].append(num)
-    print(table_list[i], end = "\n")
-    
+    #     print(table_list[i], end = " ")
+    # print()  
+
+for i in range(len(table_list)):
+    for j in range(len(table_list[i])):
+        print(table_list[i][j], end=' ')
+    print()
+
+# for num in table_list:
+#     print(*num)
+# print("Вторая таблица")
+# indeks = input("Введите два индексы строк, \n \
+# которые надо поменять местами, через пробел: ").split()
+# indeks_1 = int(indeks[0])
+# indeks_2 = int(indeks[1])
+# if indeks_1 < len(table_list) and indeks_2 < len(table_list):
+#     table_list[indeks_1], table_list[indeks_2] = table_list[indeks_2], table_list[indeks_1]
+
+indeks = input("Введите индесы столбцов которые \n \
+надо поменять местами, через пробел:").split()
+if indeks:
+    indeks_1 = int(indeks[0])
+    indeks_2 = int(indeks[1])
+    if indeks_1 < len(table_list[0]) and indeks_2 < len(table_list[0]):
+        table_list_2 = []
+        for i in range(len(table_list)):
+            table_list_2.append(table_list[i][indeks_1])
+            for j in range(len(table_list[0])):
+                table_list[i][indeks_1] = table_list[i][indeks_2]
+            table_list[i][indeks_2] = table_list_2[i]
+print(table_list_2)
+for num in table_list:
+    print(*num)
+
+
+
+
