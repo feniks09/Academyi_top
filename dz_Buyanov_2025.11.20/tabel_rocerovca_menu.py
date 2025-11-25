@@ -82,7 +82,7 @@ while menu:
     if table_list:
         for num in table_list:
             print(*num)
-if chenge:
+# if chenge:
     
 # table_list = [random.randint(-10,10) for i in range(10) for i  in range(10)]
     #     print(table_list[i], end = " ")

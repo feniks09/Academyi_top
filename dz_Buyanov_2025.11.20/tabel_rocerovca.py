@@ -62,7 +62,6 @@
 #           6 1 7 2 9   2
 
 #           0 1 2 3 4
-
 #           1 - поменять местами строки
 #           2 - поменять местами столбцы
 #           0 - выйти
@@ -85,15 +84,15 @@ for i in range(len(table_list)):
         print(table_list[i][j], end=' ')
     print()
 
-# for num in table_list:
-#     print(*num)
-# print("Вторая таблица")
-# indeks = input("Введите два индексы строк, \n \
-# которые надо поменять местами, через пробел: ").split()
-# indeks_1 = int(indeks[0])
-# indeks_2 = int(indeks[1])
-# if indeks_1 < len(table_list) and indeks_2 < len(table_list):
-#     table_list[indeks_1], table_list[indeks_2] = table_list[indeks_2], table_list[indeks_1]
+for num in table_list:
+    print(*num)
+print("Вторая таблица")
+indeks = input("Введите два индексы строк, \n \
+которые надо поменять местами, через пробел: ").split()
+indeks_1 = int(indeks[0])
+indeks_2 = int(indeks[1])
+if indeks_1 < len(table_list) and indeks_2 < len(table_list):
+    table_list[indeks_1], table_list[indeks_2] = table_list[indeks_2], table_list[indeks_1]
 
 indeks = input("Введите индесы столбцов которые \n \
 надо поменять местами, через пробел:").split()
