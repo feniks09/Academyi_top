@@ -30,6 +30,6 @@ list_num_rechenge = [8 if num % 2 == 0 else -1 for num in list_num]
 #         list_num_rechenge.append(8)
 #     else:
 #         list_num_rechenge.append(-1)
-
-print(list_num_rechenge)
+if list_num_rechenge:
+    print(list_num_rechenge)
  

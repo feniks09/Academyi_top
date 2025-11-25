@@ -30,16 +30,21 @@ N = input("Введите количество чисел: ")
 N = int(N)
 if N > 0:
     list_num = [input("Введите число: ") for i in range(N)]
+    list_num = [int(num) for num in list_num]
+    list_num_list = [[num] * num if num > 0 else [] for num in list_num ]
 else:
     list_num = []
-list_num = [int(num) for num in list_num]
+    list_num_list = None
+
 print(list_num)
-list_num_list = [[num] * num for num in list_num]
+
+if list_num_list:
+    print(list_num_list)
+
 
 # list_num_list = [[int(num)] * int(num) for num in list_num for i in range(int(num)) ]
 
 
 
-print(list_num_list, sep ="\n")
 
 # print(["3"] * 3)
