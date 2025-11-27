@@ -71,18 +71,19 @@
 import random
 menu = True
 table_list = []
-for i in range(10):
-        table_list.append([])
-        for k in range(10):
-            num = random.randint(0, 9)
-            table_list[i].append(num)
-is_progran_work = True
-width = len(table_list[0])
-height = len(table_list)
+# for i in range(10):
+#         table_list.append([])
+#         for k in range(10):
+#             num = random.randint(0, 9)
+#             table_list[i].append(num)
 
+width = 0
+height = 0
+is_progran_work = True
 while is_progran_work:
-    print("Текущее состояние таблицы: ")
-    print()
+    if table_list:
+        print("Текущее состояние таблицы: ")
+        print()
     if table_list:
         for index, num in enumerate(table_list):
             print(*num, " ", index)
@@ -106,7 +107,14 @@ while is_progran_work:
     #     for j in range(len(table_list[i])):
     #         print(table_list[i][j], end=' ')
     #     print()
-
+    
+    for i in range(10):
+        table_list.append([])
+        for k in range(10):
+            num = random.randint(-10, 10)
+            table_list[i].append(num)
+    width = len(table_list[0])
+    height = len(table_list)
     menu = input() # вводится команда 0 / 1 / 2 2
     # 1 - поменять местами строки  
     # 2 - поменять местами столбцы 
@@ -128,7 +136,7 @@ while is_progran_work:
         #     print(*num)
     elif menu == 2:
         index = input("Введите индесы столбцов,\n\
-которые надо поменять местами, через пробел:").split()
+которые надо поменять местами, через пробел: ").split()
         if index:
             index_1 = int(index[0])
             index_2 = int(index[1])
