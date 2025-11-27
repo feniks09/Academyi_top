@@ -84,23 +84,8 @@ while is_progran_work:
     print("Текущее состояние таблицы: ")
     print()
     if table_list:
-<<<<<<< HEAD
         for num in table_list:
             print(*num)
-=======
-        for index, num in enumerate(table_list):
-            print(*num, " ", index)
-        print()
-        for i in range(width):
-            print(i, end=" ")
-    print()
-    print()
-    print("1 - Поменять местами строки")
-    print("2 - Поменять местами столбцы")
-    print("0 - выйти")
-    
-
->>>>>>> b35e493be9e0a9100e5b4f67ae0b93ff8ae93ec6
 # if chenge:
     
 # table_list = [random.randint(-10,10) for i in range(10) for i  in range(10)]
