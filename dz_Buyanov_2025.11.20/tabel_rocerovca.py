@@ -74,7 +74,7 @@ table_list = []
 for i in range(10):
     table_list.append([])
     for k in range(10):
-        num = random.randint(0, 9)
+        num = random.randint(-10, 10)
         table_list[i].append(num)
     #     print(table_list[i], end = " ")
     # print()  
@@ -99,14 +99,16 @@ indeks = input("Введите индесы столбцов которые \n \
 if indeks:
     indeks_1 = int(indeks[0])
     indeks_2 = int(indeks[1])
+
     if indeks_1 < len(table_list[0]) and indeks_2 < len(table_list[0]):
-        table_list_2 = []
+        table_list_2 = [] # Создаем дополнит список в который будем временно хранить столбец который требуется поменять
+
         for i in range(len(table_list)):
-            table_list_2.append(table_list[i][indeks_1])
+            table_list_2.append(table_list[i][indeks_1]) # Сохраняем столбец под индексом в список
             for j in range(len(table_list[0])):
-                table_list[i][indeks_1] = table_list[i][indeks_2]
-            table_list[i][indeks_2] = table_list_2[i]
-print(table_list_2)
+                table_list[i][indeks_1] = table_list[i][indeks_2] # перезаписываем второй столбец в первый
+            table_list[i][indeks_2] = table_list_2[i] # перезаписываем сохраненное значение в изначальный список
+print(table_list_2, "\n")
 for num in table_list:
     print(*num)
 
