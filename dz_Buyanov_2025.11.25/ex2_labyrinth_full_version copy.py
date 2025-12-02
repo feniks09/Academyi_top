@@ -51,7 +51,7 @@ while is_game_play:
                 print(cell, end=" ")
         print()
 
-    print("счетчик ходов равен %i" % count)
+    print("\n счетчик ходов равен %i \n" % count)
 
     if Error_out_fild:
         print("[!] Нельзя выйти за пределы карты")

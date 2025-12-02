@@ -1,6 +1,6 @@
 # ## Проименованные символы, что есть что на карте
 CELL_EMPTY_FLOOR = "."
-CELL_VOID = " "
+CELL_VOID = "x"
 CELL_WALL = "#"
 CELL_PLAYER = "@"
 
@@ -31,10 +31,17 @@ player_dx = 0  # Намерения о смещении по горизонта�
 
 # ## Технические переменные
 is_game_play = True
-Error_out_fild = False 
-Error_barrier = False
-Error_input = False
 
+Error = {
+    "Error_out_fild" : False,
+    "Error_barrier" : False,
+    "Error_input" : False
+    }
+Error_print =  {
+    "Error_out_fild" : "[!] Нельзя выйти за пределы карты",
+    "Error_barrier" : "[!] Нельзя пройти сквозь препятствие",
+    "Error_input" : "[!] Вы ввели не верную команд"
+    }
 count = 0
 # ## Основной цикл приложения
 while is_game_play:
@@ -51,14 +58,15 @@ while is_game_play:
                 print(cell, end=" ")
         print()
 
-    print("счетчик ходов равен %i" % count)
+    print("\n счетчик ходов равен %i \n" % count)
 
-    if Error_out_fild:
-        print("[!] Нельзя выйти за пределы карты")
-    if Error_barrier:
-        print("[!] Нельзя пройти сквозь препятствие")
-    if Error_input:
-        print("[!] Вы ввели не верную команд")
+    if Error["Error_out_fild"]:
+        print(Error_print["Error_out_fild"])
+    if Error["Error_barrier"]:
+        print(Error_print["Error_barrier"])
+    if Error["Error_input"]:
+        print(Error_print["Error_input"])
+
     # Отрисовка текста меню и пояснений
     print(
         "\n"
@@ -77,8 +85,8 @@ while is_game_play:
     # Очистка намерения двигаться, оставшегося с прошлой итерации
     player_dx = 0
     player_dy = 0
-    # Обновляем флажек счетчика count
-    Error_input = False
+    # Обновляем флажек ошибок ввода команд
+    Error["Error_input"] = False
 
     # Разбор пользовательского ввода
     if player_action == "0":
@@ -92,7 +100,7 @@ while is_game_play:
     elif player_action == "s":
         player_dy = 1
     else:
-        Error_input = True
+        Error["Error_input"] = True
 
     # Обработка намерения двигаться.
     # Желаемое новое положение игрока
@@ -104,14 +112,14 @@ while is_game_play:
     is_player_y_correct = 0 <= player_new_y < maze_height
     is_player_inside_maze = is_player_x_correct and is_player_y_correct
 
-    # Сброс ошибки выхода за пределы поля и прода через преграду
-    Error_out_fild = False
-    Error_barrier = False
+    # Сброс ошибки выхода за пределы поля и прохода через преграду
+    Error["Error_out_fild"] = False
+    Error["Error_barrier"] = False
     # Проверка выхода за пределы
     if not is_player_inside_maze:
         player_new_x = player_x  # Сброс в исходную позицию
         player_new_y = player_y
-        Error_out_fild = True
+        Error["Error_out_fild"] = True
 
 
     # Проверка преград на пути
@@ -119,7 +127,7 @@ while is_game_play:
     if maze_cells[player_new_y][player_new_x] != CELL_EMPTY_FLOOR:
         player_new_x = player_x  # Сброс в исходную позицию
         player_new_y = player_y
-        Error_barrier = True
+        Error["Error_barrier"] = True
 
     # Осуществление перемещения
     # if player_x >= 0 and player_y >= 0:
@@ -127,7 +135,7 @@ while is_game_play:
     player_y = player_new_y
     # Подсчет реального перемещения играка, намерения пройти через стену 
     # и выйти за границу поля не считаются 
-    if not Error_out_fild and not Error_barrier and not Error_input:
+    if not Error["Error_out_fild"] and not Error["Error_barrier"] and not Error["Error_input"]:
         count += 1
 
     

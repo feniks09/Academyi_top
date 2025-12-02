@@ -40,4 +40,5 @@
 
 # [=====]
 
+print("hello word")
 

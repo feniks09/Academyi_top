@@ -43,7 +43,7 @@ count_past = False
 part = 0
 while is_program_worc:
     if V_past > 0:
-        print("В тюбике -", V_past)
+        print("В тюбике - %i" % V_past)
     else:
         print("В тюбике закончилась паста")
 
@@ -59,8 +59,8 @@ while is_program_worc:
         is_program_worc == False
     elif menu == 1:
         part = int(input("Введите количество частей: "))
-        if part > 0:
-            if V_past < part:
+        if part >= 0:
+            if V_past <= part:
                 part = V_past            
             V_past -= part
             count_past = True
