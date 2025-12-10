@@ -1,22 +1,18 @@
-
 svaz_sotr = ""
 svaz_cabin = ""
 list_sotrudn = input("Введите сотрудников через пробел: ").split()
 list_cabinet = input("Введите кабинет через пробел: ").split()
-svaz_sotrudn_cobinet = {}
-svaz_flag = False
-if svaz_flag:
-    svaz_sotrudn_cobinet = {list_sotrudn[svaz_sotr-1] : list_cabinet[svaz_cabin-1]}
+
+svaz_flag = True
+
 removd_sotrudnik_flag = False
 removd_cabinet_flag = False
 is_program_worc = True
 count_past = False
+svaz_sotrudn_cobinet = {}
 part = 0
 while is_program_worc:
-    # if V_past > 0:
-    #     print("В тюбике - %i" % V_past)
-    # else:
-    #     print("В тюбике закончилась паста")
+    
     if removd_sotrudnik_flag:
         print("Удалили сотрудника по имени: ", removd_sotrudnik)
     if removd_cabinet_flag:
@@ -52,7 +48,8 @@ while is_program_worc:
         \n номер кабинета к которому его надо привязать через пробел:").split()
         svaz_sotr = int(svaz[0])
         svaz_cabin = int(svaz[1])
-        svaz_flag = True
+        if svaz_flag:
+            svaz_sotrudn_cobinet = {list_sotrudn[svaz_sotr-1] : list_cabinet[svaz_cabin-1]}
     elif menu == 2:
         pass
     elif menu == 3:
@@ -63,7 +60,6 @@ while is_program_worc:
         removd_sotrudnik = list_sotrudn.pop(input_remov-1)
         if removd_sotrudnik:
             removd_sotrudnik_flag = True
-
     elif menu == 5:
         new_cabinet = input("Добавить кабинет с названием в список кабинетов: ")
         list_cabinet.append(new_cabinet)
@@ -76,4 +72,4 @@ while is_program_worc:
     else:
         print("Не верная команда попрубуйте еще раз")
 
-# print(V_past)
+

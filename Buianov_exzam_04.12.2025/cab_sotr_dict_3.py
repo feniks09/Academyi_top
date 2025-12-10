@@ -126,47 +126,47 @@
 svaz_sotr = ""
 svaz_cabin = ""
 dict_offis = {}
-dict_sotrudn = {}
-dict_cabinet = {}
+svaz = False
 
 list_sotrudn = input("Введите сотрудников через пробел: ").split()
 list_cabinet = input("Введите кабинет через пробел: ").split()
 
-dict_sotrudn["сотрудники"] = list_sotrudn
-dict_cabinet["кабинеты"] = list_cabinet
+dict_offis["сотрудники"] = list_sotrudn
+dict_offis["кабинеты"] = list_cabinet
 # dict_sotrudn.update(list_sotrudn)
 
-dict_sotrudn["сотрудники"].append("1233")
-dict_cabinet["кабинеты"].append("вот это")
+dict_offis["сотрудники"].append("1233")
+dict_offis["кабинеты"].append("вот это")
 
-print(dict_sotrudn)
-print(dict_cabinet)
+print(dict_offis)
 
-svaz_flag = True
+
+
 
 removd_sotrudnik_flag = False
 removd_cabinet_flag = False
+removd_svas_flag = False
 is_program_worc = True
-count_past = False
-svaz_sotrudn_cobinet = {}
-part = 0
+removd_svas = False
+
 while is_program_worc:
     if removd_sotrudnik_flag:
         print("Удалили сотрудника по имени: ", removd_sotrudnik)
     if removd_cabinet_flag:
         print("Удалили кабинет : ", removd_cabinet)
+    if removd_svas:
+        print("Отвязали сотрудника :", input_remov_svaz, "от кабинета")
     if list_sotrudn:
         print("Список сотрудников")
-        for number, sotrudnik in enumerate(dict_sotrudn["сотрудники"]):
-            print(" номер сотрудника %i" % int(number + 1),"имя сотрудника", sotrudnik)
+        for number, sotrudnik in enumerate(dict_offis["сотрудники"]):
+            print("Номер сотрудника %i" % int(number + 1),"Имя сотрудника", sotrudnik)
     if list_cabinet:
         print("Список кабинетов")
-        for number, cabinet in enumerate(dict_cabinet["кабинеты"]):
+        for number, cabinet in enumerate(dict_offis["кабинеты"]):
             print("Номер кабинета %i" % int(number + 1), "Название кабинета", cabinet)
-    print(svaz_sotrudn_cobinet)
-    if svaz_sotrudn_cobinet:
-        print("связь сотрудников и кабинетов")
-        for key, value in svaz_sotrudn_cobinet.items():
+    if svaz:
+        print("Cвязь сотрудников и кабинетов")
+        for key, value in dict_offis["svaz_sotrudn_cobinet"].items():
             print(f"Сотрудник {key} связан с кабинетом {value}") 
     print("1 - Связать сотрудника и кабинет")
     print("2 - Отвязать сотрудника от кабинета")
@@ -186,36 +186,39 @@ while is_program_worc:
         \n номер кабинета к которому его надо привязать через пробел:").split()
         svaz_sotr = int(svaz[0])
         svaz_cabin = int(svaz[1])
-        if svaz_flag:
-            svaz_sotrudn_cobinet = {dict_sotrudn["сотрудники"][svaz_sotr-1] : 
-                                    dict_cabinet["кабинеты"][svaz_cabin-1]}
-    
+        if svaz:
+            dict_offis["svaz_sotrudn_cobinet"] = {dict_offis["сотрудники"][svaz_sotr-1] : 
+                                    dict_offis["кабинеты"][svaz_cabin-1]}
     elif menu == 2:
-        if removd_sotrudnik in svaz_sotrudn_cobinet:
-            svaz_sotrudn_cobinet.pop(removd_sotrudnik)
+        input_remov_svaz = input("Введите имя сотрудника от которого отвязать кабинет")
+        if dict_offis["svaz_sotrudn_cobinet"][input_remov_svaz]:
+            removd_svas = dict_offis["svaz_sotrudn_cobinet"].pop(input_remov_svaz)
+            svaz = False
+            removd_svas_flag = True
     elif menu == 3:
         new_sotrudn = input("Добавить сотруюника в список сотруднико: ")
-        dict_sotrudn["сотрудники"].append(new_sotrudn)
+        dict_offis["сотрудники"].append(new_sotrudn)
     elif menu == 4:
         input_remov = int(input("Введите номер сотрудника которого нужно удалить: "))
-        removd_sotrudnik = dict_sotrudn["сотрудники"].pop(input_remov-1)
-        if removd_sotrudnik in svaz_sotrudn_cobinet:
-            svaz_sotrudn_cobinet.pop(removd_sotrudnik)
+        removd_sotrudnik = dict_offis["сотрудники"].pop(input_remov-1)
+        if removd_sotrudnik in dict_offis["svaz_sotrudn_cobinet"]:
+            dict_offis["svaz_sotrudn_cobinet"].pop(removd_sotrudnik)
+            svaz = False
+        else:
+            pass
         if removd_sotrudnik:
             removd_sotrudnik_flag = True
     elif menu == 5:
         new_cabinet = input("Добавить кабинет с названием в список кабинетов: ")
-        dict_cabinet.append(new_cabinet)
+        dict_offis.append(new_cabinet)
     elif menu == 6:
         input_remov = int(input("Введите номер кабинета которого нужно удалить: "))
-        removd_cabinet = dict_cabinet["кабинеты"].pop(input_remov-1)
+        removd_cabinet = dict_offis["кабинеты"].pop(input_remov-1)
         if removd_cabinet:
             removd_cabinet_flag = True
 
     else:
         print("Не верная команда попрубуйте еще раз")
-    if svaz_sotrudn_cobinet:
-        {dict_sotrudn["сотрудники"][svaz_sotr-1] : 
-                                    dict_cabinet["кабинеты"][svaz_cabin-1]}
-
-
+    if dict_offis["svaz_sotrudn_cobinet"]:
+        {dict_offis["сотрудники"][svaz_sotr-1] : 
+                                    dict_offis["кабинеты"][svaz_cabin-1]}
