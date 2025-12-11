@@ -1,7 +1,6 @@
 width = int(input("Введитите ширину: "))
 length = int(input("Введите длину: "))
 depth = int(input("Введит глубиу: "))
-condition = input("Введите состояние крышки open/close: ")
 
 # size = {"width" : width, "length" : length, "depth" : depth}
 
@@ -20,17 +19,20 @@ condition = input("Введите состояние крышки open/close: ")
 
 
 thing = {
-        "chest" : 
-        {
-                "size" : 
-                        { 
-                            "width" : width,
-                            "length" : length,
-                            "depth" : depth
+        "chest" : {
+                "size" : { 
+                        "width" : width,
+                        "length" : length,
+                        "depth" : depth
                 },
-                "cap" : 
-                        {
-                            "condition" : condition
+                "things" : [
+                    "меч", "щит", "бинокль"
+                ],
+                "cap" : {
+                        "крышка есть" :  True,
+                        "крышка открыта" : True,
+                        "крышка на замке" : False
+
                 }
 
         }
@@ -51,4 +53,4 @@ thing = {
 print(f"Сундук имеет ширину - {thing["chest"]["size"]["width"]}, "
       f"длину - {thing["chest"]["size"]["length"]}, "
       f"глубину - {thing["chest"]["size"]["depth"]}, "
-      f"крышка сундука - {thing["chest"]["cap"]["condition"]}")
+      f"крышка сундука - {thing["chest"]["cap"]}")
