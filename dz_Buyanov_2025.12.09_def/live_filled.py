@@ -62,6 +62,6 @@ def print_live(filled: Number, length: Number) -> None:
     print("[" + b * filled + a * length + "]")
 
 if __name__ == "__main__":
-    
-    print_live(12, 12)
+
+    print_live(3, 10)
 
