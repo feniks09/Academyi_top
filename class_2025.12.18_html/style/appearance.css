@@ -1,0 +1,13 @@
+/* Внешность элементов */
+
+table {
+    border-color: rgb(135, 165, 210);
+    border-width: 2px;
+    border-style: dotted;
+}
+
+td, th {
+    border-color: rgb(135, 165, 210);
+    border-width: 0.4px;
+    border-style: dashed;
+}
