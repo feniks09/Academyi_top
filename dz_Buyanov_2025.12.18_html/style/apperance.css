@@ -1,0 +1,23 @@
+table {
+
+    border-color : rgb(238, 144, 2);
+    border-width : 50px;
+    border-style :ridge;
+
+}
+
+th, td {
+    border-color : rgb(195, 180, 11);
+    border-width : 10 px;
+    border-style :groove;
+}
+
+img {
+    width :150px;
+    height : 100px;
+}
+
+/* center-img {
+    width :200px;
+    height : 400px;
+} */
