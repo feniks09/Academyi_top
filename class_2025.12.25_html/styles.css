@@ -1,0 +1,22 @@
+html { 
+    background-color : #007055
+}
+
+h1 {
+    font-family: "Courier New";
+    color: rgba(255, 255, 255, 0.8);
+    font-size: "xx-large";
+}
+
+h2 {
+ font-family: "Helvetica";
+ font-size: "colox-large";
+ color: hsl(140, 80%, 90%);
+}
+
+p {
+    font-family : "monospace";
+    font-size : 20px;
+    color: LightGray;
+    font-weight: 600;   
+}
