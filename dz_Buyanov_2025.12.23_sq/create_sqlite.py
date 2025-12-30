@@ -8,7 +8,6 @@ def create_table(connection):
     is_complete = False
     cursor = connection.cursor()
 
-    print("Таблица создается.....")
     try:
 
         cursor.execute(
@@ -22,16 +21,13 @@ def create_table(connection):
                 """
         )
         connection.commit()
-        create_table_finich = True
+        is_complete = True
         
     except sq.Error as error:
         print(f"В файле create table возникла ошибка: \n\t{error}\n")
 
-    print("Таблица создалась")
     return is_complete
     
-
-
 def popiulate_table(connection):
 
     is_complete = False
@@ -39,7 +35,8 @@ def popiulate_table(connection):
     cursor = connection.cursor()
 
     flowers_room = [("дерн", "прихожая","Буянов А.Н."), ("фикус", "спальня", "Пупкин С.А."),]
-    print("Данные записываются")
+    flowers_room = input_data()
+
     try:
 
         cursor.executemany(
@@ -52,11 +49,30 @@ def popiulate_table(connection):
                         flowers_room
                         )
         connection.commit()
-        print("Данные записаны")
+        is_complete = True
+    
     except sq.Error as error:
         print(f"В модуле populete_table возникла Ошибка: \n\t{error}\n")
 
+    return is_complete
+
+
+def input_data():
+        
+    list_flowers = []
+
+    N = int(input("Введите количество растений в квартире: "))
+
+    for i in range(N):
+        input_ = input("Введите Название растения, комната где стоит,ФИО ответсвенного, через запятую: ").split()
+        tuple_input = tuple(input_)
+        list_flowers.append(tuple_input)
+    
+    print(f"Записано в базу данных - {list_flowers}")
+    return list_flowers
+
 def use_basadate(connection):
+
     print("База данных создается")
     with connection as activ_connection:
         is_create_table_complete = create_table(activ_connection)
@@ -65,6 +81,7 @@ def use_basadate(connection):
         return
     print("База данных создана")
     print("База данных наполняется")
+    
     is_popiulate_table_complete = popiulate_table(activ_connection)
 
     if not is_popiulate_table_complete:
@@ -73,7 +90,7 @@ def use_basadate(connection):
 
     
 def main():
-    connection = sq.connect(BAZA_DIR / "bemo.db")
+    connection = sq.connect(BAZA_DIR / "Flowers.db")
     # create_table(connection)
     # popiulate_table(connection)
     use_basadate(connection)
