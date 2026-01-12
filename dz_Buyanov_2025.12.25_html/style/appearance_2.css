@@ -1,3 +1,29 @@
 h1  {
     font-family : "Montserrat";
-    color : Montserrat}
+    font-style : "italic";
+    font-weight : 400;
+    font-size : 40px;
+    line-height : 49px;
+    color :#10B981;
+}
+
+.menu_header {
+    font-family: Montserrat;
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 20px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: rgba(255, 255, 255, 1);
+    background-color: rgb(16, 185, 129, 1);
+
+}
+
+
+
+
+
+
+
+
