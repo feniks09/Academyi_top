@@ -1,0 +1,129 @@
+.name_website {
+
+        position: absolute;
+        width: 172px;
+        height: 49px;
+        left: 85px;
+        top: 56px;
+
+        font-family: 'Montserrat';
+        font-style: italic;
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 49px;
+        color: #10B981;
+
+}
+
+
+.search-container {
+
+        position: absolute;
+        width: 322px;
+        height: 63px;
+        left: 496px;
+        top: 56px;
+
+}
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 75px;
+
+    position: absolute;
+    width: 521px;
+    height: 24px;
+    left: 460px;
+    top: 210px;
+
+    
+    width: 1440px;
+    height: 81px;
+    left: 0px;
+    top: 182px;
+    background: #10B981;
+   
+
+}
+
+.content-container {
+        position:absolute;
+        width: 599;
+        height: 156;
+        top: 389px;
+        left: 85px;
+        angle: 0 deg;
+        opacity: 1;
+
+        font-family: Montserrat;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 64px;
+        leading-trim: NONE;
+        line-height: 100%;
+        letter-spacing: 0%;
+
+
+
+}
+
+.content_2-container {
+        position:absolute;
+        width: 549;
+        height: 70;
+        top: 575px;
+        left: 85px;
+        angle: 0 deg;
+        opacity: 1;
+
+        font-family: Montserrat;
+        font-weight: 500;
+        font-style: Medium;
+        font-size: 21px;
+        leading-trim: NONE;
+        line-height: 35px;
+        letter-spacing: 0%;
+
+
+}
+.btn-buy{
+        position:absolute;
+        width: 263;
+        height: 70;
+        top: 697px;
+        left: 85px;
+        angle: 0 deg;
+        opacity: 1;
+        border-radius: 10px;
+
+
+}
+
+.solo_9 {
+        position:absolute;
+        width: 280;
+        height: 299;
+        top: 508px;
+        left: 934px;
+        angle: 0 deg;
+        opacity: 1;
+
+}
+
+.Rectangle {
+
+        width: 272;
+        height: 477;
+        top: 432px;
+        left: 938px;
+        angle: 0 deg;
+        opacity: 1;
+        border-radius: 136px;
+        background: #10B981;
+
+
+}
