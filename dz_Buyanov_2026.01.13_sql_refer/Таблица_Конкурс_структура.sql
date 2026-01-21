@@ -29,8 +29,7 @@ CREATE TABLE IF NOT EXISTS "Конкурс"
   ON DELETE SET NULL
 , foreign key ("Tools_id") references "Инструменты"("id")
  on update cascade
- on delete set NULL
-                              
+ on delete set NULL                          
 );
                                           
                                           
