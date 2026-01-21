@@ -23,11 +23,11 @@ CREATE TABLE IF NOT EXISTS "Конкурс"
  ,"Фамилия" TEXT NOT NULL CHECK ( "Фамилия" != '' )
  ,"место" INTEGER NOT NULL CHECK( "место" > 0 )
  ,"country_id" INTEGER
- ,FOREIGN KEY ("country_id") REFERENCES "Страна"("id")
+ ,"Tools_id" INTEGER
+,FOREIGN KEY ("country_id") REFERENCES "Страна"("id")
   ON UPDATE CASCADE
   ON DELETE SET NULL
- ,"Tools_id" INTEGER
- , foreign key ("Tools_id") references "Инструменты"("id")
+, foreign key ("Tools_id") references "Инструменты"("id")
  on update cascade
  on delete set NULL
                               
