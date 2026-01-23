@@ -1,35 +1,52 @@
 PRAGMA foreign_keys = ON;
 
 drop table if exists "demo";
-drop table if exists "Страна";
-DROP table if exists "Инструменты";
-DROP table if exists "Автор_произведения";
-Drop table if exists "Конкурс";
+Drop table if exists "Contest";
+Drop table if exists "Participant";
+drop table if exists "Сountry";
+DROP table if exists "Tools";
+DROP table if exists "Аutor_the_work";
 
-create table if not exists "Страна"
-("id" INTEGER PRIMARY KEY AUTOINCREMENT
-,"Страна" TEXT NOT NULL CHECK( "Страна" != '' ));
+create table if not exists "Сountry"
+("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+ "name" TEXT NOT NULL CHECK( "name" != '' )
+);
  
-create table if not exists "Инструменты"
-("id" INTEGER PRIMARY KEY AUTOINCREMENT
-,"Инструменты" TEXT NOT NULL CHECK( "Инструменты" != '' ));
+create table if not exists "Tools"
+("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+ "name" TEXT NOT NULL CHECK( "name" != '' )
+);
   
-create table if not exists "Автор_произведения"
-("id" INTEGER PRIMARY KEY AUTOINCREMENT
-,"Автор_произведения" TEXT NOT NULL CHECK( "Автор_произведения" != '' ));
+create table if not exists "Аutor_the_work"
+("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+ "surname" TEXT NOT NULL CHECK( "surname" != '' )
+);
 
-CREATE TABLE IF NOT EXISTS "Конкурс"
-("id" INTEGER PRIMARY KEY AUTOINCREMENT
- ,"Фамилия" TEXT NOT NULL CHECK ( "Фамилия" != '' )
- ,"место" INTEGER NOT NULL CHECK( "место" > 0 )
- ,"country_id" INTEGER
- ,"Tools_id" INTEGER
-,FOREIGN KEY ("country_id") REFERENCES "Страна"("id")
-  ON UPDATE CASCADE
-  ON DELETE SET NULL
-, foreign key ("Tools_id") references "Инструменты"("id")
+CREATE TABLE IF NOT EXISTS "Participant"
+("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+ "Surname" TEXT not NULL check ("Surname" != ''),
+ "Сountry_id" INTEGER,
+ "Tools_id" INTEGER,
+ "Аutor_the_work_id" INTEGER,
+ foreign key ("Сountry_id") references "Сountry"("id")
  on update cascade
- on delete set NULL                          
+ on delete set NULL,
+ foreign key ("Tools_id") references "Tools"("id")
+ on update cascade
+ on delete set NULL,
+ foreign key ("Аutor_the_work_id") references "Аutor_the_work"("id")
+ on update cascade
+ on delete set NULL
+);
+ 
+CREATE TABLE IF NOT EXISTS "Contest"
+("id" INTEGER PRIMARY KEY AUTOINCREMENT,
+ "Participant_id" INTEGER,
+ "Place" INTEGER NOT NULL CHECK( "Place" > 0 ),
+ FOREIGN KEY ("Participant_id") REFERENCES "Participant"("id")
+ ON UPDATE CASCADE
+ ON DELETE SET NULL
+
 );
                                           
                                           
