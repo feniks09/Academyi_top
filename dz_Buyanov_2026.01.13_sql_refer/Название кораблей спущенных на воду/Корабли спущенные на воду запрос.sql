@@ -1,0 +1,1 @@
+select * from "The ship is launched"
