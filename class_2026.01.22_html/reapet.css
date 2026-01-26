@@ -1,0 +1,61 @@
+/* Повторение темы "" */
+
+:root {
+    --colored-title: red
+}
+
+html {
+    font-family: 'Courier New', Courier, monospace;
+    color: #ff0000;
+
+}
+
+/* .class {
+    font-size: 16px;
+    font-weight: 1000;
+    line-height: 16px;
+    letter-spacing: 1px;
+    color: #ff0000;
+} */
+
+.hidden {
+    height: 0;
+    opacity: 0;
+}
+
+.product-title {
+    color: black;
+    letter-spacing: 5px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: 1000;
+    line-height: 16px;
+    letter-spacing: 1px;
+}
+
+.main-title {
+    font-size: 12px;
+}
+
+.product-card {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: aqua;
+}
+
+.sub-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 26px;
+;
+
+}
+
+
+.product-price {
+    color: green;
+}
+
+.product-title--colored {
+    color: var(--colored-title)
+}
