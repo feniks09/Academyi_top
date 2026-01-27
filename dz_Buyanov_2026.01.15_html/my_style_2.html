@@ -40,7 +40,7 @@
                 <p>Lorem ipsum is a placeholder text commonly used
                 to demonstrate the visual form of a product 
                 </p>
-
+                 
                 <h2>Red Beats Ml9c2zm/a<h2>
                 <h5>Price : $45.99</h5> 
                 <button>Buy Now</button> 
@@ -90,38 +90,50 @@
                     
             </section>
 
-            <section id ="section_4">
-
+            <section class ="main-contaiher">
                 <h3>Trending Earphones</h3>
-                    <ul>
-                        <li><a href = "https://fontawesome.com/">
-                            <h6>Earbuds</h6></a>
-                            <ul> 
-                                <li> 
-                                    <p>Boat Rockerz 333 - $20 - cave 60%</p>
-                                    <button>add to cart</button>
-                                </li>
-                                <li> 
-                                    <p>Boat kerz 234 - $40</p>
-                                    <button>add to cart</button>
-                                </li>
-                                <li> 
-                                    <p>Boat Rockerz 323 - $30 - cave 40%</p>
-                                    <button>add to cart</button>
-                                </li>
-                            </ul>
-                            </li>
-                        <li><a href = "https://fontawesome.com/">
+                    <div class="product-grid">
+                        <a href = "https://fontawesome.com/">
+                        <h6>Earbuds</h6></a>
+                        <div class="card-container">
+                            <img
+                            class="card-img" 
+                            src="pikchers/Boat_Rockerz_333.png" 
+                            alt="Boat_Rockerz_333"
+                            decoding="async"
+                            loading="lazy">
+                            <div class="card-container-child">
+                                <p class="card-text">Boat Rockerz 333</p>
+                                <p>- $20 </p>
+                                <p>- cave 60%</p>
+                            </div>
+                        </div>
+                        <button>add to cart</button>
+                        <div class="card-container">
+                            <img 
+                            class="card-img"
+                            src="pikchers/Boat_kerz_234.png"
+                            alt="Boat_kerz_234"
+                            decoding="async"
+                            loading="lazy">
+                            <div class="card-container-child">
+                                <p class="card-text">Boat kerz 234</p>
+                                <p>- $40 </p>
+                                <p>- cave 60%</p>
+                            </div>
+                        </div>
+                        <a><button>add to cart</button></a>
+                            <p>Boat Rockerz 323 - $30 - cave 40%</p>
+                            <button>add to cart</button>
+                        </div>
+                    </div>
+
+                    <div> <a href = "https://fontawesome.com/">
                             <h6>Wireless</h6></a>
-                        </li>
-                        <li><a href = "https://fontawesome.com/">
+                    </div>
+                    <div> <a href = "https://fontawesome.com/">
                             <h6>Wired</h6></a>
-                        </li>
-                    </ul>
-                
-                <h6>Wired</h6>
-               
-                
+                    </div>         
 
             </section>
 
@@ -195,7 +207,7 @@
 
 
 
- 1) <button>0 Items Added</button> - это сколее всего будет ссылкой, так как при клики на нее будет редиректить на корзину. 
+<!-- 1) <button>0 Items Added</button> - это сколее всего будет ссылкой, так как при клики на нее будет редиректить на корзину. 
 2) В "menu_header" забыл обернуть пункты меню в ссылки (<li><a> Features </a></li>)
 3) В списке Watches и Wired все элементы списка, это ссылки
 4) Заголовкам не следует идти дрогну за другом, на одну сущность один заголовок
@@ -212,3 +224,4 @@
 
 1. Как правильно сделать кнопку ссылкой на редирект: через обертку тега в <a href = ""><button></button></a> 
 или через создание атрибута class = "button" в CSS стилях .button { }
+-->
