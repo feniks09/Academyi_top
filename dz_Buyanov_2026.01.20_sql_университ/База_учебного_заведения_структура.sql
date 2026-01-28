@@ -1,9 +1,10 @@
-drop table if exists "demo";
-drop table if exists "Group";
-drop table if exists "Student";
-drop table if exists "Objects";
-drop table if exists "Teacher";
-drop table if exists "Courcec_years_study";
+PRAGMA foreign_keys = ON;
+DROP TABLE IF EXISTS "demo";
+DROP TABLE IF EXISTS "Group";
+DROP TABLE IF EXISTS "Student";
+DROP TABLE IF EXISTS "Objects";
+DROP TABLE IF EXISTS "Teacher";
+DROP TABLE IF EXISTS "Courcec_years_study";
 
 
 
