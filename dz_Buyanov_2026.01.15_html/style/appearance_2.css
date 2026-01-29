@@ -129,7 +129,16 @@ p {
 
 }
 
-.product-card{
+.products-card{
+    position:absolute;
+    width:100%;
+    background-color:#FFFFFF;
+    display:flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 50px auto;
 
 }
 .card-container {
