@@ -1,0 +1,23 @@
+html {
+    background-color: aqua;
+}
+
+body {
+    width: max-content;
+    height: max-content;
+    border: 5px solid;
+    border-color: red blue green yellow;
+    border-radius: 10px;
+    
+}
+
+div {
+    width: 130px;
+    border: 10px solid violet;
+    padding: 20px;
+    background-color: yellow;
+    border-radius: 10px;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+}
+
