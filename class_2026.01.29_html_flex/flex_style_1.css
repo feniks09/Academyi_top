@@ -1,0 +1,14 @@
+
+body {
+    display: flex;
+    height: 100vp;
+    margin: 50px;
+    gap:10px;
+ }
+
+ div{
+
+    width: 200px;
+    height: 100px;
+    background-color: lightgrey;
+ }
