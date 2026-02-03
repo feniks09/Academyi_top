@@ -5,24 +5,26 @@ html {
 body {
     width: max-content;
     height: max-content;
-    border: 1px solid;
-    border-color: red;
+    border: 5px solid;
+    border-color: blue;
     background-color: green;
-    
-    
-
 }
 
 div {
-    width: 150px;
-    height: 150px;
+    width: 1900px;
+    height: min-content;
     border: 5px solid;
-    border-color: blue;
+    border-color: rgb(10, 182, 239);
     font-family: "Courier New" Courier monospace;
-    font-size: 10px;
+    font-size: 21px;
     padding: 5px;
     overflow-wrap: breake-word;
     word-break: break-all;
     overflow: hidden;
     box-sizing: border-box;
+    line-height: 150%;
+
+    
+
+
 }
