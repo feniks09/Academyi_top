@@ -4,20 +4,20 @@ html {
 
 body {
     display: flex;
-    width: 900px;
-    height: 500px;
+    /*width: 1900px;
+    height: 1000px;*/
     border: 5px solid;
     border-color: blue;
     background-color: green;
     
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 div {
     width: 200px;
-    height: 200px;
+    height: 300px;
     border: 5px solid;
     border-color: rgb(10, 182, 239);
 
@@ -29,9 +29,16 @@ div {
     font-variant: small-caps;
     
     padding: 5px;
+    margin: 10px;
     overflow-wrap: breake-word;
     word-break: break-all;
     overflow: hidden;
     box-sizing: border-box;
     line-height: 150%;
+
+    }
+
+.grow_1 {
+    flex-grow: 0;
+    align-self: start;
 }
