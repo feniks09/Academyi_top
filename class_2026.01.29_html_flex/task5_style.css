@@ -68,28 +68,57 @@ div {
     width: 900px;
     height: 300px;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     text-align: center;
 
     
 }
 
 .box3_1 {
+    display: flex;
     width: 200px;
     height: 300px;
-    background-color: rgb(161, 244, 247);
-    
-    
+    padding: 15px;
+    flex-direction: column;
+    background-color: rgba(236, 254, 244, 1);
+    border-radius: 10%;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .box3_2 {
     width: 200px;
     height: 300px;
-    background-color: rgb(186, 245, 184);
+    background-color: rgba(201, 242, 255, 1);
+    border-radius: 10%;
+;
 }
 
 .box3_3 {
     width: 200px;
     height: 300px;
-    background-color: rgb(233, 220, 232);
+    background-color: rgba(229, 213, 255, 1);
+    border-radius: 10%;
+}
+
+
+.box_mini {
+    height: 100px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10%;
+}
+
+.save {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(16, 185, 129, 1);
+    font-size: 9px;
+    align-self: end;
+}
+
+img {
+    width: 150px;
+    height: 150px;
 }
