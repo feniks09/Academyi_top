@@ -1,0 +1,23 @@
+.img-content {
+    width: auto;
+    min-height: 100vh;
+
+    background-image: url('https://i.pinimg.com/originals/5d/a3/60/5da360c98b9af0ad709fe18606992229.jpg?nii=t');
+    background-size: content;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color:antiquewhite;
+    margin:  0px;
+
+
+}
+
+.img {
+    width: 50%;
+    height: 50%;
+    object-fit: fill;
+    
+    text-align: center;
+    
+
+}

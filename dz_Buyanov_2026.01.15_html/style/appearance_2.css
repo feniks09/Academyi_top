@@ -1,12 +1,44 @@
 html {
     font-family:'Montserrat';
     background-color:#383333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.menu_header_bg {
+    display: flex;
+    width: 1440px;
+    height: 81px;
+    angle: 0 deg;
+    opacity: 1;
+    background-color: rgb(16, 185, 129, 1);
+    justify-content: center;
+    align-items: center;
+}
+.menu_header_navigar {
+    display: flex;
+    width: 521px;
+    height: 24px;
+    
+    opacity: 1;
+    gap: 75px;
+    justify-content: center;
+    align-items: center;
 }
 
+.menu_header_elem {
+    display: flex;
+    width: 90px;
+    height: 24px;
+    angle: 0 deg;
+    opacity: 1;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+   
+}
 
-
-.menu_header {
-    font-family: Montserrat;
+.menu_header_text {
     font-weight: 600;
     font-style: SemiBold;
     font-size: 20px;
@@ -14,97 +46,134 @@ html {
     line-height: 100%;
     letter-spacing: 0%;
     color: rgba(255, 255, 255, 1);
-    background-color: rgb(16, 185, 129, 1);
+    text-decoration: none;
 }
 
-h1 {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 64px;
-    line-height: 78px;
-    color: #2B2626;
+.section_1 {
+    display: flex;
+    width: 1440px;
+    height: 650px;
+    background-color: white;
+    justify-content: space-between;
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
-h2 {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 60px;
-    line-height: 73px;
-    border: 1px solid #FFFFFF;
-}
-
-h3 {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 44px;
-    line-height: 54px;
-    color: #2B2626;
+.main-container_1 {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 100%;
+    overflow-wrap: breake-word;
+    word-break: break-all;
+    align-items: center;
+    margin-left: 100px;
+    gap: 20px;
 }
 
-h4 {
-    font-family : "Montserrat";
-    font-style : "italic";
-    font-weight : 400;
-    font-size : 40px;
-    line-height : 49px;
-    color :#10B981;
-}
+.button_buy_now {
+    width: 263px;
+    height: 70px;
+    angle: 0 deg;
+    opacity: 1;  
+    background-color: #10B981;
+    box-shadow: 0px 25px 50px rgba(190, 148, 148, 0.1);
+    border-radius: 10px;
+    
 
-h5 {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 31px;
-    line-height: 38px;
-    color: #2B2626;
-}
-
-h6 {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 26px;
-    line-height: 32px;
-    color: #000000;
-}
-
-h7 {
-
-    font-family: 'DM Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 29px;
-    letter-spacing: -0.3px;
-    color: #111111;
-}
-
-h8 {
-    font-family: 'DM Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
-    letter-spacing: -0.231818px;
-    color: #10B981;
-}
-
-p {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 500;
+    font-weight: 550;
+    font-style: SemiBold;
     font-size: 21px;
-    line-height: 35px;
-    color: #2B2626;
+    color: rgba(255,255,255,1);
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%
 }
 
+.margin_button_buy_now {
+    align-self: flex-start;
+    margin-left: 90px;
+}
+
+.main-container_1_text_tytle {
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 64px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+}
+
+.main-container_1_text_articl {
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 21px;
+    leading-trim: NONE;
+    line-height: 35px;
+    letter-spacing: 0%;
+}
+
+.main-container_2 {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 100%;
+    align-items:center;
+    margin-right: 200px;
+}
+
+.product_name_text {
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 40px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+}
+.product-container {
+    display: flex;
+    width: 272px;
+    height: 477px;
+    border: 1px solid;
+    border-radius: 136px;
+    background-color: rgba(236, 254, 244, 1);
+    background-size:cover;
+    background-position: center;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.img_product_Red_Beats {
+    width: 280px;
+    height: 299px;
+    object-position: center;
+    box-sizing: border-box;
+}
+
+.text_price {
+    font-weight: 600;
+    font-style: SemiBold;
+    font-size: 31px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    width: 100%;
+    text-align: center;
+}
 
 
 .violet {
     background: rgba(132, 94, 194, 1);
     color: rgba(255, 255, 255, 1);
+    width: 1440px;
+    height: 591px;
+    angle: 0 deg;
+    opacity: 1;
+    top: 1010px;
+    border-width: 1px;
+
 }
 
 
@@ -113,7 +182,7 @@ p {
     width: 1333px;
     height: 829px;
     background-color:#FFFFFF;
-    margin: 50px auto;
+    
     color:#d40909
     }
 .product-grid{
@@ -188,7 +257,7 @@ p {
 }
 
 
-.add-to-cart {
+.button_add-to-cart {
     width: 361px;
     height: 70px;
     margin: 500px 0px;
