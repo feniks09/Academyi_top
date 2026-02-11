@@ -309,18 +309,15 @@ h2 p {
     }
 
 .main-category_product {
-    width: 177px;
-    height: 91px;
-    angle: 0 deg;
-    opacity: 1;
-    
-
+    display: flex;
     font-weight: 600;
     font-style: SemiBold;
     font-size: 26px;
     leading-trim: NONE;
     line-height: 100%;
     letter-spacing: 0%;
+    justify-content: center;
+    align-items: center;
 
     text-align: center;
 }
@@ -413,8 +410,103 @@ h2 p {
     letter-spacing: 0%;
 }
 
+.section_5 {
+    display: flex;
+    width: 1439px;
+    height: 765px;
+    flex-direction: column;
+    justify-content: space-between;
+    angle: 0 deg;
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 1);
+}
 
+.product-cart_section_5 {
+    display: flex;
+    width: 1439px;
+    height: 591px;
+    angle: 0 deg;
+    opacity: 1;
 
+    background-color: rgba(132, 94, 194, 1);
+ 
+
+}
+.main-container_5 {
+    display: flex;
+    width: 521.36px;
+    height: 468px;
+    gap: 30px;
+    margin-top: 50px;
+    margin-left: 100px;
+
+    angle: 0 deg;
+    opacity: 1;
+
+}
+
+.img_main-conteiner_5_size {
+    width: 237.78px;
+    height: 417px;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 179px;
+    object-fit: cover;
+
+}
+
+.img_main-conteiner_5_down {
+    margin: 50px;
+}
+.main-conteiner_6 {
+    display: flex;
+    width: 584px;
+    height: 446px;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 100px;
+    angle: 0 deg;
+    opacity: 1;
+    color: #FFFFFF;
+
+}
+
+.chenge_color {
+    display: flex;
+    width: 196px;
+    height: 43px;
+    angle: 0 deg;
+    opacity: 1;
+    border-width: 1px;
+    border: 1px solid rgba(255, 0, 0, 1);
+
+    justify-content: space-between;
+    align-items: center;
+
+}
+    
+.circule { 
+    width: 43px;
+    height: 43px;
+    angle: 0 deg;
+    opacity: 1;
+    border-width: 1px;
+    
+    border-radius: 50%;
+}
+.circule--black {
+    background: rgba(17, 17, 17, 1);
+    border: 1px solid rgba(255, 0, 0, 1);
+}
+
+.circule--yellow {
+    background: rgba(255, 245, 0, 1);
+}
+
+.circule--blue {
+    background: rgba(68, 132, 255, 1);
+
+}
 
 /* .button_add-to-cart {
     width: 361px;
