@@ -1,10 +1,16 @@
 html {
     display: flex;
+    width: 1440px;
+    height: 5078px;
+    angle: 0 deg;
+    opacity: 1;
+    background-color: white;
+
     font-family:'Montserrat';
-    background-color:#383333;
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    border: black solid;
     /* align-items: center;
     justify-content: center; */
 
@@ -24,6 +30,30 @@ ul {
     justify-content: center;
 }
 */
+header {
+    display: flex;
+    flex-direction: column;
+
+}
+.head-tools {
+    display: flex;
+    padding: 100px;
+}
+
+.head-tools :nth-child(2) {
+    margin-left: auto;
+}
+.name-shopper {
+    font-weight: 400;
+    font-style: Italic;
+    font-size: 40px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: rgba(16, 185, 129, 1);
+    
+}
+
 .menu_header_bg {
     display: flex;
     width: 1440px;
@@ -43,18 +73,6 @@ ul {
     gap: 75px;
     justify-content: center;
     align-items: center;
-}
-
-.menu_header_elem {
-    display: flex;
-    width: 90px;
-    height: 24px;
-    angle: 0 deg;
-    opacity: 1;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-   
 }
 
 .menu_header_text {
@@ -631,13 +649,41 @@ ul {
     opacity: 1;
     background-color: white;
     justify-content: end;
+    gap: 30px;
+}
+.text_get-start {
+    font-family: DM Sans;
+    font-weight: 400px;
+    font-size: 22px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: -0.3px;
+}
+.button_get-start {
+    width: 175px;
+    height: 50px;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 8px;
+    background-color: rgba(16, 185, 129, 1);
+    
+    font-family: DM Sans;
+    font-weight: 700;
+    font-size: 17px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: -0.23px;
+    color: white;
 }
 .Informacion_container {
     display: flex;
     width: 979px;
     height: 182px;
     opacity: 1;
-    justify-content: center;
+}
+
+.Informacion_container :nth-child(2) {
+    margin-left: auto;
 }
 
 .Subscribe {
@@ -650,6 +696,11 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     gap: 50px;
+}
+
+.nav_footer {
+    display: flex;
+    gap: 80px;
 }
 
 .Services_list {
@@ -682,10 +733,21 @@ ul {
     flex-direction: column;
 }
 
+.text_footer-menu {
+    font-family: DM Sans;
+    font-weight: 400;
+    font-size: 15px;
+    leading-trim: NONE;
+    line-height: 100%;
+    letter-spacing: -0.2px;
+
+}
 .Policy_socsety {
     display: flex;
     width: 1068px;
     height: 22px;
+    justify-content: space-between;
+    align-items: center;
     angle: 0 deg;
     opacity: 1;
 }
@@ -693,6 +755,21 @@ ul {
 .Privacy_policy {
     display: flex;
     gap: 50px;
+}
 
+.fan {
+    font-size: 24px;
+    angle: 0 deg;
+    opacity: 1;
 
 }
+
+.socsety {
+    display: flex;
+    width: 133px;
+    height: 22px;
+    gap: 50px;
+    angle: 0 deg;
+    opacity: 1;
+}
+
