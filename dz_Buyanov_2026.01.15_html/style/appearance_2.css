@@ -5,8 +5,8 @@ html {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center;
+    justify-content: center; */
 
 }
 
@@ -14,6 +14,9 @@ h2 p {
     margin: 0;
 }
 
+ul {
+    list-style-type: none;
+}
 /*body {
     padding: 20px;
     display: flex;
@@ -575,6 +578,8 @@ h2 p {
 .card-container--blue_4 {
     background-color: rgba(211, 251, 251, 1);
 }
+
+
 /* .card-img {
     position:absolute;
     top: 20px;
@@ -597,12 +602,97 @@ h2 p {
     background-color:#FFFFFF;
     border-radius: 10px;
 } */
+.container-footer {
+    display: flex;
+    width: 1440px;
+    height: 591px;
+    justify-content: center;
+    align-items: center;
+    border-width: 1px;
+    angle: 0 deg;
+    opacity: 1;
+    background-color: white;
+
+}
+.block-footer {
+    display: flex;
+    width: 1068px;
+    height: 405px;
+    flex-direction: column;
+    angle: 0 deg;
+    opacity: 1;
+}
+
+.Get-start_container {
+    display: flex;
+    width: 1068px;
+    height: 91px;
+    angle: 0 deg;
+    opacity: 1;
+    background-color: white;
+    justify-content: end;
+}
+.Informacion_container {
+    display: flex;
+    width: 979px;
+    height: 182px;
+    opacity: 1;
+    justify-content: center;
+}
+
+.Subscribe {
+    display: flex;
+    width: 289px;
+    height: 139px;
+    angle: 0 deg;
+    opacity: 1;
+
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+.Services_list {
+    display: flex;
+    width: 106px;
+    height: 182px;
+    angle: 0 deg;
+    opacity: 1;
+
+    flex-direction: column;
+}
+
+.About_list {
+    display: flex;
+    width: 65px;
+    height: 182px;
+    angle: 0 deg;
+    opacity: 1;
+
+    flex-direction: column;
+}
+
+.help_list {
+    display: flex;
+    width: 76px;
+    height: 102px;
+    angle: 0 deg;
+    opacity: 1;
+
+    flex-direction: column;
+}
+
+.Policy_socsety {
+    display: flex;
+    width: 1068px;
+    height: 22px;
+    angle: 0 deg;
+    opacity: 1;
+}
+
+.Privacy_policy {
+    display: flex;
+    gap: 50px;
 
 
-
-
-
-
-
-
-
+}
