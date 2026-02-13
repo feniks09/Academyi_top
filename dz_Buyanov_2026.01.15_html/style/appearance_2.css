@@ -37,7 +37,8 @@ header {
 }
 .head-tools {
     display: flex;
-    padding: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
 }
 
 .head-tools :nth-child(2) {
@@ -51,7 +52,15 @@ header {
     line-height: 100%;
     letter-spacing: 0%;
     color: rgba(16, 185, 129, 1);
-    
+}
+
+.input_top {
+    width: 322px;
+    height: 63px;
+    angle: 0 deg;
+    opacity: 1;
+    border-radius: 10px;
+
 }
 
 .menu_header_bg {
