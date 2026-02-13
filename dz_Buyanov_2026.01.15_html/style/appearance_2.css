@@ -155,11 +155,35 @@ header {
     letter-spacing: 0%
 }
 
+.subscribers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+.pikcher_chel {
+    width: 60px;
+    height: 60px;
+    angle: 0 deg;
+    opacity: 1;
+    border-width: 2px;
+    border-radius: 50%;
+    margin-right: -30px;
+}
 /*.margin_button_buy_now {
     align-self: center;
     margin-left: -160px;
 }*/
-
+.count-subscribers-text {
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 26px;
+    leading-trim: NONE;
+    line-height: 35px;
+    letter-spacing: 0%;
+    flex-shrink: 1;
+    white-space: nowrap;
+}
 .main-container_2 {
     display: flex;
     flex-direction: column;
@@ -325,7 +349,8 @@ header {
     letter-spacing: 0%;
     }
 
-.section_3 {
+.section_3,
+.section_4 {
     display: flex;
     width: 1333px;
     height: 829px;
