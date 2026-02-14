@@ -60,7 +60,6 @@ header {
     angle: 0 deg;
     opacity: 1;
     border-radius: 10px;
-
 }
 
 .menu_header_bg {
@@ -81,7 +80,7 @@ header {
     opacity: 1;
     gap: 75px;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
 }
 
 .menu_header_text {
@@ -116,7 +115,6 @@ header {
     align-items: start;
     justify-content: center;
     margin-left: 70px;
-
 }
 
 .text_tittle {
@@ -216,6 +214,7 @@ header {
     justify-content: center;
     box-sizing: border-box;
 }
+
 .img_product_Red_Beats {
     width: 280px;
     height: 299px;
