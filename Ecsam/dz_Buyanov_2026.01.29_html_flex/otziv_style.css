@@ -1,0 +1,20 @@
+body {
+    display: flex;
+    width: 800px;
+    height: 1000;
+    flex-direction: column;
+    
+    border: red solid;
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    border: blue solid;
+    flex-basis: 100px;
+    
+    flex-grow: 1;
+    
+    flex-shrink: 1;
+    
+}
