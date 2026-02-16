@@ -1,20 +1,25 @@
 body {
     display: flex;
-    width: 800px;
-    height: 1000;
+    height: 900px;
+    width: 100px;
     flex-direction: column;
+    flex-wrap: wrap;
     
     border: red solid;
     margin: 0;
     padding: 0;
+    gap: 20px;
+    box-sizing: border-box;
 }
 
 div {
     border: blue solid;
-    flex-basis: 100px;
-    
-    flex-grow: 1;
-    
+    flex-basis: 50px;
+    flex-grow: 0;
     flex-shrink: 1;
-    
+    padding: 0 20px 0 20px;    
+}
+
+.text_indent {
+    text-indent: 30px;
 }
