@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    height: 100vh;
+    width: fit-content;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    flex-shrink: 1;
+  
+      
+    
+    border: red solid;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+    box-sizing: border-box;
+
+}
+
+div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 900px;
+    border: blue solid;
+    flex-basis: 50px;
+    max-width: 300px;
+    
+    
+ 
+    padding: 0 20px 0 20px;    
+}
+
+.text_indent {
+    text-indent: 30px;
+}
