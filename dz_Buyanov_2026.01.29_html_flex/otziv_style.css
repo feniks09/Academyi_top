@@ -1,14 +1,13 @@
 
-html {
-    text-align: 
-}
 body {
     font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
     display: flex;
     height: 100vh;
-    width: fit-content;
+    max-width: fit-content;
+    flex-basis: 250px;
     flex-direction: column;
     flex-wrap: wrap;
+    
 
   
     align-items: flex-start;
@@ -25,12 +24,8 @@ div {
     display: flex;
     flex-direction: column;
     
-    max-height: fit-content;
     border: blue solid;
-    flex-basis: 250px;
     max-width: 300px;
-    flex-grow: 1;
-    flex-shrink: 1;
     padding: 0 20px 0 20px;    
     box-sizing: border-box;
     box-shadow: 10px 10px 10px blue;
