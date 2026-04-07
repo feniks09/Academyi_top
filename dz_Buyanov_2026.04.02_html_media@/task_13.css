@@ -1,5 +1,10 @@
 .page {
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
+    width: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
     
 }
 
@@ -13,7 +18,7 @@
         color: black
     }
 
-    .img {
+    img {
         max-width: 100%;
         height: auto;
     }
@@ -32,9 +37,10 @@
         font-size: 16px;
         color: red
     }
-    .img {
-        max-width: 100%;
+    img {
+        max-width: 80%;
         height: auto;
+        
     }
 }
 
@@ -47,8 +53,11 @@
         font-size: 18px;
         color: blue
     }
-    .img {
+    img {
         max-width: 100%;
         height: auto;
+        
+
+  
     }
 }
