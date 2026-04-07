@@ -1,0 +1,28 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+html {
+  font-size: 16px;
+}
+
+.header {
+  display: flex;
+  gap: 8px;
+}
+
+.logo {
+  width: 100px;
+}
+
+.main {
+  display: grid;
+  gap: 12px;
+
+  .product-list {
+    display: grid;
+    grid-template-columns: reapet(3, 1fr);
+  }
+}
