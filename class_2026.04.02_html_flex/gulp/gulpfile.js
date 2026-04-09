@@ -4,8 +4,7 @@ const cleanCSS = require("gulp-clean-css");
 
 function styles() {
   return src("src/css/**/*.css")
-    .pipe(
-      autoprefixer({
+    .pipe(autoprefixer({
         overrideBrowserslist: ["last 10 versions"],
         cascade: true,
       })
