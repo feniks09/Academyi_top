@@ -21,9 +21,9 @@ class Members(Base):
  joinedate: Mapped[datetime] = mapped_column(DateTime(timezone=True),
                                              server_default=func.now())
 
-pip import bc4
+# pip import bc4
 
-with open('row_data') as f:
-  a = f.read()
+# with open('row_data') as f:
+#   a = f.read()
 
-soup = Butuful(a, '')
+# soup = Butuful(a, '')
