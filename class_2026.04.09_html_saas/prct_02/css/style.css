@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+html {
+  background-color: azure;
+  color: darkblue;
+  font-size: 24px;
+}
+html .productCard {
+  background-color: lime;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,18 @@
+html {
+  color: #000;
+}
+html .card {
+  color: #00008b;
+  padding: calc(100px - 20%);
+}
+
+@media (prefer-color-scheme: dark) {
+  html {
+    color: #00008b;
+  }
+  html .card {
+    color: #000;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

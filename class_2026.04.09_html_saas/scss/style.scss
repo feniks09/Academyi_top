@@ -1,0 +1,21 @@
+$primary-color: #000;
+$secondary-color: #00008b;
+
+html {
+  color: $primary-color;
+
+  .card {
+    color: $secondary-color;
+    padding: calc(100px - 20%);
+  }
+}
+
+@media (prefer-color-scheme: dark) {
+  html {
+    color: $secondary-color;
+
+    .card {
+      color: $primary-color;
+    }
+  }
+}
