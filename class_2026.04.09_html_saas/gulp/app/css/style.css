@@ -1,0 +1,30 @@
+:root {
+  --general-font: "Courier New", Courier, monospace;
+  --background: azure;
+  --color: darkblue;
+  --size-sm: 200px;
+  --size-md: 400px;
+
+  @media (prefers-color-scheme: dark) {
+    --general-font: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    --background: darkblue;
+    --color: azure;
+  }
+}
+
+html {
+  font-family: var(--general-font);
+  background-color: var(--background);
+  color: var(--color);
+
+  .block {
+    width: var(--size-sm);
+    height: var(--size-sm);
+    background-color: #fff;
+    transition: 1000ms;
+    @media (min-width: 1000px) {
+      width: var(--size-md);
+      height: var(--size-md);
+    }
+  }
+}
