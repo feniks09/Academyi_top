@@ -42,7 +42,7 @@ class Fasilities(Base):
     initialoutlay: Mapped[float]
     monthlymaintenance: Mapped[float]
 
-class bookings(Base):
+class Bookings(Base):
     __tablename__ = 'cd.booking'
     __table_args__ = (PrimaryKeyConstraint('bookid', name='booking_pk'),
                         ForeignKeyConstraint(['fasid'], 
@@ -85,6 +85,14 @@ with Session(engine) as session:
     session.add_all([fasilities_1])
 
 
+    booking_1 = Bookings(fasid=1,
+                         memid=1,
+                         starttime=datetime.now(),
+                         slot=5)
+    
+    session.add_all([booking_1])
+
+
     session.commit()
 
     query = select(Members)
@@ -98,3 +106,9 @@ with Session(engine) as session:
 
     for fasilitie in all_freinds:
         print(fasilitie)
+
+    query= select(Bookings)
+    all_freinds = session.scalars(query)
+
+    for booking in all_freinds:
+        print(booking)

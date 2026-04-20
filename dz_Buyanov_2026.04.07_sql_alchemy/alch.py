@@ -29,5 +29,3 @@ class User(Basa):
 
 
 
-
-SELECT Name memberCost
