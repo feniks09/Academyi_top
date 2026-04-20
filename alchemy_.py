@@ -14,20 +14,20 @@ class Base(MappedAsDataclass, DeclarativeBase):
 
 class Members(Base):
     __tablename__ = "cd.members"
-    __table_args__ = (PrimaryKeyConstraint('memid', name="members_pk"),)
-                    #   ForeignKeyConstraint(['recommendedby'], 
-                    #                        ['cd.members.memid'], 
-                    #                        name='fk_members_recommendedby', 
-                    #                        ondelete= "SET NULL"))
+    __table_args__ = (PrimaryKeyConstraint('memid', name="members_pk"),
+                      ForeignKeyConstraint(['recommendedby'], 
+                                           ['cd.members.memid'], 
+                                           name='fk_members_recommendedby', 
+                                           ondelete= "SET NULL"))
     memid: Mapped[int] = mapped_column(primary_key=True, init=False)
     surname: Mapped[str] = mapped_column(String(200))
     firstname: Mapped[str] = mapped_column(String(200))
     address: Mapped[str] = mapped_column(String(300))
     zipcode: Mapped[int]
     telephone: Mapped[str] = mapped_column(String(20))
-    # recommendedby: Mapped[int|None]
-    # joindate: Mapped[datetime] = mapped_column(DateTime(timezone=True), 
-    #                                            server_default= func.now())
+    recommendedby: Mapped[int|None]
+    joindate: Mapped[datetime] = mapped_column(DateTime(timezone=True), 
+                                               server_default= func.now())
     
 
 
@@ -69,10 +69,22 @@ with Session(engine) as session:
                            firstname='Алексей', 
                            address='Москва',
                            zipcode=234231,
-                           telephone='1431242314324'
+                           telephone='1431242314324',
+                           recommendedby= 1,
+                           joindate= datetime.now()
                         )
     # Создание INSERT запроса
     session.add_all([Aleks_Buynov])
+
+    fasilities_1 = Fasilities(name="поворская",
+                              membercost=100,
+                              questcost=200,
+                              initialoutlay=100000000,
+                              monthlymaintenance=100000
+                              )
+    session.add_all([fasilities_1])
+
+
     session.commit()
 
     query = select(Members)
@@ -80,3 +92,9 @@ with Session(engine) as session:
 
     for member in all_freinds:
         print(member)
+
+    query = select(Fasilities)
+    all_freinds = session.scalars(query)
+
+    for fasilitie in all_freinds:
+        print(fasilitie)
