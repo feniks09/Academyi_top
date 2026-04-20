@@ -39,6 +39,7 @@ header {
     display: flex;
     padding-left: 100px;
     padding-right: 100px;
+    align-items: center;
 }
 
 .head-tools :nth-child(2) {
@@ -76,11 +77,11 @@ header {
     display: flex;
     width: 521px;
     height: 24px;
-    
     opacity: 1;
     gap: 75px;
     justify-content: center;
-    align-items: center; 
+    align-items: center;
+    text-align: center; 
 }
 
 .menu_header_text {
