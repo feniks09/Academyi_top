@@ -9,6 +9,7 @@ print(soup.find('h1'))
 
 tag = soup.h1
 print(tag.get_text())
+print(tag.text)
 
 print(tag.name)
 
