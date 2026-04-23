@@ -8,6 +8,10 @@ from sqlalchemy import PrimaryKeyConstraint, ForeignKey, ForeignKeyConstraint
 from sqlalchemy import DateTime
 from datetime import datetime
 
+from bs4 import BeautifulSoup
+
+
+
 
 class Base(MappedAsDataclass, DeclarativeBase):
     pass
@@ -63,6 +67,21 @@ class Bookings(Base):
 
 engine = create_engine('sqlite://', echo=True)
 Base.metadata.create_all(engine)
+
+with open('dz_Buyanov_2026.04.07_sql_alchemy/table_cd_member.txt', 'r', encoding='UTF-8') as f:
+    table_cd_member = f.read()
+    print(table_cd_member)
+
+with open('dz_Buyanov_2026.04.07_sql_alchemy/table_cd_facilities.txt', 'r', encoding='UTF-8') as f:
+    table_cd_facilities = f.read()
+    print(table_cd_facilities)
+
+with open('dz_Buyanov_2026.04.07_sql_alchemy/table_cd_booking.txt', 'r', encoding='UTF-8') as f:
+    table_cd_booking = f.read()
+    print(table_cd_booking)
+
+soup = BeautifulSoup(table_cd_member, '')
+
 
 with Session(engine) as session:
     Aleks_Buynov = Members(surname='Буянов', 
