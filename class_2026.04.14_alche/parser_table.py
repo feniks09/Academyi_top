@@ -1,5 +1,3 @@
 from bs4 import BeautifulSoup
 
-soup = BeautifulSoup(html,
-                     
-                     )
+soup = BeautifulSoup(html, 'html.parser')

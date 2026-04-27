@@ -65,8 +65,11 @@ class Bookings(Base):
     slot: Mapped[int]
 
 
-engine = create_engine('sqlite://', echo=True)
+engine = create_engine('sqlite://dbname.db', echo=True)
 Base.metadata.create_all(engine)
+
+
+
 
 with open('dz_Buyanov_2026.04.07_sql_alchemy/table_cd_member.txt', 'r', encoding='UTF-8') as f:
     table_cd_member = f.read()
@@ -80,13 +83,16 @@ with open('dz_Buyanov_2026.04.07_sql_alchemy/table_cd_booking.txt', 'r', encodin
     table_cd_booking = f.read()
     print(table_cd_booking)
 
-soup = BeautifulSoup(table_cd_member, '')
+soup = BeautifulSoup(table_cd_member, 'html.parser')
 
 
 with Session(engine) as session:
+
+
     Aleks_Buynov = Members(surname='Буянов', 
                            firstname='Алексей', 
                            address='Москва',
+
                            zipcode=234231,
                            telephone='1431242314324',
                            recommendedby= 1,
