@@ -1,7 +1,10 @@
+
+
+
 "use strict";
 
 
-document.body.innerText += "Первый!\n";
+document.body.innerText += "Первый_он!\n";
 
 
 function showFirstPhrase()
