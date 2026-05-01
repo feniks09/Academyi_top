@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="ex0.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex0</title>
+</head>
+<body>
+    <p>
+        Ввод:<br>
+        <label for="inputCash">Есть наличка?</label>
+        <input id="inputCash" type="checkbox"><br>
+        <label for="inputCard">Есть банковская карта?</label>
+        <input id="inputCard" type="checkbox"><br>
+        <label for="inputStore">Магазин поблизости?</label>
+        <input id="inputStore" type="checkbox"><br>
+        <button onclick="resolveSituation()">Рассчитать ситуацию</button>
+    </p>
+    <p>
+        Вывод:<br>
+        <span id="output"></span>
+    </p>
+</body>
+</html>
