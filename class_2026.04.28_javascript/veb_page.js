@@ -5,6 +5,7 @@ function sum()
     const DEFAULT_VALUE = 7777;
     const input_x = document.querySelector("#fist_namber");
     const input_y = document.querySelector("#second_namber");
+    
     const output = document.querySelector("#output");
 
     let x = parseFloat(input_x.value) || DEFAULT_VALUE;
