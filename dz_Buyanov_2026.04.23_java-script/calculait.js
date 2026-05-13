@@ -14,3 +14,8 @@ function main()
                 + `Число на 1 больше: ${f2}\n`;
         
 }
+
+for (let i = 1; i <= 9; i++)
+{
+    console.log(i)
+}
