@@ -7,6 +7,7 @@ function main()
 
     if (0) p.innerText += "0\n";
 
+
     if (1) p.innerText += "1\n";
 
     if (-1) p.innerText += "-1\n";
