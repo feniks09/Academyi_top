@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex0</title>
+</head>
+<body>
+    <script>
+        const b = document.body;
+
+        let x = parseFloat(prompt("Введите любое число"));
+
+        if (x < 0) b.innerText = `Число ${x} меньше 0.`;
+        else if (x > 0) b.innerText = `Число ${x} больше 0.`;
+        else if (x === 0) b.innerText = `Число ${x} равно 0.`;
+        else b.innerText = `${x} - это непоятно что.`;
+    </script>
+</body>
+</html>

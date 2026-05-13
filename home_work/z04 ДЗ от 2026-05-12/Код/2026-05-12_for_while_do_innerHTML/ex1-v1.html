@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ex1</title>
+</head>
+<body>
+
+    <p>
+        Пример работы цикла <code>for</code>:<br>
+        <span id="output-for"></span>
+        <script>
+        {
+            const output = document.querySelector("#output-for");
+            let text = "";
+
+            for (let n = -5; n < 12; n++, text += ", ")
+            {
+                text += `${n}`;
+            }
+
+            // Переменной n не существует за пределами цикла for
+
+            output.innerText = text;
+        }
+        </script>
+    </p>
+
+    <p>
+        Пример работы цикла <code>while</code>:<br>
+        <span id="output-while"></span>
+        <script>
+        {
+            const output = document.querySelector("#output-while");
+            let text = "";
+            let n = -5;
+
+            while (n < 12)
+            {
+                text += `${n}`;
+                n++, text += ", ";
+            }
+
+            output.innerText = text;
+        }
+        </script>
+    </p>
+
+    <p>
+        Пример работы цикла <code>do-while</code>:<br>
+        <span id="output-do-while"></span>
+        <script>
+        {
+            const output = document.querySelector("#output-do-while");
+            let text = "";
+            let n = -5;
+
+            do 
+            {
+                text += `${n}`;
+                n++, text += ", ";
+            }
+            while (n < 12);
+
+            output.innerText = text;
+        }
+        </script>
+    </p>
+</body>
+</html>
