@@ -23,7 +23,7 @@ class User(Basa):
         ForeignKey('cd.members.memid', ondelete='Set NULL'),
         default=None)
     joindate: Mapped[datetime] = mapped_column(nullable=False)
-    recommender: Mapped[Optional['Member']] = relationship()
+    recommender: Mapped[Optional['member']] = relationship()
     
 
 

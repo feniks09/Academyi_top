@@ -35,7 +35,6 @@ class Members(Base):
     
 
 
-
 class Fasilities(Base):
     __tablename__ = "cd.fasilities"
     __table_args__ = (PrimaryKeyConstraint('fasid', name="fasilities_pk"),)
