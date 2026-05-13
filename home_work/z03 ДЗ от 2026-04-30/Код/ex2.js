@@ -15,6 +15,7 @@ function process()
         result = `Ваше число меньше ${THRESHOLD}.`;
     }
     else if (n === THRESHOLD)
+
     {
         result = `Ваше число равно ${THRESHOLD}.`;
     }
