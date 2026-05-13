@@ -7,15 +7,14 @@ function main()
     let output = document.querySelector("#output")
 
     let namber = parseInt(input.value);
-    let list_ = []
+    let listN = []
     for (let i = 0; i <= 9; i++)
     {
         let string = `${namber} * ${i} = ${namber * i}\n`
-        list_.push(string)
+        listN.push(string)
     }
-    // list_ = list_.replaceALL(',', '')
 
-    output.innerHTML = list_.join("<br>")
+    output.innerHTML = listN.join("<br>")
 
 }
 
