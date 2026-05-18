@@ -1,0 +1,10 @@
+.block {
+    margin: 8px;
+    padding: 2px;
+    background-color: azure;
+    border: 1px solid gray;
+    border-radius: 2px;
+}
+.block.section-b {
+    background-color: lemonchiffon;
+}
