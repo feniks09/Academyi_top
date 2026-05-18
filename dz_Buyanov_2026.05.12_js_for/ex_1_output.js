@@ -66,4 +66,6 @@ function main()
     outputFor.innerText = text
     outputWhile.innerText = text2
     outputDoWhile.innerText = text3
+
+    
 }
