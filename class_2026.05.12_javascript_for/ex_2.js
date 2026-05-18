@@ -30,7 +30,7 @@ function main2()
 
     let value = parseInt(inputNam.value)
     let text = ""
-    let n = 0
+    
     for (let n = 0; n < value; n++, text += `${text}`)
         
     output.innerText = text
