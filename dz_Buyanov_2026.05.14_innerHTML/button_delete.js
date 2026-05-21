@@ -4,32 +4,31 @@
 
 document.addEventListener("DOMContentLoaded", () => 
 {
-    const button_AddParagraf = document.querySelector("#btn_AddParagraf")
+    const button_AddParagraf = document.querySelector("#btn_AddParagraf");
 
-
-    const output = document.querySelector("#output")
+    const output = document.querySelector("#output");
     
-    let counter = 1
+    let counter = 1;
 
     button_AddParagraf.addEventListener("click", () =>
     {
-        let p = document.createElement("p")
-        p.innerHTML = `Абзац <b> № ${counter} </b>
-        <button class="btn_AddParagraf" id="btn_DellParagraf${counter}">Удалить</button>`
-        output.appendChild(p)
+        let p = document.createElement("p");
+        p.innerHTML = `Абзац <b> № ${counter} </b>`;
+        p.id = `paragraf${counter}`
 
-        const button_DellParagraf = document.querySelector(`#btn_DellParagraf${counter}`)
-        button_DellParagraf.addEventListener("click", () =>
+        let button = document.createElement("button");
+        button.textContent =  `Удалить`;
+        button.classList.add('btn_DellParagrafStyle');
+
+        button.addEventListener("click", () =>
         {
-        output.removeChild(p)
-        }
-        )
-        counter++
+            output.removeChild(p);
+        });
+        
+        p.appendChild(button);
+        output.appendChild(p);
+        counter++;
 
-    
-    }
-    )
-
-    
-}
-)
+        
+    });  
+});
