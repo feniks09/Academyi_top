@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () =>
         output.appendChild(p);
         counter++;
 
+
         
     });  
 });
+  
