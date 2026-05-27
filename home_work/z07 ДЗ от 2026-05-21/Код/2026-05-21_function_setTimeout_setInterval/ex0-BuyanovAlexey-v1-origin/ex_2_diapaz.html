@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <style>
+        html{
+            font-size: 20px;
+            color: #1c3c2b;
+            text-align: center;
+
+        }
+        input {
+            width: 250px;
+            height: 40px;
+            font-size: 20px;
+            padding: 0 10px;
+
+            border: 3px solid #6a61d5;
+            border-radius: 8px;
+
+            background-color: rgb(229, 232, 236);
+            color:rgb(146, 10, 174);
+        }
+    </style>
+    <script src="ex_2_diapaz.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Ввод</h2>
+    <p>
+        Введите начало диапозона
+        <br>
+        <input id="inputBegin" type="text">
+        <br>
+        Введите конец диапозона
+        <br>
+        <input id="inputEnd" type="text">
+        <br>
+        Введите пороговое значение
+        <br>
+        <input id="inputLimit" type="text">
+        <br>
+        <button id="see" onclick="main()">Показать</button>
+    </p>
+    <h2>Вывод</h2>
+    <p>
+        <br>
+        <span id="output"></span>
+    </p>
+    
+</body>
+</html>
