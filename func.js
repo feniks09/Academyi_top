@@ -5,10 +5,36 @@ document.addEventListener("DOMContentLoaded", () =>
 {
     const output = document.querySelector("#output");
     const inputName = document.querySelector("#inputNameCart")
-    const button1 = document.createElement("button")
-    button1.textContent = "Создать"
-    button1.className = "buttonCreate"
+    let text = "Создать карточку"
+    let text2 = "Создать кнопку"
+    
+    function CreateButtonToCreatCart ()  
+    {
+        const btnCreaCart = document.createElement("button")
+        btnCreaCart.textContent = text;
+        btnCreaCart.className = "btnCreatCart"
+        btnCreaCart.addEventListener("click", createCart)
+        output.appendChild(btnCreaCart)
+    }
 
+    function CreateBtnToCreateBtn () 
+    {
+        const buttonBtn = document.createElement("button")
+        buttonBtn.textContent = text2
+        buttonBtn.className = "buttonCreateBtnCart"
+        buttonBtn.addEventListener("click", CreateAddButtonInCart)
+        output.appendChild(buttonBtn);
+    }
+
+    function CreateBtnToCreateBtnAll () 
+    {
+        const buttonBtnAll = document.createElement("button")
+        buttonBtnAll.textContent = "Во все карты"
+        buttonBtnAll.className = "buttonCreateBtnCart"
+        buttonBtnAll.addEventListener("click", createButtonAllCart)
+        output.appendChild(buttonBtnAll);
+    }
+    
     function createCart ()
     {
         const cart = document.createElement("div")
@@ -18,25 +44,46 @@ document.addEventListener("DOMContentLoaded", () =>
         cart.style.border ="2px solid red"
         output.appendChild(cart)
     }
-    function createButton () 
+    function CreateAddButtonInCart () 
     {
-        const button = document.createElement("button");
         const cartForButton = document.querySelector(".cart")
+        const buttonInCart = document.createElement("button");
         
-        button.textContent = inputName.value;
-        button.className = "Hello"
-        button.addEventListener("click", removeButton);
-        cartForButton.appendChild(button);
+        buttonInCart.textContent = "Добавить кнопку";
+        buttonInCart.className = "btnInCart"
+        buttonInCart.addEventListener("click", removeButton);
+        cartForButton.appendChild(buttonInCart);
+    }
+
+    function createButtonAllCart ()
+    {
+        const allCart = document.querySelectorAll(".cart")
+        allCart.forEach( cart => 
+        {
+            const btnAll = document.createElement("button");
+            btnAll.textContent = "В каждой карточке";
+            btnAll.addEventListener("click", () => 
+            {
+                cart.removeChild(btnAll)
+            })
+            btnAll.className = "btnInCart"
+            cart.appendChild(btnAll)
+        })
     }
     function removeButton ()
     {   
-        const remButt = document.querySelector(".Hello")
         const cartForButton = document.querySelector(".cart")
+        const remButt = document.querySelector(".btnInCart")
         cartForButton.removeChild(remButt)
     }
-    button1.addEventListener("click", createButton)
-    output.appendChild(button1);
+    function removeButtonAll ()
+    {   
+        const cartForButton = document.querySelector(".cart")
+        const remButt = document.querySelector(".btnInCart")
+        cartForButton.removeChild(remButt)
+    }
+    CreateButtonToCreatCart()
+    CreateBtnToCreateBtn()
+    CreateBtnToCreateBtnAll()
     
-    createCart();
-    createButton();
 })
