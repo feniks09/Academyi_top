@@ -1,0 +1,22 @@
+#head{
+    text-align: center;
+}
+.cart{
+    width : 350px;
+    height : auto;
+    border: 2px solid blue;
+}
+
+.topCart{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+
+
+}
+#output{
+    display: flex;
+    direction: row;
+    flex-wrap: wrap;
+}
