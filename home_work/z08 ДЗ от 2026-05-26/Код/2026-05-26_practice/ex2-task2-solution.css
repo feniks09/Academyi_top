@@ -1,0 +1,26 @@
+#output {
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 200px;
+    height: 180px;
+    background: lightgoldenrodyellow;
+}
+#output > button {
+    display: block;
+    margin: 0;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+#output > .victory {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: 36pt;
+    line-height: 180px;
+    text-align: center;
+    vertical-align: middle;
+}

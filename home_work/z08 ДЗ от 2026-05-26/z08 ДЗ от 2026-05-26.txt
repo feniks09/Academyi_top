@@ -1,0 +1,61 @@
+Полезные ссылки
+---------------
+
+Вариант соглашения о стиле оформления JavaScript-кода
+https://contribute.jquery.org/style-guide/js/
+
+DOM-дерево
+https://learn.javascript.ru/dom-nodes
+
+Браузерное окружение, спецификации [и BOM]
+https://learn.javascript.ru/browser-environment
+
+Live DOM Viewer
+https://software.hixie.ch/utilities/js/live-dom-viewer/
+
+
+
+Репозиторий с кодом
+-------------------
+
+Код с занятия
+https://github.com/zantyru/wrk-Python512-js/tree/main/2026-05-26_practice
+
+Весь код
+https://github.com/zantyru/wrk-Python512-js
+
+
+
+Задание [на 11 баллов]
+----------------------
+
+Решить задачу "задание 3.png".
+
+[+1 балл] Если глубина объявления функций не будет 
+превышать 2.
+
+Пояснение:
+
+document.addEventListener("DOMContentLoaded", () => {    // <-- функция объявлена на глубине 1
+    //...
+
+    function doIt()    // <-- функция объявлена на глубине 2
+    {
+        //...
+
+        div.addEventListener("click", () => {    // <-- функция объявлена на глубине 3, перебор
+            //...
+        });
+
+        function makeIt()    // <-- функция объявлена на глубине 3, перебор
+        {
+            //...
+        }
+
+        //...
+    }
+
+    //...
+});
+
+
