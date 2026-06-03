@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () =>
             
             nameDocAll.textContent = inputNameDocForAddAllCart.value
             btnRemoveDoc.textContent = "X"
-            inputNameDocForAddAllCart.value = ""
 
             btnRemoveDoc.addEventListener("click", () =>
             {
@@ -98,8 +97,10 @@ document.addEventListener("DOMContentLoaded", () =>
             documAll.appendChild(nameDocAll)
             documAll.appendChild(btnRemoveDoc)
             cart.appendChild(documAll)
+        
         })
-}
+        inputNameDocForAddAllCart.value = "";
+    }
     function AddDocInAllCart()
     {
         buttonAddDocInAllCart.addEventListener("click", createDocumentInAllCart)
