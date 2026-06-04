@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () =>
 {
     const output = document.querySelector("#output")
     const button = document.querySelector("#button")
-    let newX = 100;
+
     let timeOut = null
     function creatConteinButter()
     {
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () =>
         butter.style.border = "2px solid blue";
         butter.style.borderRadius = "10px";
         butter.style.display = 'block';
-        butter.style.position = "relative"
+        butter.style.position = "relative";
 
         output.appendChild(butter);
         return butter;
@@ -24,9 +24,7 @@ document.addEventListener("DOMContentLoaded", () =>
 
     function createMarcEnerg(butter)
     {
-        const lineEnerg = document.createElement("p")
-        // const divButter = document.querySelector(".butterContein")
-        
+        const lineEnerg = document.createElement("p")    
 
         lineEnerg.style.width = "0.5px";
         lineEnerg.style.height = "50px";
@@ -38,26 +36,34 @@ document.addEventListener("DOMContentLoaded", () =>
         lineEnerg.style.left = `${newX}px`
 
         butter.appendChild(lineEnerg)
+        return lineEnerg
     }
 
-    function modifyCoordMarEng(butter)
+    function modifyCoordMarEng(lineEnerg, newX)
     {
-        if (newX < 0) return;
-        createMarcEnerg(butter);
-        newX--;
-    }
+        if (newX < 0)
+        {
+            clearInterval(timeOut)
+            return;
+        }  
+        lineEnerg.style.left = `${newX}px`
     
     function addLineEnergeForTimeOut(butter)
-    {  
-        timeOut = setInterval(modifyCoordMarEng, 50) 
+    {
+        const lineEnerg = createMarcEnerg(butter)
+        let newX = 100
+        timeOut = setInterval(() =>
+            {
+                newX--;
+                modifyCoordMarEng(lineEnerg, newX)
+            }, 50)
     }
 
     button.addEventListener("click", () =>
     {
-        creatConteinButter()
-        addLineEnergeForTimeOut()
+        const butter = creatConteinButter()
+        addLineEnergeForTimeOut(butter)
         
     })
-
-
-})
+    }
+ })
