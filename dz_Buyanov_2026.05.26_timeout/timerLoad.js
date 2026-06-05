@@ -22,10 +22,9 @@ document.addEventListener("DOMContentLoaded", () =>
         return butter;
     }
 
-    function createMarcEnerg(butter)
+    function createLineMarcEnerg(butter, newX)
     {
         const lineEnerg = document.createElement("p")    
-
         lineEnerg.style.width = "0.5px";
         lineEnerg.style.height = "50px";
         lineEnerg.style.border = "0.5px solid green";
@@ -35,35 +34,34 @@ document.addEventListener("DOMContentLoaded", () =>
         lineEnerg.style.marginTop = 0
         lineEnerg.style.left = `${newX}px`
 
-        butter.appendChild(lineEnerg)
+        butter.appendChild(lineEnerg);
         return lineEnerg
     }
 
-    function modifyCoordMarEng(lineEnerg, newX)
-    {
+    function modifyCoordMarEng(butter)
+    {   
+        let newX = 100
         if (newX < 0)
         {
             clearInterval(timeOut)
             return;
-        }  
-        lineEnerg.style.left = `${newX}px`
-    
-    function addLineEnergeForTimeOut(butter)
-    {
-        const lineEnerg = createMarcEnerg(butter)
-        let newX = 100
+        }
         timeOut = setInterval(() =>
-            {
-                newX--;
-                modifyCoordMarEng(lineEnerg, newX)
+            {   
+                newX--
+                const lineEnerg = createLineMarcEnerg(butter, newX)
             }, 50)
-    }
 
+        // lineEnerg.style.left = `${newX}px`
+    }
+    function addLineEnergeForTimeOut(butter, lineEnerg)
+    {
+        butter.appendChild(lineEnerg)
+    }
+     
     button.addEventListener("click", () =>
     {
         const butter = creatConteinButter()
-        addLineEnergeForTimeOut(butter)
-        
+        addLineEnergeForTimeOut(butter)    
     })
-    }
- })
+})
