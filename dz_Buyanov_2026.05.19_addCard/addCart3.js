@@ -66,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () =>
 
         documName.textContent = inputNameDocument.value
         btnRemoveDoc.textContent = "X"
-        inputNameDocument.value = ""
 
         btnRemoveDoc.addEventListener("click", () =>
         {
@@ -80,30 +79,16 @@ document.addEventListener("DOMContentLoaded", () =>
     function createDocumentInAllCart()
     {
         if (inputNameDocForAddAllCart.value.trim() === "") return
-        const allCart = document.querySelectorAll(".cart")
-        allCart.forEach(cart =>
-        {
-            const documAll = document.createElement("p")
-            const nameDocAll = document.createElement("span")
-            const btnRemoveDoc = document.createElement("button")
-            
-            nameDocAll.textContent = inputNameDocForAddAllCart.value
-            btnRemoveDoc.textContent = "X"
-
-            btnRemoveDoc.addEventListener("click", () =>
-            {
-                cart.removeChild(documAll)
-            })
-            documAll.appendChild(nameDocAll)
-            documAll.appendChild(btnRemoveDoc)
-            cart.appendChild(documAll)
-        
+        const cartAll = document.querySelectorAll(".cart")
+        cartAll.forEach(cart => {
+            addDocumentInCart(cart, inputNameDocForAddAllCart)
         })
         inputNameDocForAddAllCart.value = "";
     }
     function AddDocInAllCart()
     {
         buttonAddDocInAllCart.addEventListener("click", createDocumentInAllCart)
+        inputNameDocument.value = ""
     }
     addCart()
     AddDocInAllCart()
