@@ -39,20 +39,21 @@ document.addEventListener("DOMContentLoaded", () =>
     }
 
     function modifyCoordMarEng(butter)
-    {   
+    {  
         let newX = 100
-        if (newX < 0)
-        {
-            clearInterval(timeOut)
-            return;
-        }
+        
         timeOut = setInterval(() =>
             {   
+                if (newX < 0)
+                {
+                    clearInterval(timeOut)
+                    timeOut = null 
+                    return;
+                }
                 newX--
                 const lineEnerg = createLineMarcEnerg(butter, newX)
             }, 50)
 
-        // lineEnerg.style.left = `${newX}px`
     }
     function addLineEnergeForTimeOut(butter, lineEnerg)
     {
@@ -62,6 +63,8 @@ document.addEventListener("DOMContentLoaded", () =>
     button.addEventListener("click", () =>
     {
         const butter = creatConteinButter()
-        addLineEnergeForTimeOut(butter)    
+        modifyCoordMarEng(butter)
+        // const lineEnerg = createLineMarcEnerg(butter, newX)
+        // addLineEnergeForTimeOut(butter)    
     })
 })
