@@ -1,0 +1,34 @@
+Полезные ссылки
+---------------
+
+Вариант соглашения о стиле оформления JavaScript-кода
+https://contribute.jquery.org/style-guide/js/
+
+Про LocalStorage
+https://learn.javascript.ru/localstorage
+
+Live DOM Viewer
+https://software.hixie.ch/utilities/js/live-dom-viewer/
+
+
+
+Репозиторий с кодом
+-------------------
+
+Код с занятия
+https://github.com/zantyru/wrk-Python512-js/tree/main/2026-06-02_LocalStorage
+
+Весь код
+https://github.com/zantyru/wrk-Python512-js
+
+
+
+Задание [на 12 баллов] (выдача 2 из 3)
+--------------------------------------
+
+Продолжить выполнять задание "задание про палитру цветов.png".
+
+На данном этапе надо сделать сверстанную ранее веб-страницу
+интерактивной, чтобы по нажатию кнопки сохранялась информация
+о цвете и на странице появлялась соответствующая плашка.
+
