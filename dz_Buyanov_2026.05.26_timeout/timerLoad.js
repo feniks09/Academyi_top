@@ -5,8 +5,10 @@ document.addEventListener("DOMContentLoaded", () =>
 {
     const output = document.querySelector("#output")
     const button = document.querySelector("#button")
+    
+    let allInterval = []
 
-    let timeOut = null
+    // let timeOut = null
     function creatConteinButter()
     {
         const butter = document.createElement("div")
@@ -14,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () =>
         butter.style.width = "100px";
         butter.style.height = "50px";
         butter.style.border = "2px solid blue";
-        butter.style.borderRadius = "10px";
         butter.style.display = 'block';
         butter.style.position = "relative";
 
@@ -22,49 +23,70 @@ document.addEventListener("DOMContentLoaded", () =>
         return butter;
     }
 
-    function createLineMarcEnerg(butter, newX)
+    function createLineMarcEnerg(butter)
     {
-        const lineEnerg = document.createElement("p")    
-        lineEnerg.style.width = "0.5px";
+        let color = "green"
+        const lineEnerg = document.createElement("p")
+        lineEnerg.className = "lineEnerg"    
+        lineEnerg.style.width = "100px";
         lineEnerg.style.height = "50px";
-        lineEnerg.style.border = "0.5px solid green";
-        lineEnerg.style.backgroundColor = "green";
+        lineEnerg.style.border = "0px solid green";
+        lineEnerg.style.backgroundColor = color;
         lineEnerg.style.display = "block";
         lineEnerg.style.position = "absolute";
         lineEnerg.style.marginTop = 0
-        lineEnerg.style.left = `${newX}px`
+        lineEnerg.style.left = "0px"
 
         butter.appendChild(lineEnerg);
         return lineEnerg
     }
 
-    function modifyCoordMarEng(butter)
+    function draveEnergee(butter)
     {  
-        let newX = 100
+        let volueEnerje = 100
+        let curentVolueEnerje = createLineMarcEnerg(butter)
+        let color = ""
+
         
-        timeOut = setInterval(() =>
+        let timeOut = setInterval(() =>
             {   
-                if (newX < 0)
-                {
+                console.log(`Интервал ${timeOut} работает`)
+               if (volueEnerje <= 0)
+                { 
                     clearInterval(timeOut)
-                    timeOut = null 
+                    output.removeChild(butter) 
                     return;
                 }
-                newX--
-                const lineEnerg = createLineMarcEnerg(butter, newX)
+                if (volueEnerje <= 20)
+                {
+                    color = "red"
+                }
+                else if (volueEnerje <= 40)
+                {
+                    color = "yellow"
+                }
+                else
+                {
+                    color = "green"
+                }
+                diferenColorDependeValue(color, curentVolueEnerje)
+                volueEnerje--
+                curentVolueEnerje.style.width = `${volueEnerje}px`
             }, 50)
-
+        allInterval.push(timeOut)
+        console.log(`длина интервала${allInterval.length}`)
     }
-    function addLineEnergeForTimeOut(butter, lineEnerg)
+    
+    function diferenColorDependeValue(color, curentVolueEnerje)
     {
-        butter.appendChild(lineEnerg)
+       curentVolueEnerje.style.border = `0px solid ${color}`
+       curentVolueEnerje.style.backgroundColor = `${color}`  
     }
-     
+
     button.addEventListener("click", () =>
     {
         const butter = creatConteinButter()
-        modifyCoordMarEng(butter)
-        // const lineEnerg = createLineMarcEnerg(butter, newX)
-        // addLineEnergeForTimeOut(butter)    
+        draveEnergee(butter)
+       
     })
 })
