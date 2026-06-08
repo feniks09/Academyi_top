@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script src="createNewColor_2.js"></script>
+    <link rel="stylesheet" href="createNewColor_2.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="fildInput">
+            <h1>create New Color</h1>
+            <label for="nameColor">Название цвета</label>
+            <br>
+            <input id="nameColor" type="text">
+            <br>
+            <label for="typeColor">Тип цвета</label>
+            <br>
+            <input type="text" list="typeColor">
+                <datalist id="typeColor">
+                    <option value="RGB">
+                    <option value="RGBA">
+                    <option value="HEF">
+                </datalist>
+            <br>
+            <label for="idexColor">Индекс цвета</label>
+            <br>
+            <input id="indexColor" type="text"> <br>
+            <button id="saveButton">Save</button>
+            <p class="nameOutput">AllColors</p>
+        </div>
+        <div class="exsemple-color_cart">
+            <div class="cart-Color yellowgreen">
+                <div class="info-Cart-Color yellowgreenlite">
+                    <span>YELLOWGREEN</span>
+                    <span>RGB</span>
+                    <span>154,205,50</span>
+                </div>
+            </div>
+            <div class="cart-Color darcaynas">
+                <div class="info-Cart-Color darcaynaslite">
+                    <span>DARCAYNAS</span>
+                    <span>RGBA</span>
+                    <span>0, 139, 139, 1</span>
+                </div>
+            </div>
+            <div class="cart-Color oranjered">
+                <div class="info-Cart-Color oranjeredlite">
+                    <span>ORANERED</span>
+                    <span>HEX</span>
+                    <span>#FF4500</span>
+                </div>
+            </div>
+            <template>
+            <div class="cart-Color yellowgreen">
+                <div class="info-Cart-Color yellowgreenlite">
+                    <span>YELLOWGREEN</span>
+                    <span>RGB</span>
+                    <span>154,205,50</span>
+                </div>
+            </div>
+            </template>
+        </div>
+        <div id="output">
+
+        </div>
+    </div>    
+</body>
+</html>
