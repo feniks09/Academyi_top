@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", () =>
     
     let allInterval = []
 
-    // let timeOut = null
-    function creatConteinButter()
+        function creatConteinButter()
     {
         const butter = document.createElement("div")
         butter.className = "butterContein"
@@ -43,25 +42,35 @@ document.addEventListener("DOMContentLoaded", () =>
 
     function draveEnergee(butter)
     {  
-        let volueEnerje = 100
+        let MaxVolueEnerje = 100
         let curentVolueEnerje = createLineMarcEnerg(butter)
         let color = ""
 
-        
         let timeOut = setInterval(() =>
             {   
                 console.log(`Интервал ${timeOut} работает`)
-               if (volueEnerje <= 0)
+                if (MaxVolueEnerje <= 0)
                 { 
                     clearInterval(timeOut)
                     output.removeChild(butter) 
                     return;
                 }
-                if (volueEnerje <= 20)
+                diferenColorDependeValue(MaxVolueEnerje, color, curentVolueEnerje)
+                MaxVolueEnerje--
+                curentVolueEnerje.style.width = `${MaxVolueEnerje}px`
+            }, 50)
+        allInterval.push(timeOut)
+        console.log(`длина интервала${allInterval.length}`)
+    }
+    
+    function diferenColorDependeValue(MaxVolueEnerje, color, curentVolueEnerje)
+    {
+        
+        if (MaxVolueEnerje <= 20)
                 {
                     color = "red"
                 }
-                else if (volueEnerje <= 40)
+                else if (MaxVolueEnerje <= 40)
                 {
                     color = "yellow"
                 }
@@ -69,18 +78,8 @@ document.addEventListener("DOMContentLoaded", () =>
                 {
                     color = "green"
                 }
-                diferenColorDependeValue(color, curentVolueEnerje)
-                volueEnerje--
-                curentVolueEnerje.style.width = `${volueEnerje}px`
-            }, 50)
-        allInterval.push(timeOut)
-        console.log(`длина интервала${allInterval.length}`)
-    }
-    
-    function diferenColorDependeValue(color, curentVolueEnerje)
-    {
-       curentVolueEnerje.style.border = `0px solid ${color}`
-       curentVolueEnerje.style.backgroundColor = `${color}`  
+        curentVolueEnerje.style.border = `0px solid ${color}`
+        curentVolueEnerje.style.backgroundColor = `${color}`  
     }
 
     button.addEventListener("click", () =>
