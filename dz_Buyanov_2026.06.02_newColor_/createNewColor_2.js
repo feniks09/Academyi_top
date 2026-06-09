@@ -9,9 +9,25 @@ document.addEventListener("DOMContentLoaded", () =>
     const output = document.querySelector("#output")
     const buttonSave = document.querySelector("#saveButton")
 
+    function outputInfoInCart(copyCart, inputNameColor, inputTypeColor, inputIndexColor)
+    {
+        const outputNameColor = copyCart.querySelector(".outputNameColor");
+        const outputTypeColor = copyCart.querySelector(".outputTypeColor");
+        const outputIndexColor = copyCart.querySelector(".outputIndexColor")
+
+        outputNameColor.textContent = inputNameColor.value;
+        outputTypeColor.textContent = inputTypeColor.value;
+        outputIndexColor.textContent = inputIndexColor.value; 
+    }
     buttonSave.addEventListener("click", () =>
     {
-        output.textContent += inputIndexColor.value
+        const templateCartColor = document.querySelector("#templateCartColor")
+        const copyCart = templateCartColor.content.cloneNode(true)
+        
+        output.appendChild(copyCart)
+
+        outputInfoInCart(copyCart,inputNameColor, inputTypeColor, inputIndexColor)
     })
+
 
 })

@@ -11,6 +11,7 @@ html{
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 .cart-Color{
     display: flex;
@@ -19,6 +20,7 @@ html{
     height: 100px;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     
 }
 .cart-Color.yellowgreen{
@@ -50,4 +52,14 @@ html{
 
 .info-Cart-Color.oranjeredlite{
     background-color: #bf846f;
+}
+
+#output{
+    display: flex;
+    width: 540px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
 }
