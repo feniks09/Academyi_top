@@ -23,10 +23,12 @@ document.addEventListener("DOMContentLoaded", () =>
     {
         const templateCartColor = document.querySelector("#templateCartColor")
         const copyCart = templateCartColor.content.cloneNode(true)
+
+        outputInfoInCart(copyCart,inputNameColor, inputTypeColor, inputIndexColor)
         
         output.appendChild(copyCart)
 
-        outputInfoInCart(copyCart,inputNameColor, inputTypeColor, inputIndexColor)
+        
     })
 
 
