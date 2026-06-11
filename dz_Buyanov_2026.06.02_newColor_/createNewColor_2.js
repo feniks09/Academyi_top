@@ -26,10 +26,6 @@ document.addEventListener("DOMContentLoaded", () =>
 
         outputInfoInCart(copyCart,inputNameColor, inputTypeColor, inputIndexColor)
         
-        output.appendChild(copyCart)
-
-        
+        output.appendChild(copyCart)  
     })
-
-
 })
