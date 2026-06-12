@@ -1,0 +1,40 @@
+Полезные ссылки
+---------------
+
+OMDB API
+https://www.omdbapi.com/
+
+Сервис бутафорских JSON-данных, которым мы воспользовались
+https://app.beeceptor.com/mock-server/json-placeholder
+
+Про fetch
+https://learn.javascript.ru/fetch
+
+Про fetch (тут есть информация про досрочную отмену запроса
+и про загрузку файла на сервер)
+https://doka.guide/js/fetch/
+
+Ещё про fetch
+https://developer.mozilla.org/ru/docs/Web/API/Fetch_API/Using_Fetch
+
+
+
+Репозиторий с кодом
+-------------------
+
+Код с занятия
+https://github.com/zantyru/wrk-Python512-js/tree/main/2026-06-11_fetch
+
+Весь код
+https://github.com/zantyru/wrk-Python512-js
+
+
+
+Задание [на 12 баллов]
+----------------------
+
+Ещё одно спокойное задание.
+
+Продолжить разбираться с материалами про асинхронные
+сетевые запросы в JavaScript и по возможности прислать
+вопросы.
