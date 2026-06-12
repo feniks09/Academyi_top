@@ -1,0 +1,36 @@
+Полезные ссылки
+---------------
+
+Вариант соглашения о стиле оформления JavaScript-кода
+https://contribute.jquery.org/style-guide/js/
+
+Про LocalStorage
+https://learn.javascript.ru/localstorage
+
+Live DOM Viewer
+https://software.hixie.ch/utilities/js/live-dom-viewer/
+
+
+
+Репозиторий с кодом
+-------------------
+
+Код с занятия
+https://github.com/zantyru/wrk-Python512-js/tree/main/2026-06-04_LocalStorage
+
+Весь код
+https://github.com/zantyru/wrk-Python512-js
+
+
+
+Задание [на 12 баллов] (выдача 3 из 3)
+--------------------------------------
+
+Пришлите финальную версию решения задания "задание
+про палитру цветов.png".
+
+Должно быть готово:
+- вёрстка веб-страницы;
+- js-код, добавляющий плашку с цветом на страницу;
+- js-код, ответственный за сохранение в LocalStorage
+  и загрузку из него.
