@@ -12,10 +12,11 @@ document.addEventListener("DOMContentLoaded", () =>
         let inputDate = input.value
         output.textContent = inputDate
     }
-    
-    function fetchWeather()
+    // {"cloud_pct":100,"temp":18,"feels_like":18,"humidity":85,"min_temp":17,"max_temp":19,"wind_speed":2.24,
+    //     "wind_degrees":269,"sunrise":1781754163,"sunset":1781814031}
+    function fetchWeather(latitude, longitude)
     {   
-        fetch( "https://api.api-ninjas.com/v1/weather?lat=51.5074&lon=-0.1278",
+        fetch( `https://api.api-ninjas.com/v1/weather?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`,
             {
                 method : "GET",
                 headers : 
@@ -27,8 +28,7 @@ document.addEventListener("DOMContentLoaded", () =>
         {
             if (response.ok)
             {
-                return response.json()
-                
+                return response.json()   
             }
             else
             {
@@ -37,8 +37,22 @@ document.addEventListener("DOMContentLoaded", () =>
         }
         ).then(weatherDate =>
         {
-            output.textContent = weatherDate;
-            console.log(weatherDate)
+            const weatherDateStr = JSON.stringify(weatherDate)
+            output.textContent = weatherDateStr;
+            output.innerHTML = `<p><i class=fas fa-cloud-sun></i>Облачность : ${weatherDate.cloud_pct}%</p>
+                                <p>Температура : ${weatherDate.temp}°C</p>
+                                <p>Ощущается : ${weatherDate.feels_like}°C</p>
+                                <p>Влажность : ${weatherDate.humidity}%</p>
+                                <p>Минимальная температура : ${weatherDate.min_temp}°C</p>
+                                <p>Максимальная температура : ${weatherDate.max_temp}°C</p>
+                                <p>Скорость ветра : ${weatherDate.wind_speed}м/c</p>
+                                <p>Порывы : ${weatherDate.wind_degrees}м/c</p>
+                                <p>Рассвет : ${new Date(weatherDate.sunrise * 1000).toLocaleTimeString()}</p>
+                                <p>Закат : ${new Date(weatherDate.sunset * 1000).toLocaleTimeString()}</p>`
+            console.log(weatherDateStr)
+            console.log(weatherDate.cloud_pct)
+            console.log(weatherDate.temp)
+            console.log(weatherDate.feels_like)
         }
         ).catch(error =>
         {
@@ -47,8 +61,8 @@ document.addEventListener("DOMContentLoaded", () =>
     }
     function geolocationDate()
     {
-        let countryCode = inputCountryCode.value.trim().toUpperCase()
         let cityName = inputCityName.value.trim().toUpperCase()
+        let countryCode = inputCountryCode.value.trim().toUpperCase()
         fetch(`https://api.api-ninjas.com/v1/geocoding?city=${encodeURIComponent(cityName)}&country=${encodeURIComponent(countryCode)}`,
             {
                 method : "GET",
@@ -71,12 +85,13 @@ document.addEventListener("DOMContentLoaded", () =>
             if(geolocation.length > 0)
             {
                 let geoDate = geolocation[0];
-                const keys = Object.keys(geoDate)
+                const keys = Object.keys(geoDate);
                 let cityName = geoDate.name;
                 let latitude = geoDate.latitude;
                 let longitude = geoDate.longitude;
                 let country = geoDate.country;
                 let state = geoDate.state; 
+
                 console.log(keys)
                 console.log(geolocation)
                 console.log(cityName)
@@ -85,24 +100,18 @@ document.addEventListener("DOMContentLoaded", () =>
                 console.log(country)
                 console.log(state)
 
-                // output.innerHTML = `<p>${keys[0]} - ${cityName}</p>
-                //                     <p>${keys[1]} - ${latitude}</p>
-                //                     <p>${keys[2]} - ${longitude}</p>
-                //                     <p>${keys[3]} - ${country}</p>
-                //                     <p>${keys[4]} - ${state}</p>`
-                
-                // localStorage.setItem(keys[1], JSON.stringify(geoDate))
-                // localStorage.setItem("Weather", geolocation)
-                // let dateLat = localStorage.getItem(keys[1])
-                // output.innerHTML = `<p>${keys[1]} - ${dateLat}</p>`
-                // output.innerHTML = `<p>${JSON.stringyfy(geolocation)}</p>`
-                // localStorage.removeItem("jhdcb")
+                fetchWeather(latitude, longitude)
             }
+            
         })
     }
+    // async function main()
+    // {
+    //     const {latitude, longitude} = await geolocationDate()
+    //     fetchWeather(latitude, longitude)
+    // }
     button.addEventListener("click", ()=>
     {
-        // fetchWeather()
         geolocationDate()
     })
 })
