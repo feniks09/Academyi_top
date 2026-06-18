@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () =>
     
     function fetchWeather()
     {   
-        fetch( "https://api.api-ninjas.com/v1/geocoding?city=moscow&country=ru",
+        fetch( "https://api.api-ninjas.com/v1/weather?lat=51.5074&lon=-0.1278",
             {
                 method : "GET",
                 headers : 
@@ -43,8 +43,7 @@ document.addEventListener("DOMContentLoaded", () =>
         ).catch(error =>
         {
             output.textContent = `ошибка${error.message}`
-        }
-        )
+        })
     }
     function geolocationDate()
     {
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () =>
                 }
             }
         ).then(response =>
-        {
+        { 
             if (response.ok)
             {
                 return response.json();
@@ -86,18 +85,24 @@ document.addEventListener("DOMContentLoaded", () =>
                 console.log(country)
                 console.log(state)
 
-                output.innerHTML = `<p>${cityName}</p>
-                                    <p>${latitude}</p>
-                                    <p>${longitude}</p>
-                                    <p>${country}</p>
-                                    <p>${state}</p>
-                                    <p>${keys}</p>
-                                    `
+                // output.innerHTML = `<p>${keys[0]} - ${cityName}</p>
+                //                     <p>${keys[1]} - ${latitude}</p>
+                //                     <p>${keys[2]} - ${longitude}</p>
+                //                     <p>${keys[3]} - ${country}</p>
+                //                     <p>${keys[4]} - ${state}</p>`
+                
+                // localStorage.setItem(keys[1], JSON.stringify(geoDate))
+                // localStorage.setItem("Weather", geolocation)
+                // let dateLat = localStorage.getItem(keys[1])
+                // output.innerHTML = `<p>${keys[1]} - ${dateLat}</p>`
+                // output.innerHTML = `<p>${JSON.stringyfy(geolocation)}</p>`
+                // localStorage.removeItem("jhdcb")
             }
         })
     }
     button.addEventListener("click", ()=>
     {
+        // fetchWeather()
         geolocationDate()
     })
 })
