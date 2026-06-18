@@ -21,30 +21,78 @@ document.addEventListener("DOMContentLoaded", () =>
 
     showDateName(name)
     showDate(date)
- 
     const newInfo = {
-        color : "yellow",
-        width : "100"
+        "color" : "yellow",
+        "width" : "100"
     }
-     function showColor()
+    function showColor()
     {
-        output.textContent = `${newInfo}`
-    }
-    async function loadDate()
-    {
-        const response = await fetch("https://json-placeholder.mock.beeceptor.com/todos/1",
-            {
-                method : "GET",
-                headers : {
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-            }
-        )
-        const date = await response.json()
-        output.textContent = `${date.status}`
-    }
+        output.innerHTML += `<p>${newInfo.color} - ${newInfo.width}<p/>`
+    }   output.innerHTML += `<p>${JSON.stringify(newInfo)}<p/>`
+    showColor()
+    // async function loadDate()
+    // {
+    //     const response = await fetch("https://json-placeholder.mock.beeceptor.com/todos/1",
+    //         {
+    //             method : "GET",
+    //             headers : {
+    //                 "Content-Type": "application/json;charset=utf-8"
+    //             }
+    //         }
+    //     )
+    //     const date = await response.json()
+    // //     output.textContent = `${date.status}`
+    // }
    
-    loadDate()
+    const date2 = () =>
+    {
+        let a = 5;
+        let b = 6;
+        return {a, b}
+    }
+    const myDate = date2()
+    function showDate2(myDate)
+    {
+        output.textContent = `${JSON.stringify(myDate.a + myDate.b)}`
+    }   
+    // loadDate()
+
+
+
+
+const number = (num) =>
+{
+    let c = 14 + num
+    let d = 13 - num
+    return {c, d}
+}
+
+const {c, d} = number(2)
+
+function showNumber()
+{
+    output.innerHTML = `<p>${c} - ${d}</p>`
+    console.log(`<p>${c-d}</p>`)
+}
+
+showDate2(myDate) 
+showNumber()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
 
 
