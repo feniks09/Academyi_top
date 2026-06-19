@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () =>
     const inputCountryCode = document.querySelector("#input-countryCode")
     const inputCityName = document.querySelector("#input-cityName")
     const button = document.querySelector("#button")
+    const body = document.querySelector(".body")
     const output = document.querySelector("#output")
 
     function outputWeather()
@@ -28,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () =>
         {
             if (response.ok)
             {
+                // console.log(response)
+                // console.log(response.text())
+                // console.log(response.json())
+                // console.log(JSON.stringify(response.json().temp))
                 return response.json()   
             }
             else
@@ -49,10 +54,13 @@ document.addEventListener("DOMContentLoaded", () =>
                                 <p>Порывы : ${weatherDate.wind_degrees}м/c</p>
                                 <p>Рассвет : ${new Date(weatherDate.sunrise * 1000).toLocaleTimeString()}</p>
                                 <p>Закат : ${new Date(weatherDate.sunset * 1000).toLocaleTimeString()}</p>`
-            console.log(weatherDateStr)
-            console.log(weatherDate.cloud_pct)
-            console.log(weatherDate.temp)
-            console.log(weatherDate.feels_like)
+                                console.log(weatherDate)
+                            // console.log(JSON.stringify(weatherDate))
+                            // console.log(weatherDate.temp)
+                            // console.log(weatherDateStr)
+                            // console.log(weatherDate.cloud_pct)
+                            // console.log(weatherDate.temp)
+                            // console.log(weatherDate.feels_like)
         }
         ).catch(error =>
         {
@@ -81,28 +89,37 @@ document.addEventListener("DOMContentLoaded", () =>
                 throw new Error(`следующая ошибка ${response.status}`)
             }
         }).then(geolocation =>
-        {
+            {
             if(geolocation.length > 0)
             {
                 let geoDate = geolocation[0];
                 const keys = Object.keys(geoDate);
+                const values = Object.values(geoDate)
                 let cityName = geoDate.name;
                 let latitude = geoDate.latitude;
                 let longitude = geoDate.longitude;
                 let country = geoDate.country;
                 let state = geoDate.state; 
 
-                console.log(keys)
-                console.log(geolocation)
-                console.log(cityName)
-                console.log(latitude)
-                console.log(longitude)
-                console.log(country)
-                console.log(state)
+                // body.innerHTML = `<p>${geolocation[0].name}</p>`
+
+                // console.log(Array.isArray(geolocation))
+                // console.log(typeof geolocation)
+                // console.log(keys)
+                // console.log(values)
+                // console.log(values[0])
+                   console.log(geolocation)
+                // console.log(geolocation[0])
+                // console.log(Array.isArray(values))
+                // console.log(typeof values)
+                // console.log(cityName)
+                // console.log(latitude)
+                // console.log(longitude)
+                // console.log(country)
+                // console.log(state)
 
                 fetchWeather(latitude, longitude)
-            }
-            
+            }        
         })
     }
     // async function main()
