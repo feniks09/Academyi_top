@@ -1,6 +1,7 @@
 "use strict"
 
 
+
 document.addEventListener("DOMContentLoaded", () =>
 {
     const button = document.querySelector("#button");
@@ -27,17 +28,25 @@ document.addEventListener("DOMContentLoaded", () =>
         ).then(userDate =>
             {   let list = [];
                 for (let i = 0; i < userDate.length; i++)
-                {
-                    let user = userDate[i]
-                    let userKeys = Object.keys(user) 
-                    let userValues = Object.values(user)
-                    let users = `${userKeys} : ${userValues}`
-                    list.push(users)
+                {   const container = document.createElement("div")
+                    container.className = "container"
+                    output.appendChild(container)
+                    let userN = userDate[i];
+                    let userKeys = Object.keys(userN) 
+                    // let userValues = Object.values(user)
+                    for (let j = 0; j < userKeys.length; j++)
+                    {
+                        let key = userKeys[j]
+                        let user = `${key} : ${userN[key]};`
+                        container.innerHTML += `<span>${user}</span><br>`
+                        // list.push(HTMLuser)
+                    }
                 }
+                // output.innerHTML += `${JSON.stringify(list)}`
                 // console.log(userDate[0]["id"])
                    console.log(list)
                 // output.textContent = `${JSON.stringify(userDate[0].id)}`
-                   output.textContent = `${JSON.stringify(list)}`
+                //    output.textContent = `${JSON.stringify(list)}`
                 // let userDate1 = userDate[0];
                 // output.textContent = JSON.stringify(userDate1)
                 console.log(userDate)
