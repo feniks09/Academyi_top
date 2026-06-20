@@ -10,7 +10,8 @@ function main()
     console.log("output:", output)
 
     output.innerText += "Ага!\n"
+    document.innerText += "А меня напечатаешь"
+    document.body.innerText += "Плиз"
+
 }
-
-
 

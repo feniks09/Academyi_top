@@ -16,4 +16,4 @@ function main()
         + `paraseFloat: <b>${n3}</b></br>`
 }
 
-alert
+alert()

@@ -10,4 +10,4 @@ console.log(s)
 function print()
     {console.log('ПРивет из мира питона')}
 
-print()
+// print()
