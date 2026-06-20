@@ -1,0 +1,23 @@
+.user-card {
+    margin: 8px;
+    padding: 2em;
+    border: thin solid black;
+    border-radius: 4px;
+}
+
+.user-card > .user-card-photo
+{
+    display: block;
+    margin: 0;
+    margin-bottom: 1em;
+    padding: 0;
+    width: 200px;
+}
+
+.user-card > .user-card-info
+{
+    margin: 0;
+    padding: 0.5em;
+    background: cornsilk;
+    border-radius: 2px;
+}
