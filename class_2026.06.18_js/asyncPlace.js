@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", () =>
         {
             throw new Error(`новая ошибка ${error}`)
         }
-
     }
+
+    function showUsers(users)
+    {
+        for (let user of users)
+        {
+            output.innerHTML = `${user}`
+        }
+    }
+
+    button.addEventListener("click", 
+        fetchRequest().then(showUsers)
+    )
+
 })
