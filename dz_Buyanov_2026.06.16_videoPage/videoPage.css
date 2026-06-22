@@ -1,0 +1,28 @@
+#cartSearch{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.inputDiv{
+    display: flex;
+    padding: 0;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#inputTitle{
+    width: 70%;
+    appearance: auto;
+}
+
+#inputType{
+    width: 70%;
+    appearance: auto;
+}
+
+#searchButton{
+    width: 300px;
+}
+
