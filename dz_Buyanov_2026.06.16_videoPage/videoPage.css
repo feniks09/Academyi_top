@@ -1,3 +1,8 @@
+html{
+    margin : 0px 0px;
+    padding: 0px 0px;
+}
+
 #cartSearch{
     display: flex;
     flex-direction: column;
@@ -6,17 +11,15 @@
 
 .inputDiv{
     display: flex;
-    padding: 0;
+    padding: 0px 0px;
+    margin-right: 0px;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 300px;
+
 }
 
-#inputTitle{
-    width: 70%;
-    appearance: auto;
-}
-
+#inputTitle,
 #inputType{
     width: 70%;
     appearance: auto;
