@@ -21,8 +21,15 @@ html{
 
 #inputTitle,
 #inputType{
+    width: 100%;
+    appearance: auto;
+    padding: 0 0 0 0;
+}
+#labelTitle{
     width: 70%;
     appearance: auto;
+    padding: 0 0 0 0;
+
 }
 
 #searchButton{
