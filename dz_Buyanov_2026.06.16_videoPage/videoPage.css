@@ -7,6 +7,7 @@ html{
     display: flex;
     flex-direction: column;
     width: 300px;
+    border: 2px solid blue;
 }
 
 .inputDiv{
@@ -15,14 +16,24 @@ html{
     margin-right: 0px;
     justify-content: space-between;
     align-items: center;
-    width: 300px;
+    width: 100%;
 
 }
 
-#inputTitle,
-#inputType{
+#inputTitle, #inputType{
     width: 70%;
     appearance: auto;
+    padding: 0 0 0 0;
+}
+#labelTitle{
+    width: 70%;
+    appearance: auto;
+    padding: 0 0 0 0;
+}
+#ilabelTipe{
+    width: 70%;
+    appearance: auto;
+    padding: 0 0 0 0;
 }
 
 #searchButton{
