@@ -20,7 +20,6 @@ html{
 
 }
 
-<<<<<<< HEAD
 #inputTitle, #inputType{
     width: 70%;
     appearance: auto;
@@ -35,7 +34,7 @@ html{
     width: 70%;
     appearance: auto;
     padding: 0 0 0 0;
-=======
+}
 #inputTitle,
 #inputType{
     width: 100%;
@@ -47,7 +46,6 @@ html{
     appearance: auto;
     padding: 0 0 0 0;
 
->>>>>>> 094d379148a9d0217ecb3e3f878539ac0ca0bc27
 }
 
 #searchButton{
