@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () =>
         }
         else
         {
-            
         }
     }
     button.addEventListener("click", queryToSearchFilm)
