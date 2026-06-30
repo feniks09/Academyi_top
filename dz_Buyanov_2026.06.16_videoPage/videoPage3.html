@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <script src="videoPage3.js"></script>
-    <title>Поиск фильмов, сериалов и эпизодов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск фильмов - Кинопоиск API</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: Arial, sans-serif;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background: #f4f6f8;
@@ -29,6 +32,11 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             min-width: 200px;
+            transition: border-color 0.3s;
+        }
+        #inputTitle:focus {
+            border-color: #007bff;
+            outline: none;
         }
         #inputType {
             flex: 1;
@@ -37,6 +45,7 @@
             border: 2px solid #ddd;
             border-radius: 8px;
             min-width: 150px;
+            cursor: pointer;
         }
         #searchButton {
             padding: 12px 30px;
@@ -53,60 +62,208 @@
         }
         #listMovie {
             margin-top: 20px;
+            min-height: 200px;
+        }
+        #listMovie h2 {
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
         }
         #footPage {
             margin-top: 20px;
             padding: 15px;
             background: #e9ecef;
             border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
         }
-        .episodes-btn {
-            padding: 5px 15px;
-            background: #28a745;
+        #footPage button {
+            transition: all 0.3s;
+        }
+        #footPage button:hover {
+            opacity: 0.85;
+            transform: scale(1.02);
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #modalContent {
+            background: white;
+            max-width: 850px;
+            width: 92%;
+            max-height: 90vh;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideIn 0.3s ease;
+            overflow: hidden;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-40px) scale(0.95); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        #modalContent .close-btn {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: #dc3545;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 20px;
             cursor: pointer;
-            font-size: 13px;
             transition: background 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .episodes-btn:hover {
-            background: #218838;
+        #modalContent .close-btn:hover {
+            background: #c82333;
+        }
+        #modalBody {
+            margin-top: 10px;
+            max-height: 75vh;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        #modalBody::-webkit-scrollbar {
+            width: 6px;
+        }
+        #modalBody::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        #modalBody::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        #modalBody::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        @media (max-width: 600px) {
+            .search-box {
+                flex-direction: column;
+            }
+            #inputTitle, #inputType, #searchButton {
+                width: 100%;
+            }
+            #footPage button {
+                padding: 6px 10px !important;
+                font-size: 14px !important;
+            }
+            #modalContent {
+                width: 96%;
+                padding: 15px;
+            }
+            #modalContent .close-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>🎬 Поиск фильмов, сериалов и эпизодов</h1>
+    <h1>🎬 Поиск фильмов</h1>
     
     <div class="search-box">
-        <input type="text" id="inputTitle" placeholder="Введите название...">
+        <input type="text" id="inputTitle" placeholder="Введите название фильма...">
         <select id="inputType">
             <option value="movie">🎬 Фильмы</option>
             <option value="series">📺 Сериалы</option>
             <option value="episode">📺 Эпизоды</option>
         </select>
-        <button id="searchButton">🔍 Искать</button>
+        <button id="searchButton">🔍 Search</button>
     </div>
     
     <div id="listMovie"></div>
     <div id="footPage"></div>
     
-    <script src="script.js"></script>
+    <div id="overlay" onclick="if(event.target === this) closeOverlay()">
+        <div id="modalContent">
+            <button class="close-btn" onclick="closeOverlay()">✕</button>
+            <div id="modalBody">
+                ⏳ Загрузка...
+            </div>
+        </div>
+    </div>
+
+    <template id="movieCardTemplate">
+        <div class="movie-card" style="display:flex; align-items:center; padding:10px; margin:5px 0; background:#f8f9fa; border-radius:5px; cursor:pointer; transition:all 0.2s;">
+            <div class="movie-poster" style="width:50px; height:70px; border-radius:5px; margin-right:10px; flex-shrink:0;"></div>
+            <div class="movie-info" style="flex:1;">
+                <strong class="movie-title"></strong>
+                <span class="movie-year"></span>
+                <span class="movie-rating"></span>
+                <span class="movie-type" style="color:#666; font-size:14px; margin-left:10px;"></span>
+                <div class="movie-genres" style="color:#666; font-size:13px;"></div>
+            </div>
+            <span style="color:#007bff; font-size:13px; margin-left:10px;">👆 Нажмите</span>
+        </div>
+    </template>
+
+    <template id="episodeCardTemplate">
+        <div class="episode-card" style="padding:12px; margin:8px 0; background:#f8f9fa; border-radius:5px; border-left:4px solid #ffc107; cursor:pointer; transition:all 0.2s;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+                <div>
+                    <strong class="episode-series"></strong>
+                    <span class="episode-year"></span>
+                    <span class="episode-country"></span>
+                    <br>
+                    <span class="episode-season" style="color:#28a745;"></span>
+                    <span class="episode-name" style="color:#333; font-weight:bold;"></span>
+                    <span class="episode-date" style="color:#666; font-size:13px;"></span>
+                </div>
+                <span style="color:#ffc107; font-size:12px;">👆 Нажмите для подробностей</span>
+            </div>
+            <div class="episode-description" style="margin:5px 0 0 0; color:#666; font-size:14px;"></div>
+        </div>
+    </template>
+
+    <template id="modalTemplate">
+        <div style="max-height:70vh; overflow-y:auto; padding-right:5px;">
+            <div style="display:flex; flex-wrap:wrap; gap:20px;">
+                <div class="modal-poster" style="flex:0 0 180px;"></div>
+                <div class="modal-info" style="flex:1; min-width:200px;">
+                    <h2 class="modal-title" style="margin:0 0 5px 0; color:#333;"></h2>
+                    <p class="modal-alt-title" style="color:#666; margin:-5px 0 10px 0; font-size:14px;"></p>
+                    <div class="modal-badges" style="display:flex; flex-wrap:wrap; gap:8px; margin:10px 0;"></div>
+                    <div class="modal-details"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="episodeNotFoundTemplate">
+        <div style="padding:20px; text-align:center; background:#f8f9fa; border-radius:8px;">
+            <p style="font-size:18px; color:#666;">😕 Эпизодов не найдено</p>
+            <p style="color:#999; font-size:14px;">Попробуйте изменить запрос или уточнить сезон/эпизод</p>
+            <p style="color:#999; font-size:14px;">Примеры: "Друзья S1E1", "Друзья 1 сезон 1 серия", "Эпизод с загаром Росса"</p>
+        </div>
+    </template>
+
+    <template id="notFoundTemplate">
+        <p>😕 Movie not found!</p>
+    </template>
+
+    <script src="videoPage3.js"></script>
 </body>
 </html>
-📌 Как это работает
-Режим	Что делает
-🎬 Фильмы	Ищет фильмы по названию, показывает рейтинг, жанры, год
-📺 Сериалы	Ищет сериалы, показывает количество сезонов + кнопка "Показать эпизоды"
-📺 Эпизоды	Ищет сериалы, затем ищет внутри эпизодов по названию и показывает совпадения
-🎯 Особенности
-Фильмы — показываются с рейтингом и жанрами
-
-Сериалы — показываются с количеством сезонов, можно посмотреть эпизоды
-
-Эпизоды — ищет по названию внутри всех серий найденных сериалов
-
-Теперь у тебя полноценный поиск с тремя режимами! 🚀
-
