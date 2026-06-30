@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <script src="videoPage.js"></script>
+    <script src="videoPage2.js"></script>
     <link rel="stylesheet" href="videoPage.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VideoPage</title>
 </head>
 <body>
-    <h1>Search</h1>
+    <h1 class="titleCart">Search</h1>
     <div id="cartSearch">
         <p class="inputDiv">
             <label id="labelTitle" for="inputTitle">Title</label>
@@ -18,12 +18,15 @@
             <label id="labelTipe" for="inputType">Tipe</label>
             <select id="inputType">
                 <option value="movie">movie</option>
-                <option value="tv-series">tv-series</option>
+                <option value="series">series</option>
                 <option value="episode">episode</option>
             </select><br>
         </p>
         <button id="searchButton">Search</button>
-        <p id="output"></p>
+    </div>
+    <div id="output">
+            <div id="listMovie"></div>
+            <div id="footPage"></div>
     </div>
 </body>
 </html>

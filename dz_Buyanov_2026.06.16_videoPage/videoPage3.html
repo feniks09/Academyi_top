@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="videoPage3.js"></script>
+    <title>Поиск фильмов, сериалов и эпизодов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f4f6f8;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        #inputTitle {
+            flex: 2;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 200px;
+        }
+        #inputType {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+        #searchButton {
+            padding: 12px 30px;
+            font-size: 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        #searchButton:hover {
+            background: #0056b3;
+        }
+        #listMovie {
+            margin-top: 20px;
+        }
+        #footPage {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .episodes-btn {
+            padding: 5px 15px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.3s;
+        }
+        .episodes-btn:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎬 Поиск фильмов, сериалов и эпизодов</h1>
+    
+    <div class="search-box">
+        <input type="text" id="inputTitle" placeholder="Введите название...">
+        <select id="inputType">
+            <option value="movie">🎬 Фильмы</option>
+            <option value="series">📺 Сериалы</option>
+            <option value="episode">📺 Эпизоды</option>
+        </select>
+        <button id="searchButton">🔍 Искать</button>
+    </div>
+    
+    <div id="listMovie"></div>
+    <div id="footPage"></div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+📌 Как это работает
+Режим	Что делает
+🎬 Фильмы	Ищет фильмы по названию, показывает рейтинг, жанры, год
+📺 Сериалы	Ищет сериалы, показывает количество сезонов + кнопка "Показать эпизоды"
+📺 Эпизоды	Ищет сериалы, затем ищет внутри эпизодов по названию и показывает совпадения
+🎯 Особенности
+Фильмы — показываются с рейтингом и жанрами
+
+Сериалы — показываются с количеством сезонов, можно посмотреть эпизоды
+
+Эпизоды — ищет по названию внутри всех серий найденных сериалов
+
+Теперь у тебя полноценный поиск с тремя режимами! 🚀
+
