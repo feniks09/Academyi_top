@@ -1,0 +1,582 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f6f8;
+    color: #333;
+}
+
+h1 {
+    color: #1a1a2e;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+#inputTitle {
+    flex: 2;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    min-width: 200px;
+    outline: none;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+#inputTitle:focus {
+    border-color: #007bff;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+#inputTitle::placeholder {
+    color: #999;
+}
+
+#inputType {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    min-width: 150px;
+    cursor: pointer;
+    background: white;
+    outline: none;
+    transition: all 0.3s ease;
+    color: #333;
+}
+
+#inputType:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+#searchButton {
+    padding: 12px 35px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#searchButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+#searchButton:active {
+    transform: translateY(0);
+}
+
+#listMovie {
+    margin-top: 20px;
+    min-height: 200px;
+}
+
+#listMovie h2 {
+    color: #1a1a2e;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.movie-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.movie-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.movie-card.movie:hover {
+    border-color: #007bff;
+}
+
+.movie-card.series:hover {
+    border-color: #28a745;
+}
+
+.movie-card .poster {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    background: #f0f0f0;
+}
+
+.movie-card .no-poster {
+    height: 280px;
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.movie-card .info {
+    padding: 12px 14px 14px;
+}
+
+.movie-card .title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1a1a2e;
+}
+
+.movie-card .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #666;
+}
+
+.movie-card .details-link {
+    margin-top: 10px;
+    text-align: center;
+    color: #007bff;
+    font-size: 13px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.movie-card:hover .details-link {
+    color: #0056b3;
+}
+
+.movie-card.series .details-link {
+    color: #28a745;
+}
+
+.movie-card.series:hover .details-link {
+    color: #1e7e34;
+}
+
+.episode-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #ffc107;
+}
+
+.episode-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.episode-card .series-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.episode-card .season-ep {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.episode-card .season-ep .badge {
+    color: #28a745;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.episode-card .season-ep .date {
+    color: #666;
+    font-size: 12px;
+}
+
+.episode-card .ep-name {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #1a1a2e;
+}
+
+.episode-card .description {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.episode-card .details-link {
+    text-align: center;
+    color: #ffc107;
+    font-size: 13px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.episode-card:hover .details-link {
+    color: #e0a800;
+}
+
+#footPage {
+    margin-top: 25px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination button,
+.pagination .page-num {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pagination button:hover,
+.pagination .page-num:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.pagination .page-current {
+    padding: 8px 16px;
+    background: #28a745;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.pagination .dots {
+    padding: 0 5px;
+    color: #666;
+    font-size: 16px;
+}
+
+.pagination .info {
+    text-align: center;
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+    width: 100%;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#modalContent {
+    background: white;
+    max-width: 850px;
+    width: 92%;
+    max-height: 90vh;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+    animation: slideIn 0.3s ease;
+    overflow: hidden;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-40px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+#modalContent .close-btn {
+    position: sticky;
+    top: 0;
+    float: right;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+#modalContent .close-btn:hover {
+    background: #c82333;
+    transform: rotate(90deg);
+}
+
+#modalBody {
+    margin-top: 10px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+#modalBody::-webkit-scrollbar {
+    width: 6px;
+}
+
+#modalBody::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+#modalBody::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+#modalBody::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.modal-container {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.modal-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.modal-poster {
+    flex: 0 0 200px;
+}
+
+.modal-poster img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-poster .no-poster {
+    height: 280px;
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    text-align: center;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.modal-info {
+    flex: 1;
+    min-width: 250px;
+}
+
+.modal-info .title {
+    margin: 0 0 5px;
+    color: #1a1a2e;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.modal-info .alt-title {
+    color: #666;
+    margin: -5px 0 10px;
+    font-size: 14px;
+}
+
+.modal-info .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 15px;
+}
+
+.modal-info .badge {
+    padding: 3px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: white;
+    font-weight: 500;
+}
+
+.modal-info .badge.blue { background: #007bff; }
+.modal-info .badge.green { background: #28a745; }
+.modal-info .badge.gold { background: #ffc107; color: #333; }
+.modal-info .badge.gray { background: #6c757d; }
+.modal-info .badge.red { background: #dc3545; }
+.modal-info .badge.teal { background: #17a2b8; }
+
+.modal-info p {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.modal-info p strong {
+    color: #1a1a2e;
+}
+
+.modal-info .persons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.modal-info .person-tag {
+    background: #e9ecef;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #333;
+}
+
+.not-found {
+    padding: 40px 30px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.not-found .icon { font-size: 56px; }
+.not-found .title { font-size: 20px; color: #666; margin: 10px 0; font-weight: 600; }
+.not-found .hint { color: #999; font-size: 14px; }
+
+.episode-not-found {
+    padding: 30px 20px;
+    text-align: center;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.episode-not-found .title { font-size: 18px; color: #666; font-weight: 600; }
+.episode-not-found .hint { color: #999; font-size: 14px; margin-top: 8px; }
+.episode-not-found .examples { color: #999; font-size: 14px; margin-top: 5px; }
+
+@media (max-width: 768px) {
+    body { padding: 15px; }
+    h1 { font-size: 22px; }
+    .search-box { flex-direction: column; padding: 12px; }
+    #inputTitle, #inputType, #searchButton { width: 100%; }
+    .movies-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .episodes-grid { grid-template-columns: 1fr; }
+    .movie-card .poster, .movie-card .no-poster { height: 200px; }
+    #modalContent { width: 96%; padding: 15px; }
+    #modalContent .close-btn { width: 30px; height: 30px; font-size: 16px; }
+    .modal-poster { flex: 0 0 120px; }
+    .modal-poster .no-poster { height: 180px; }
+    .modal-info .title { font-size: 20px; }
+    .pagination button, .pagination .page-num, .pagination .page-current {
+        padding: 6px 12px !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .movies-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+    .movie-card .poster, .movie-card .no-poster { height: 160px; }
+    .movie-card .title { font-size: 12px; }
+    .movie-card .meta { font-size: 11px; }
+    .modal-poster { flex: 0 0 100px; }
+    .modal-poster .no-poster { height: 140px; }
+    .episode-card .ep-name { font-size: 14px; }
+}
