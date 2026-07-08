@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск фильмов и сериалов</title>
+    <link rel="stylesheet" href="videoPageOMDB.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ===== ШАПКА ===== -->
+        <header>
+            <h1>🎬 Поиск фильмов и сериалов</h1>
+            <p>Более 500 000 фильмов, сериалов и эпизодов в базе OMDb</p>
+        </header>
+
+        <!-- ===== ОСНОВНОЙ ПОИСК ===== -->
+        <div class="search-form">
+            <div class="form-group">
+                <label for="inputTitle">Название</label>
+                <input type="text" id="inputTitle" placeholder="Например: Friends, Interstellar..." value="Friends">
+            </div>
+            <div class="form-group">
+                <label for="inputType">Тип</label>
+                <select id="inputType">
+                    <option value="">Все</option>
+                    <option value="movie">Фильмы</option>
+                    <option value="series" selected>Сериалы</option>
+                    <option value="episode">Эпизоды</option>
+                </select>
+            </div>
+            <button class="search-btn" id="searchButton">🔍 Найти</button>
+        </div>
+
+        <!-- ===== РЕЗУЛЬТАТЫ ===== -->
+        <div id="output">
+            <div id="listMovie" style="min-height: 150px; display: flex; align-items: center; justify-content: center; color: #555; font-size: 16px;">
+                🔍 Введите название и нажмите "Найти"
+            </div>
+            <div id="footPage"></div>
+        </div>
+
+        <!-- ===== БЫСТРЫЙ ПОИСК ===== -->
+        <div class="quick-search">
+            <div class="form-group">
+                <label>Поиск эпизода</label>
+                <div class="input-group">
+                    <input type="text" id="episodeTitle" placeholder="Название сериала" style="flex: 2; min-width: 100px;">
+                    <input type="number" id="seasonNum" placeholder="Сезон" style="flex: 1; min-width: 50px;">
+                    <input type="number" id="episodeNum" placeholder="Эпизод" style="flex: 1; min-width: 50px;">
+                    <button onclick="quickEpisodeSearch()">Найти</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+        <div id="movieModal" class="modal">
+            <div class="modal-content">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <div id="modalContent">⏳ Загрузка...</div>
+            </div>
+        </div>
+
+        <!-- ===== ФУТЕР ===== -->
+        <footer>
+            <p>Данные предоставлены <a href="https://www.omdbapi.com/" target="_blank">OMDb API</a></p>
+            <p>🔍 Для точного поиска используйте английские названия</p>
+        </footer>
+    </div>
+
+    <script src="videoPageOMDB.js"></script>
+</body>
+</html>
