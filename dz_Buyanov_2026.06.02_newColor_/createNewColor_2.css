@@ -13,7 +13,17 @@ html{
     align-items: center;
     box-sizing: border-box;
 }
-.cart-Color{
+.cart-Color.CopyCart-Color{
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+.CopyCart-Color{
     display: flex;
     flex-direction: column;
     width: 180px;
@@ -32,7 +42,7 @@ html{
 .cart-Color.oranjered{
     background-color: #FF4500;
 }
-.info-Cart-Color{
+.info-Cart-Color.info-CopyCart-Color{
     display: flex;
     flex-direction: column;
     width: 140px;
