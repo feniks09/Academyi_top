@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+<<<<<<< HEAD
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -125,6 +126,19 @@ h2 {
     transition: all 0.3s ease;
     border: 2px solid #e9ecef;
     min-height: 150px;
+=======
+.cart-Color.CopyCart-Color{
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    
+}
+.CopyCart-Color{
+>>>>>>> fff4cbb172eca6b704171f3ec25fa55a328a8002
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -241,10 +255,17 @@ h2 {
 .cart-color {
     animation: slideIn 0.3s ease-out;
 }
+<<<<<<< HEAD
 
 /* Стили для пустого состояния */
 #output:empty::before {
     content: "📭 Нет созданных карточек";
+=======
+.cart-Color.oranjered{
+    background-color: #FF4500;
+}
+.info-Cart-Color.info-CopyCart-Color{
+>>>>>>> fff4cbb172eca6b704171f3ec25fa55a328a8002
     display: flex;
     justify-content: center;
     align-items: center;
