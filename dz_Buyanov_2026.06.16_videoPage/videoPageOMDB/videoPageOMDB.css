@@ -1,0 +1,539 @@
+/* ===== ОБЩИЕ СТИЛИ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f0f1a;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* ===== ШАПКА ===== */
+header {
+    text-align: center;
+    padding: 20px 0 30px 0;
+}
+
+header h1 {
+    font-size: 32px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* ===== ПОИСКОВАЯ ФОРМА ===== */
+.search-form {
+    background: #1a1a2e;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: flex-end;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.search-form .form-group {
+    flex: 1;
+    min-width: 160px;
+}
+
+.search-form label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.search-form input,
+.search-form select {
+    width: 100%;
+    padding: 10px 14px;
+    background: #2a2a4a;
+    border: 2px solid #2a2a4a;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.search-form input:focus,
+.search-form select:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    background: #1a1a3e;
+}
+
+.search-form input::placeholder {
+    color: #555;
+}
+
+.search-form select option {
+    background: #1a1a2e;
+}
+
+.search-btn {
+    padding: 10px 30px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    min-width: 120px;
+    align-self: flex-end;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+}
+
+.search-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== КАРТОЧКИ В СТРОКУ ===== */
+.results-header {
+    padding: 8px 0 15px 0;
+    border-bottom: 1px solid #2a2a4a;
+    margin-bottom: 15px;
+}
+
+.results-header h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 20px;
+}
+
+.results-header p {
+    color: #888;
+    margin: 3px 0 0 0;
+    font-size: 14px;
+}
+
+/* Горизонтальный скролл для карточек */
+.movies-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 15px;
+    padding: 15px 5px 20px 5px;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #6c5ce7 #1a1a2e;
+}
+
+.movies-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.movies-grid::-webkit-scrollbar-track {
+    background: #1a1a2e;
+    border-radius: 10px;
+}
+
+.movies-grid::-webkit-scrollbar-thumb {
+    background: #6c5ce7;
+    border-radius: 10px;
+}
+
+.movies-grid::-webkit-scrollbar-thumb:hover {
+    background: #5a4bd1;
+}
+
+.movie-card {
+    flex: 0 0 160px;
+    min-width: 160px;
+    background: #1a1a2e;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+    z-index: 10;
+}
+
+.movie-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+.movie-card-info {
+    padding: 8px 10px;
+    color: #fff;
+}
+
+.movie-number {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 2px 7px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: bold;
+}
+
+.movie-card h3 {
+    margin: 0 0 3px 0;
+    font-size: 12px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 600;
+}
+
+.movie-card p {
+    margin: 0;
+    color: #888;
+    font-size: 10px;
+}
+
+.card-hint {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 9px;
+    color: #444;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.movie-card:hover .card-hint {
+    opacity: 1;
+}
+
+/* ===== ПАГИНАЦИЯ ===== */
+#footPage {
+    padding: 15px 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 15px 0;
+    flex-wrap: wrap;
+}
+
+.pagination button {
+    background: #2a2a4a;
+    border: none;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 13px;
+}
+
+.pagination button:hover {
+    background: #3a3a6a;
+    transform: scale(1.05);
+}
+
+.pagination button.active {
+    background: #6c5ce7;
+    font-weight: bold;
+}
+
+.pagination span {
+    color: #666;
+    padding: 0 6px;
+    font-size: 13px;
+}
+
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    overflow-y: auto;
+    animation: fadeIn 0.3s;
+}
+
+.modal-content {
+    position: relative;
+    margin: 30px auto;
+    padding: 25px;
+    width: 90%;
+    max-width: 850px;
+    background: #1a1a2e;
+    border-radius: 14px;
+    color: #fff;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.close-modal {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+    background: none;
+    border: none;
+}
+
+.close-modal:hover {
+    color: #6c5ce7;
+    transform: rotate(90deg);
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 25px;
+}
+
+.modal-poster img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+}
+
+.modal-info h2 {
+    margin-top: 0;
+    color: #fff;
+    font-size: 24px;
+}
+
+.modal-info p {
+    margin: 8px 0;
+    line-height: 1.5;
+    color: #ccc;
+    font-size: 14px;
+}
+
+.modal-info strong {
+    color: #6c5ce7;
+}
+
+/* ===== БЫСТРЫЙ ПОИСК ===== */
+.quick-search {
+    background: #1a1a2e;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.quick-search .form-group {
+    flex: 1;
+    min-width: 120px;
+}
+
+.quick-search .form-group label {
+    display: block;
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 3px;
+}
+
+.quick-search input {
+    width: 100%;
+    padding: 7px 10px;
+    background: #2a2a4a;
+    border: 2px solid #2a2a4a;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 13px;
+}
+
+.quick-search input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+}
+
+.quick-search button {
+    padding: 7px 16px;
+    background: #6c5ce7;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.quick-search button:hover {
+    background: #5a4bd1;
+    transform: scale(1.03);
+}
+
+.quick-search .input-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.quick-search .input-group input {
+    flex: 1;
+    min-width: 50px;
+}
+
+/* ===== ФУТЕР ===== */
+footer {
+    text-align: center;
+    padding: 25px 0 10px 0;
+    color: #333;
+    font-size: 12px;
+    border-top: 1px solid #1a1a2e;
+    margin-top: 25px;
+}
+
+footer a {
+    color: #6c5ce7;
+    text-decoration: none;
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.loading {
+    animation: pulse 1s infinite;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .movie-card {
+        flex: 0 0 130px;
+        min-width: 130px;
+    }
+
+    .movie-card img {
+        height: 180px;
+    }
+
+    .modal-content {
+        margin: 15px auto;
+        padding: 15px;
+        width: 95%;
+    }
+
+    .search-form {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .search-form .form-group {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .search-btn {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .quick-search {
+        flex-direction: column;
+        padding: 12px 15px;
+    }
+
+    .quick-search .form-group {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .quick-search button {
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .results-header h2 {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-card {
+        flex: 0 0 110px;
+        min-width: 110px;
+    }
+
+    .movie-card img {
+        height: 150px;
+    }
+
+    .movie-card h3 {
+        font-size: 10px;
+    }
+
+    .movie-card p {
+        font-size: 9px;
+    }
+
+    .modal-info h2 {
+        font-size: 20px;
+    }
+
+    .pagination button {
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .quick-search .input-group input {
+        min-width: 40px;
+        font-size: 12px;
+    }
+}
