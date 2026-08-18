@@ -8,10 +8,13 @@ export const App = () =>{
   const [count, setCount] = useState(0)
   console.log(count)
   useEffect(() => {
-    const interval =
-      setTimeout( setCount(prev => count + 1), 1000 )
-    console.log(count)
-  }, [])
+    const interval = setTimeout(() => 
+      {setCount(prev => prev + 1);}, 1000 );
+    console.log(count);
+    return () => {
+      clearTimeout(interval)
+    }
+  }, [count])
   const handlerClick = () => {
     setCount((prev) => {
       const newCount = 
