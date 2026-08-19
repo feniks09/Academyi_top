@@ -190,3 +190,11 @@ color: yellow;
 .green {
   color: green;
 }
+
+.button {
+  background-color: green;
+}
+
+.button:disabled {
+  background-color: grey;
+}
