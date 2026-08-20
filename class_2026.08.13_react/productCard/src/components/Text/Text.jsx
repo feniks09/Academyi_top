@@ -2,7 +2,7 @@ import { useState } from 'react'
 export const Text = () => {
     const [text, setText] = useState("Техт начала");
     const [color, setColor] = useState('black')
-
+    console.log(color)
     const NewText = text === 'Техт начала' ? 'Компанент Text в деле': 'Техт начала';
     const newColor = color === 'black' ? 'red' : 'black'
 

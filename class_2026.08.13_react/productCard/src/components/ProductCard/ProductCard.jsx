@@ -1,29 +1,30 @@
 import { useState } from "react";
+import {useEffect } from 'react'
 
 export const ProductCard = () => {
-    const [count, setCount] = useState(0)
-    const [color, setColor] = useState('grey')
-    const [text, setText] = useState('Купить')
-    const [status, setStatus] = useState('Показать')
-    const [isExpanded, setExpanded] = useState(true);
-    const [isAvailable, setAvailable] = useState(true);
-    console.log(count)
-    // setColor(isAvailable ? 'green': 'grey');
-    // setText(isAvailable ? 'Купить' : 'Нет в наличии');
-    
-    const handleClick = () => {setAvailable(!isAvailable);
-        setColor(isAvailable ? 'green': 'grey')
 
-    const handleClickDescrip = () => { setStatus(status === 'Показать' ? 'Скрыть' : 'Показать')}
+    const product = {name: 'Вино', descript: 'Алкоголь', count: 1}
+    const [status, setStatus] = useState('Показать детали');
+    const [isExpanded, setExpanded] = useState(true);
+    const [isAvailable, setAvailable] = useState(product.count > 0 && true);
+    console.log(product.count);
+
+    const color = isAvailable ? 'green' : 'grey';
+    const text = isAvailable ? 'Купить' : 'Нет в наличии';
+    
+    // const handleClick = () => {setAvailable(!isAvailable)}
+
+    const handleClickDescrip = () => { setStatus(status === 'Показать детали' ? 'Скрыть детали' : 'Показать детали')
     }
+    
         return (
         <div>
-            <h1>название товара</h1>
+            <h1>{product.name}</h1>
             <button onClick={handleClickDescrip}>{status}</button>
-            <p style={{display: false}}>описание товара</p>
+            <p style={{display: status === 'Показать детали' ? 'none' : 'block'}}>{product.descript}</p>
             <br />
-            <button onClick={handleClick}
-                    disabled={!isAvailable}
+            <button 
+                    disabled={!isAvailable ? true : false}
                     style = {{
                                 backgroundColor: color,
                                 color: '',
