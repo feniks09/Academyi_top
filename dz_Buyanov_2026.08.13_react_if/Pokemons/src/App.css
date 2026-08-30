@@ -182,23 +182,3 @@
     border-right-color: var(--border);
   }
 }
-
-.card {
-  display: flex;
-  
-}
-.yellow {
-color: yellow;
-}
-
-.green {
-  color: green;
-}
-
-.button {
-  background-color: green;
-}
-
-.button:disabled {
-  background-color: grey;
-}

@@ -8,10 +8,12 @@ function App() {
 
   return (
     <>
-    <ProductCard/>
-    <ListUsers className='yellow'>эй давай веселей</ListUsers>
-    <div className='green'>{"Привет мир"}</div>
-    <Text/>
+    <ProductCard className='card' 
+                 name='Bodegas Piqueras Castillo' 
+                 discript='Тип: красное, сухое.
+                           Описание: у этого вина яркий и сложный букет. В аромате чувствуются пряности, чернослив, слива и жареный болгарский перец. Вкус элегантный и насыщенный, с долгим и шелковистым послевкусием.' 
+                 count= {0} />
+                 
     </>
   )
 }
