@@ -5,10 +5,7 @@ const reducer = (state, action) => {
     case "ADD_TODO":
       return [
         ...state,
-        { id: crypto.randomUUID(), 
-          title: action.payload, 
-          isEditing: false,
-          isCompleted: false },
+        { id: crypto.randomUUID(), title: action.payload, isEditing: false },
       ];
     case "REMOVE_TODO":
       console.log(state, action);
@@ -24,11 +21,6 @@ const reducer = (state, action) => {
           ? { ...todo, title: action.payload.title, isEditing: false }
           : todo,
       );
-    case "TOGGLE_COMPLETE":
-      return state.map((todo) =>
-      todo.id === action.payload
-    ? { isCompleted: !todo.isCompleted}
-    : todo)
     default:
       return state;
   }
