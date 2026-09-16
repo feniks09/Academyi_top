@@ -4,8 +4,6 @@ import { TodoItem } from './components/TodoItem/TodoItem'
 function App() {
 
   const [value, setValue] = useState('')
-  const [nameTodo, setNameTodo] = useState('');
-  const [statusTodo, setStatusTodo] = useState(false)
   const [listItems, setListItems] = useState([])
 
   const addItem = (text) => {
