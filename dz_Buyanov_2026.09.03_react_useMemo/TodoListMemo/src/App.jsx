@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { TodoItem } from './components/TodoItem/TodoItem'
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
   const [value, setValue] = useState('')
   const [listItems, setListItems] = useState([])
 
-  const addItem = (text) => {
+  const addItem = useCallback((text) => {
     if (!text.trim()) return; 
     const Newitems = {
       id : Date.now(),
@@ -15,12 +15,12 @@ function App() {
     };
     setListItems(prev => [...prev, Newitems]);
     setValue('');
-  }
+  }, [])
 
-  const removeItem = (id) => setListItems(listItems.filter(item => item.id !== id))
+  const removeItem = useCallback((id) => setListItems(listItems.filter(item => item.id !== id)), [])
 
-  const toggleCompleted = (id) => setListItems(prev => 
-    prev.map(item => item.id === id ? {...item, status : !item.status} : item) ) 
+  const toggleCompleted = useCallback((id) => setListItems(prev => 
+    prev.map(item => item.id === id ? {...item, status : !item.status} : item)), []) 
 
 
     return ( 
@@ -45,10 +45,9 @@ function App() {
                             text={item.text} 
                             status = {item.status}
                             id = {item.id}
-                            onClick={() => removeItem(item.id)}
-                            onToggle={() => toggleCompleted(item.id)} />
-                  )
-                )}
+                            onClick={removeItem}
+                            onToggle={toggleCompleted} />
+                  ))}
               </div>
         </div>
         )

@@ -12,10 +12,10 @@ export const TodoItem = memo(({text, status, id, onToggle, onClick}) => {
                 <input 
                 type='checkbox'
                 checked={status}
-                onChange={onToggle}/>
+                onChange={() => onToggle(id)}/>
                 <span>{text}</span>
             </label>
-            <button onClick={onClick}>
+            <button onClick={() => onClick(id)}>
                 Удалить</button>
         </div>)})
         
