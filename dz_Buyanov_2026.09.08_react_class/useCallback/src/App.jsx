@@ -3,10 +3,7 @@ import TodoItem from './components/useCallback/useCallback';
 
 
 function App() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: 'Изучить React', completed: false },
-    { id: 2, text: 'Выучить useCallback', completed: false },
-  ]);
+  const [todos, setTodos] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
   const handleAdd = () => {
