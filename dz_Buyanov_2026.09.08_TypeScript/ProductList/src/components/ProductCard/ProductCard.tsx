@@ -1,6 +1,6 @@
 // ProductCard.tsx
 import React from 'react';
-import type { ProductCardProps } from '../ProductList/types';
+import type { ProductCardProps } from '../../types';
 
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {

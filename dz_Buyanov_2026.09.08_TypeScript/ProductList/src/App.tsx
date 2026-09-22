@@ -1,6 +1,6 @@
 // App.tsx
 import React from 'react';
-import type { Product } from './components/ProductList/types';
+import type { Product } from './types';
 import ProductList from './components/ProductList/ProductList';
 
 

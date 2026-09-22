@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ProductListProps } from './types';
+import type { ProductListProps } from '../../types';
 import ProductCard from '../ProductCard/ProductCard';
 
 
