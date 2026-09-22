@@ -1,0 +1,8 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.title {
+  font-size: 20px;
+  margin-bottom: 16px;
+}

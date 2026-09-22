@@ -1,0 +1,13 @@
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.header h1 {
+  font-size: 22px;
+}
