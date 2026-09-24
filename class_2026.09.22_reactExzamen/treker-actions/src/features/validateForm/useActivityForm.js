@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { hmsToSeconds } from '../../entities/activity/utils/formatTime';
-import { sanitizeDecimal, sanitizeHMS } from '../../shared/utils/validation';
+import { hmsToSeconds } from '../../entities/activity/lib/formatTime';
+import { sanitizeDecimal, sanitizeHMS } from '../../entities/activity/lib/validation';
 
 const EMPTY_FORM = {
   type: 'running',

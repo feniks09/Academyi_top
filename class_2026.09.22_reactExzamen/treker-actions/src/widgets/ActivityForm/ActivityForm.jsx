@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useActivityForm } from '../../features/validateForm/useActivityForm';
-import { ACTIVITY_TYPES } from '../../entities/activity/utils/generateName';
+import { ACTIVITY_TYPES } from '../../entities/activity/lib/generateName';
 import Input from '../../shared/ui/Input/Input';
 import Select from '../../shared/ui/Select/Select';
 import Textarea from '../../shared/ui/Textarea/Textarea';

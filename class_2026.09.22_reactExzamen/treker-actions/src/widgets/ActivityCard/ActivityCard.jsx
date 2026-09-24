@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { calculateMetrics } from '../../entities/activity/lib/calculateMetrics';
 import { formatDateTime, secondsToHMS } from '../../entities/activity/lib/formatTime';
 import { generateName } from '../../entities/activity/lib/generateName';
@@ -34,9 +34,9 @@ function ActivityCard({ activity }) {
   }, [removeActivity, activity.id]);
 
   return (
-    <article className={styles.card}>
+      <article className={styles.card}>
       <header className={styles.header}>
-        <h3 className={styles.title}>{title}</h3>
+        <h3 onClick={() => navigate(`/activity/${activity.id}`)} className={styles.title}>{title}</h3>
         <ActivityTypeBadge type={activity.type} />
       </header>
 
