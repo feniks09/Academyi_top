@@ -4,21 +4,31 @@
   gap: 4px;
   margin-bottom: 16px;
 }
+
 .label {
   font-size: 13px;
   font-weight: 600;
   color: #444;
 }
+
 .select {
   padding: 10px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
   background: #fff;
+  outline: none;
+  transition: border-color 0.15s;
 }
+
+.select:focus {
+  border-color: #1a73e8;
+}
+
 .error {
   border-color: #d93025;
 }
+
 .errorText {
   color: #d93025;
   font-size: 12px;

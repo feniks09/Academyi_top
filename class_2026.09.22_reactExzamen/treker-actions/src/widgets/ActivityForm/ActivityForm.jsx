@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useActivityForm } from '../../features/validateForm/useActivityForm';
-import { ACTIVITY_TYPES } from '../../entities/activity/lib/generateName';
+import { ACTIVITY_TYPES } from '../../entities/activity/utils/generateName';
 import Input from '../../shared/ui/Input/Input';
 import Select from '../../shared/ui/Select/Select';
 import Textarea from '../../shared/ui/Textarea/Textarea';
@@ -27,9 +27,9 @@ export default function ActivityForm({ mode, initialValues, onSubmit }) {
 
       <Input
         label="Дистанция (км) *"
-        type="number"
-        step="0.01"
-        min="0"
+        type="text"
+        inputMode="decimal"
+        placeholder="5.5"
         value={values.distance}
         error={errors.distance}
         onChange={(e) => handleChange('distance', e.target.value)}
@@ -45,7 +45,10 @@ export default function ActivityForm({ mode, initialValues, onSubmit }) {
 
       <Input
         label="Продолжительность (ЧЧ:ММ:СС) *"
+        type="text"
+        inputMode="numeric"
         placeholder="00:30:00"
+        maxLength={8}
         value={values.duration}
         error={errors.duration}
         onChange={(e) => handleChange('duration', e.target.value)}

@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { hmsToSeconds, secondsToHMS } from '../../entities/activity/lib/formatTime';
+import { hmsToSeconds } from '../../entities/activity/utils/formatTime';
+import { sanitizeDecimal, sanitizeHMS } from '../../shared/lib/validation';
 
 const EMPTY_FORM = {
   type: 'running',
@@ -10,6 +11,8 @@ const EMPTY_FORM = {
   description: '',
 };
 
+const DURATION_REGEX = /^\d{1,2}:\d{2}:\d{2}$/;
+
 export function useActivityForm({ initialValues, onSubmit }) {
   const [values, setValues] = useState(() => ({
     ...EMPTY_FORM,
@@ -18,21 +21,59 @@ export function useActivityForm({ initialValues, onSubmit }) {
   }));
   const [errors, setErrors] = useState({});
 
+  const validateField = (field, value) => {
+    switch (field) {
+      case 'type':
+        return value ? null : 'Выберите тип активности';
+
+      case 'distance': {
+        if (!value) return 'Введите дистанцию';
+        const num = Number(value);
+        if (isNaN(num) || !isFinite(num)) return 'Введите корректное число';
+        if (num <= 0) return 'Дистанция должна быть > 0';
+        if (num > 1000) return 'Слишком большая дистанция';
+        return null;
+      }
+
+      case 'startTime':
+        return value ? null : 'Укажите дату и время';
+
+      case 'duration': {
+        if (!value) return 'Введите продолжительность';
+        if (!DURATION_REGEX.test(value)) return 'Формат: ЧЧ:ММ:СС';
+        const seconds = hmsToSeconds(value);
+        if (seconds <= 0) return 'Продолжительность должна быть > 0';
+        return null;
+      }
+
+      default:
+        return null;
+    }
+  };
+
   const handleChange = useCallback((field, value) => {
-    setValues((prev) => ({ ...prev, [field]: value }));
+    let clean = value;
+    if (field === 'distance') clean = sanitizeDecimal(value);
+    if (field === 'duration') clean = sanitizeHMS(value);
+
+    setValues((prev) => ({ ...prev, [field]: clean }));
+
+    setErrors((prev) => {
+      const next = { ...prev };
+      const fieldError = validateField(field, clean);
+      if (fieldError) next[field] = fieldError;
+      else delete next[field];
+      return next;
+    });
   }, []);
 
   const validate = useCallback(() => {
+    const fields = ['type', 'distance', 'startTime', 'duration'];
     const newErrors = {};
-    const dist = Number(values.distance);
-
-    if (!values.type) newErrors.type = 'Выберите тип активности';
-    if (!values.distance || isNaN(dist) || dist <= 0)
-      newErrors.distance = 'Введите положительное число';
-    if (!values.startTime) newErrors.startTime = 'Укажите дату и время';
-    if (!values.duration || hmsToSeconds(values.duration) <= 0)
-      newErrors.duration = 'Введите продолжительность';
-
+    fields.forEach((field) => {
+      const err = validateField(field, values[field]);
+      if (err) newErrors[field] = err;
+    });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }, [values]);
@@ -42,14 +83,11 @@ export function useActivityForm({ initialValues, onSubmit }) {
       if (e) e.preventDefault();
       if (!validate()) return;
 
-      const durationSec = hmsToSeconds(values.duration);
-      const distanceKm = Number(values.distance);
-
       onSubmit({
         type: values.type,
-        distance: distanceKm,
+        distance: Number(values.distance),
         startTime: values.startTime,
-        duration: durationSec,
+        duration: hmsToSeconds(values.duration),
         name: values.name.trim(),
         description: values.description.trim(),
       });

@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useActivityStore, selectActivityById } from '../../entities/activity/model/store';
-import { secondsToHMS } from '../../entities/activity/lib/formatTime';
+import { secondsToHMS } from '../../entities/activity/utils/formatTime';
 import ActivityForm from '../../widgets/ActivityForm/ActivityForm';
 import styles from './ActivityFormPage.module.css';
 
@@ -15,6 +15,7 @@ export default function ActivityFormPage({ mode }) {
     navigate('/', { replace: true });
     return null;
   }
+
 
   const initialValues = existing
     ? {
