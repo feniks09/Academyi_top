@@ -1,0 +1,22 @@
+cd coords
+
+python -m venv .venv
+
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+pip install -r requirements.txt
+
+# Не надо
+#     alembic init -t async alembic
+# уже всё есть, в том числе настроенный файл "alembic/env.py"
+
+alembic revision --autogenerate -m "init"  # Каждый раз, когда меняются модели
+
+# Глазами проверить alembic/versions/xxx_init.py
+# В upgrade() должны быть op.create_table(...)
+
+alembic upgrade head
+
+alembic current  # Проверка, что head есть
+
+uvicorn app.main:app --reload
