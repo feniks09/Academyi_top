@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>Мои квартиры и платежи</title>
+  <title>Квартиры и платежи</title>
   <style>
     body { font-family: sans-serif; max-width: 960px; margin: 2rem auto; }
     table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
@@ -10,22 +10,42 @@
     .paid { color: green; } .partial { color: orange; } .unpaid { color: crimson; }
     .hidden { display: none; }
     form { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+    .auth-container { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .auth-box { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #fafafa; flex: 1; min-width: 250px; }
+    .auth-box h2 { margin-top: 0; }
   </style>
 </head>
 <body>
 
-<h1>Мои квартиры и платежи</h1>
+<h1>Квартиры и платежи</h1>
 
-<section id="login-block">
-  <h2>Вход</h2>
-  <form id="login-form">
-    <input name="username" placeholder="Логин" required>
-    <input name="password" type="password" placeholder="Пароль" required>
-    <button type="submit">Войти</button>
-  </form>
-  <p>Демо: <code>demo / demo1234</code></p>
+<!-- БЛОК АВТОРИЗАЦИИ И РЕГИСТРАЦИИ -->
+<section id="auth-block">
+  <div class="auth-container">
+    <!-- Вход -->
+    <div class="auth-box">
+      <h2>Вход</h2>
+      <form id="login-form">
+        <input name="username" placeholder="Логин" required>
+        <input name="password" type="password" placeholder="Пароль" required>
+        <button type="submit">Войти</button>
+      </form>
+      <p style="font-size: 0.9em; color: #666;">Демо: <code>demo</code> / <code>demo1234</code></p>
+    </div>
+
+    <!-- Регистрация -->
+    <div class="auth-box">
+      <h2>Регистрация</h2>
+      <form id="register-form">
+        <input name="username" placeholder="Придумайте логин" required minlength="3">
+        <input name="password" type="password" placeholder="Придумайте пароль" required minlength="4">
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+  </div>
 </section>
 
+<!-- ОСНОВНОЙ БЛОК -->
 <section id="app-block" class="hidden">
   <button id="logout">Выйти</button>
 
@@ -40,18 +60,30 @@
   <ul id="projects"></ul>
 
   <h2>Добавить платёж</h2>
+  
+  <!-- Блок загрузки квитанции -->
+  <div style="background: #f0f8ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #cce5ff;">
+    <h3 style="margin-top: 0;">📄 Загрузить PDF-квитанцию (автоматическое заполнение)</h3>
+    <input type="file" id="receipt-file" accept=".pdf">
+    <button type="button" id="upload-btn" style="background: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer;">Распознать</button>
+    <span id="upload-status" style="margin-left: 10px; font-size: 0.9em;"></span>
+  </div>
+
   <form id="payment-form">
     <select name="project_id" id="payment-project" required></select>
-    <select name="service" required>
+    <select name="service" id="payment-service" required>
       <option value="gas">Газ</option>
-      <option value="water">Вода</option>
+      <option value="water">Вода (ХВС)</option>
+      <option value="water_drain">Водоотведение</option>
       <option value="electricity">Электричество</option>
-      <option value="maintenance">Содержание</option>
+      <option value="maintenance">Содержание жилья</option>
+      <option value="capital_repair">Капремонт</option>
+      <option value="concierge">Консьержка</option>
       <option value="other">Прочее</option>
     </select>
     <input name="year" type="number" value="2026" required>
     <input name="month" type="number" min="1" max="12" value="10" required>
-    <input name="amount_due" type="number" step="0.01" placeholder="Начислено" required>
+    <input name="amount_due" id="payment-amount" type="number" step="0.01" placeholder="Начислено" required>
     <input name="amount_paid" type="number" step="0.01" placeholder="Оплачено" value="0">
     <button type="submit">Добавить</button>
   </form>
@@ -74,10 +106,14 @@ async function api(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
   if (token()) headers.Authorization = `Bearer ${token()}`;
   const res = await fetch(path, { ...options, headers });
-  if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.detail || res.statusText);
+  }
   return res.json();
 }
 
+// --- ЛОГИН ---
 $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = new URLSearchParams(new FormData(e.target)).toString();
@@ -93,10 +129,37 @@ $("#login-form").addEventListener("submit", async (e) => {
   showApp();
 });
 
+// --- РЕГИСТРАЦИЯ ---
+$("#register-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = Object.fromEntries(new FormData(e.target));
+  try {
+    const res = await fetch("/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fd)
+    });
+    
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Ошибка регистрации");
+    }
+    
+    const data = await res.json();
+    // Сразу авторизуем пользователя после успешной регистрации
+    localStorage.setItem("token", data.access_token);
+    alert("Регистрация прошла успешно! Вы вошли в систему.");
+    e.target.reset();
+    showApp();
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
 $("#logout").addEventListener("click", () => {
   localStorage.removeItem("token");
   $("#app-block").classList.add("hidden");
-  $("#login-block").classList.remove("hidden");
+  $("#auth-block").classList.remove("hidden");
 });
 
 $("#project-form").addEventListener("submit", async (e) => {
@@ -120,6 +183,47 @@ $("#payment-form").addEventListener("submit", async (e) => {
   refresh();
 });
 
+// --- ЗАГРУЗКА КВИТАНЦИИ ---
+$("#upload-btn").addEventListener("click", async () => {
+  const fileInput = $("#receipt-file");
+  if (!fileInput.files.length) { alert("Выберите PDF-файл"); return; }
+
+  const formData = new FormData();
+  formData.append("file", fileInput.files[0]);
+
+  $("#upload-status").textContent = "Распознавание...";
+  $("#upload-status").style.color = "blue";
+
+  try {
+    const res = await fetch("/payments/parse-receipt/", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${token()}` },
+      body: formData
+    });
+
+    if (!res.ok) throw new Error("Ошибка распознавания");
+
+    const data = await res.json();
+    
+    if (data.payments && data.payments.length > 0) {
+      const firstPayment = data.payments[0];
+      $("#payment-service").value = firstPayment.service;
+      $("#payment-amount").value = firstPayment.amount_due;
+      
+      fileInput.value = "";
+      $("#upload-status").textContent = `Успешно! Найдено услуг: ${data.payments.length}.`;
+      $("#upload-status").style.color = "green";
+    } else {
+      $("#upload-status").textContent = "Данные не найдены.";
+      $("#upload-status").style.color = "red";
+    }
+  } catch (err) {
+    $("#upload-status").textContent = "Ошибка файла";
+    $("#upload-status").style.color = "red";
+  }
+});
+
+// --- ОТРИСОВКА ---
 async function refresh() {
   const projects = await api("/projects/");
   const payments = await api("/payments/");
@@ -157,7 +261,7 @@ async function refresh() {
 }
 
 function showApp() {
-  $("#login-block").classList.add("hidden");
+  $("#auth-block").classList.add("hidden");
   $("#app-block").classList.remove("hidden");
   refresh();
 }
