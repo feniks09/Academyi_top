@@ -3,8 +3,6 @@ services:
     name: communal-payments
     runtime: docker
     plan: free
-    # Мы объединили миграции и запуск сервера в одну команду, 
-    # так как preDeployCommand недоступен на free тарифе
     dockerCommand: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     healthCheckPath: /healthz
     envVars:
