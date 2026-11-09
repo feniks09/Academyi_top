@@ -1,19 +1,26 @@
 from contextlib import asynccontextmanager
-
-from fastapi import Depends, FastAPI, Request
+from fastapi import FastAPI, Depends, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
+# Импортируем engine и Base для создания таблиц
+from app.database import get_db, engine, Base
 from app.cache import close_cache
-from app.database import get_db
 from app.routers import router
+# Важно импортировать модели, чтобы Base "увидел" их перед созданием
+import app.models 
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # При запуске приложения (на Render или локально) создаем таблицы
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+        
     yield
+    # При остановке приложения закрываем соединение с Redis/кэшем
     await close_cache()
 
 
