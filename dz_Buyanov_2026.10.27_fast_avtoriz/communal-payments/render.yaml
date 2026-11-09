@@ -3,7 +3,8 @@ services:
     name: communal-payments
     runtime: docker
     plan: free
-    dockerCommand: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    dockerContext: ./dz_Buyanov_2026.10.27_fast_avtoriz/communal-payments
+    dockerfilePath: ./dz_Buyanov_2026.10.27_fast_avtoriz/communal-payments/Dockerfile
     healthCheckPath: /healthz
     envVars:
       - key: DATABASE_URL
