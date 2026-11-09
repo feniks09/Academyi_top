@@ -2,160 +2,149 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8">
-  <title>Квартиры и платежи</title>
+  <title>Мои квартиры и платежи</title>
   <style>
-    body { font-family: sans-serif; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    .paid { color: green; } .partial { color: orange; } .unpaid { color: crimson; }
-    .hidden { display: none !important; }
-    form { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
-    input, select { padding: 4px; }
-    
-    .auth-container { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
-    .auth-box { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #fafafa; flex: 1; min-width: 250px; }
-    
-    /* Стили для макета с двумя колонками */
-    .main-layout { display: flex; gap: 20px; align-items: flex-start; }
-    .sidebar { flex: 0 0 300px; border-right: 1px solid #ddd; padding-right: 20px; }
-    .content { flex: 1; }
-    
-    /* Карточка квартиры в сайдбаре */
-    .project-card {
-      border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;
-      border-radius: 5px; cursor: pointer; background: #f9f9f9; transition: 0.2s;
+    :root {
+      --bg: #f0f4f8;
+      --card-bg: #ffffff;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+      --primary: #3498db;
+      --danger: #e74c3c;
+      --success: #27ae60;
+      --border: #dcdde1;
     }
-    .project-card:hover { background: #eef; }
-    .project-card.active { border-color: #007bff; background: #e6f2ff; }
-    .project-card .debt { font-size: 0.9em; font-weight: bold; color: crimson; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container { display: flex; gap: 20px; max-width: 1200px; width: 100%; }
     
-    /* Кнопки */
-    button { cursor: pointer; padding: 5px 10px; border: none; border-radius: 3px; }
-    .btn-primary { background: #007bff; color: white; }
-    .btn-danger { background: #dc3545; color: white; padding: 2px 6px; font-size: 0.8em; }
-    .btn-warning { background: #ffc107; color: black; padding: 2px 6px; font-size: 0.8em; }
-    .btn-sm { padding: 2px 6px; font-size: 0.8em; }
+    /* Левая колонка */
+    .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    /* Правая колонка */
+    .sidebar { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
+
+    .card {
+      background: var(--card-bg); border-radius: 12px; padding: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid var(--border);
+    }
+
+    h1, h2, h3, h4 { margin-top: 0; }
+    
+    /* Хлебные крошки (навигация) */
+    .breadcrumbs { font-size: 14px; color: var(--muted); margin-bottom: 15px; }
+    .breadcrumbs span { cursor: pointer; color: var(--primary); }
+    .breadcrumbs span:hover { text-decoration: underline; }
+    .breadcrumbs .current { color: var(--text); font-weight: bold; cursor: default; text-decoration: none; }
+
+    /* Формы и кнопки */
+    input, select, button {
+      padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border);
+      font-size: 14px; font-family: inherit;
+    }
+    input { width: calc(100% - 26px); margin-bottom: 10px; }
+    button {
+      cursor: pointer; background: var(--primary); color: white; border: none;
+      font-weight: 500; transition: 0.2s;
+    }
+    button:hover { opacity: 0.9; }
+    button.btn-danger { background: var(--danger); padding: 4px 8px; font-size: 12px; }
+    button.btn-edit { background: var(--primary); padding: 4px 8px; font-size: 12px; }
+    button.btn-action { width: 100%; margin-top: 10px; }
+    button.btn-back { background: var(--muted); margin-bottom: 15px; font-size: 13px; padding: 6px 12px;}
+
+    /* Таблицы */
+    .list-table { width: 100%; border-collapse: collapse; }
+    .list-table th, .list-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid var(--border); }
+    .list-table th { color: var(--muted); font-weight: 500; font-size: 13px; text-transform: uppercase; }
+    
+    .clickable-row { cursor: pointer; transition: background 0.2s; }
+    .clickable-row:hover { background: #f8fafc; }
+    
+    .debt-text { color: var(--danger); font-weight: bold; }
+    .debt-zero { color: var(--success); font-weight: bold; }
+
+    /* Статусы */
+    .status-paid { color: var(--success); font-weight: bold; }
+    .status-partial { color: #f39c12; font-weight: bold; }
+    .status-unpaid { color: var(--danger); font-weight: bold; }
+
+    .hidden { display: none !important; }
+    #login-view { max-width: 400px; width: 100%; margin-top: 50px; }
+    
+    .empty-msg { text-align: center; color: var(--muted); padding: 20px; }
   </style>
 </head>
 <body>
 
-<h1>Квартиры и платежи</h1>
+<!-- ЭКРАН ВХОДА -->
+<div id="login-view" class="card">
+  <h2>Личный кабинет</h2>
+  <p style="color: var(--muted); font-size: 14px;">Войдите, чтобы управлять недвижимостью</p>
+  <form id="login-form">
+    <input name="username" placeholder="Логин" required>
+    <input name="password" type="password" placeholder="Пароль" required>
+    <button type="submit" class="btn-action">Войти</button>
+  </form>
+  <p style="font-size: 12px; text-align: center; margin-top: 15px;">Демо: <code>demo / demo1234</code></p>
+</div>
 
-<!-- АВТОРИЗАЦИЯ -->
-<section id="auth-block">
-  <div class="auth-container">
-    <div class="auth-box">
-      <h2>Вход</h2>
-      <form id="login-form">
-        <input name="username" placeholder="Логин" required>
-        <input name="password" type="password" placeholder="Пароль" required>
-        <button type="submit" class="btn-primary">Войти</button>
-      </form>
-    </div>
-    <div class="auth-box">
-      <h2>Регистрация</h2>
-      <form id="register-form">
-        <input name="username" placeholder="Логин" required minlength="3">
-        <input name="password" type="password" placeholder="Пароль" required minlength="4">
-        <button type="submit" class="btn-primary">Создать аккаунт</button>
-      </form>
-    </div>
-  </div>
-</section>
-
-<!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
-<section id="app-block" class="hidden">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2>Личный кабинет</h2>
-    <button id="logout" class="btn-danger">Выйти</button>
-  </div>
-
-  <div class="main-layout">
-    <!-- ЛЕВАЯ КОЛОНКА: СПИСОК КВАРТИР -->
-    <div class="sidebar">
-      <h3>Список квартир</h3>
+<!-- ОСНОВНОЙ ЭКРАН -->
+<div id="app-view" class="container hidden">
+  
+  <!-- ЛЕВАЯ ЧАСТЬ: Рабочая область -->
+  <div class="main-content">
+    <div class="card">
+      <!-- Навигация -->
+      <div class="breadcrumbs" id="breadcrumbs"></div>
       
-      <!-- Форма добавления/редактирования объекта -->
-      <form id="project-form" style="flex-direction: column; background: #f0f8ff; padding: 10px; border-radius: 5px;">
-        <input type="hidden" id="project-id" name="id">
-        <input name="name" id="project-name" placeholder="Название (Кв. 12)" required>
-        <input name="description" id="project-desc" placeholder="Адрес">
-        <div>
-          <button type="submit" class="btn-primary" id="project-submit-btn">Добавить</button>
-          <button type="button" class="btn-warning hidden" id="project-cancel-btn">Отмена</button>
-        </div>
-      </form>
-
-      <div id="projects-list" style="margin-top: 20px;"></div>
-    </div>
-
-    <!-- ПРАВАЯ КОЛОНКА: ДЕТАЛИ И ПЛАТЕЖИ -->
-    <div class="content">
-      <div id="no-project-selected">
-        <h3>Выберите квартиру слева, чтобы увидеть платежи</h3>
-      </div>
-
-      <div id="project-details" class="hidden">
-        <h3 id="current-project-title">Платежи по квартире</h3>
-        
-        <!-- Блок загрузки квитанции -->
-        <div style="background: #f0f8ff; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #cce5ff;">
-          <h4 style="margin: 0 0 5px 0;">📄 Загрузить PDF-квитанцию</h4>
-          <input type="file" id="receipt-file" accept=".pdf" style="font-size: 0.9em;">
-          <button type="button" id="upload-btn" class="btn-primary btn-sm">Распознать</button>
-          <span id="upload-status" style="font-size: 0.8em; margin-left: 5px;"></span>
-        </div>
-
-        <!-- Форма добавления/редактирования платежа -->
-        <form id="payment-form" style="background: #f4f4f4; padding: 10px; border-radius: 5px;">
-          <input type="hidden" id="payment-id" name="id">
-          
-          <select name="service" id="payment-service" required>
-            <option value="gas">Газ</option>
-            <option value="water">Вода (ХВС)</option>
-            <option value="water_drain">Водоотведение</option>
-            <option value="electricity">Электричество</option>
-            <option value="maintenance">Содержание жилья</option>
-            <option value="capital_repair">Капремонт</option>
-            <option value="concierge">Консьержка</option>
-            <option value="other">Прочее</option>
-          </select>
-          
-          <input name="year" type="number" value="2026" required style="width: 70px;">
-          <input name="month" type="number" min="1" max="12" value="10" required style="width: 50px;">
-          <input name="amount_due" id="payment-due" type="number" step="0.01" placeholder="Начислено" required style="width: 100px;">
-          <input name="amount_paid" id="payment-paid" type="number" step="0.01" placeholder="Оплачено" value="0" style="width: 100px;">
-          
-          <button type="submit" class="btn-primary" id="payment-submit-btn">Добавить</button>
-          <button type="button" class="btn-warning hidden" id="payment-cancel-btn">Отмена</button>
-        </form>
-
-        <table>
-          <thead>
-            <tr><th>Услуга</th><th>Период</th><th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th><th>Действия</th></tr>
-          </thead>
-          <tbody id="payments"></tbody>
-        </table>
-      </div>
+      <!-- Контент (меняется через JS) -->
+      <div id="content-area"></div>
     </div>
   </div>
-</section>
+
+  <!-- ПРАВАЯ ЧАСТЬ: Личный кабинет -->
+  <div class="sidebar">
+    <div class="card">
+      <h3>Личный кабинет</h3>
+      <button id="logout" style="background: var(--muted); width: 100%; margin-bottom: 15px;">Выйти</button>
+      <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+      <h4>Добавить объект</h4>
+      <form id="apartment-form">
+        <input name="name" placeholder="Название (Кв. 12)" required>
+        <input name="description" placeholder="Адрес" required>
+        <button type="submit" class="btn-action">Добавить квартиру</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <script>
 const $ = (s) => document.querySelector(s);
 const token = () => localStorage.getItem("token");
-let currentProjectId = null; // ID выбранной квартиры
-let allProjects = [];
+
+let currentApartments = [];
 let allPayments = [];
+
+// Переменные состояния навигации
+let currentView = 'dashboard'; 
+let selectedAptId = null;
+let selectedYear = null;
+let selectedMonth = null;
+
+const MONTH_NAMES = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
 
 async function api(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
   if (token()) headers.Authorization = `Bearer ${token()}`;
   const res = await fetch(path, { ...options, headers });
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.detail || res.statusText);
-  }
+  if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
   return res.json();
 }
 
@@ -163,258 +152,289 @@ async function api(path, options = {}) {
 $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = new URLSearchParams(new FormData(e.target)).toString();
-  const res = await fetch("/auth/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
+  const res = await fetch("/auth/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
   if (!res.ok) { alert("Неверный логин или пароль"); return; }
   const data = await res.json();
   localStorage.setItem("token", data.access_token);
-  e.target.reset();
-  showApp();
-});
-
-$("#register-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const fd = Object.fromEntries(new FormData(e.target));
-  try {
-    const res = await fetch("/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(fd) });
-    if (!res.ok) { const err = await res.json(); throw new Error(err.detail); }
-    const data = await res.json();
-    localStorage.setItem("token", data.access_token);
-    alert("Регистрация успешна!");
-    e.target.reset();
-    showApp();
-  } catch (err) { alert(err.message); }
+  $("#login-view").classList.add("hidden");
+  $("#app-view").classList.remove("hidden");
+  navigateTo('dashboard');
 });
 
 $("#logout").addEventListener("click", () => {
   localStorage.removeItem("token");
-  currentProjectId = null;
-  $("#app-block").classList.add("hidden");
-  $("#auth-block").classList.remove("hidden");
+  location.reload();
 });
 
-// --- КВАРТИРЫ (PROJECTS) ---
-$("#project-form").addEventListener("submit", async (e) => {
+// --- ДОБАВЛЕНИЕ КВАРТИРЫ ---
+$("#apartment-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const id = $("#project-id").value;
-  const payload = { name: $("#project-name").value, description: $("#project-desc").value };
-  
-  if (id) {
-    await api(`/projects/${id}`, { method: "PUT", body: JSON.stringify(payload) });
-  } else {
-    await api("/projects/", { method: "POST", body: JSON.stringify(payload) });
-  }
-  resetProjectForm();
-  refresh();
+  const fd = Object.fromEntries(new FormData(e.target));
+  await api("/projects/", { method: "POST", body: JSON.stringify(fd) });
+  e.target.reset();
+  navigateTo('dashboard'); // Обновить
 });
 
-$("#project-cancel-btn").addEventListener("click", resetProjectForm);
+// --- НАВИГАЦИЯ ---
+function navigateTo(view, aptId = null, year = null, month = null) {
+  currentView = view;
+  if (aptId !== null) selectedAptId = aptId;
+  if (year !== null) selectedYear = year;
+  if (month !== null) selectedMonth = month;
 
-function resetProjectForm() {
-  $("#project-id").value = "";
-  $("#project-form").reset();
-  $("#project-submit-btn").textContent = "Добавить";
-  $("#project-cancel-btn").classList.add("hidden");
+  renderBreadcrumbs();
+  renderContent();
 }
 
-function editProject(id) {
-  const p = allProjects.find(x => x.id === id);
-  if (!p) return;
-  $("#project-id").value = p.id;
-  $("#project-name").value = p.name;
-  $("#project-desc").value = p.description;
-  $("#project-submit-btn").textContent = "Сохранить";
-  $("#project-cancel-btn").classList.remove("hidden");
-  window.scrollTo(0, 0); // Прокрутить наверх к форме
-}
+function renderBreadcrumbs() {
+  const bc = $("#breadcrumbs");
+  bc.innerHTML = "";
 
-async function deleteProject(id) {
-  if (!confirm("Удалить квартиру и ВСЕ её платежи?")) return;
-  await api(`/projects/${id}`, { method: "DELETE" });
-  if (currentProjectId === id) currentProjectId = null;
-  refresh();
-}
-
-// --- ПЛАТЕЖИ (PAYMENTS) ---
-$("#payment-form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  if (!currentProjectId) { alert("Сначала выберите квартиру!"); return; }
-  
-  const id = $("#payment-id").value;
-  const p = {
-    project_id: currentProjectId,
-    service: $("#payment-service").value,
-    year: Number(document.querySelector("#payment-form [name='year']").value),
-    month: Number(document.querySelector("#payment-form [name='month']").value),
-    amount_due: Number($("#payment-due").value),
-    amount_paid: Number($("#payment-paid").value || 0)
-  };
-  
-  try {
-    if (id) {
-      await api(`/payments/${id}`, { method: "PUT", body: JSON.stringify(p) });
-    } else {
-      await api("/payments/", { method: "POST", body: JSON.stringify(p) });
-    }
-    resetPaymentForm();
-    refresh();
-  } catch (err) { alert("Ошибка: " + err.message); }
-});
-
-$("#payment-cancel-btn").addEventListener("click", resetPaymentForm);
-
-function resetPaymentForm() {
-  $("#payment-id").value = "";
-  $("#payment-form").reset();
-  $("#payment-submit-btn").textContent = "Добавить";
-  $("#payment-cancel-btn").classList.add("hidden");
-}
-
-function editPayment(id) {
-  const p = allPayments.find(x => x.id === id);
-  if (!p) return;
-  $("#payment-id").value = p.id;
-  $("#payment-service").value = p.service;
-  document.querySelector("#payment-form [name='year']").value = p.year;
-  document.querySelector("#payment-form [name='month']").value = p.month;
-  $("#payment-due").value = p.amount_due;
-  $("#payment-paid").value = p.amount_paid;
-  
-  $("#payment-submit-btn").textContent = "Сохранить";
-  $("#payment-cancel-btn").classList.remove("hidden");
-}
-
-async function deletePayment(id) {
-  if (!confirm("Удалить этот платеж?")) return;
-  await api(`/payments/${id}`, { method: "DELETE" });
-  refresh();
-}
-
-// --- ЗАГРУЗКА КВИТАНЦИИ ---
-$("#upload-btn").addEventListener("click", async () => {
-  const fileInput = $("#receipt-file");
-  if (!fileInput.files.length) { alert("Выберите PDF-файл"); return; }
-  if (!currentProjectId) { alert("Выберите квартиру!"); return; }
-
-  const formData = new FormData();
-  formData.append("file", fileInput.files[0]);
-  $("#upload-status").textContent = "Распознавание...";
-
-  try {
-    const res = await fetch("/payments/parse-receipt/", {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${token()}` },
-      body: formData
-    });
-    if (!res.ok) throw new Error("Ошибка распознавания");
-    const data = await res.json();
-    
-    if (data.payments && data.payments.length > 0) {
-      const firstPayment = data.payments[0];
-      $("#payment-service").value = firstPayment.service;
-      $("#payment-due").value = firstPayment.amount_due;
-      fileInput.value = "";
-      $("#upload-status").textContent = `Успешно! Найдено: ${data.payments.length}`;
-      $("#upload-status").style.color = "green";
-    } else {
-      $("#upload-status").textContent = "Данные не найдены.";
-      $("#upload-status").style.color = "red";
-    }
-  } catch (err) {
-    $("#upload-status").textContent = "Ошибка файла";
-    $("#upload-status").style.color = "red";
-  }
-});
-
-// --- ОТРИСОВКА ---
-async function refresh() {
-  allProjects = await api("/projects/");
-  allPayments = await api("/payments/");
-
-  // Рисуем список квартир (сайдбар)
-  const list = $("#projects-list");
-  list.innerHTML = "";
-  allProjects.forEach(p => {
-    // Считаем долг по этой квартире
-    const pPayments = allPayments.filter(pay => pay.project_id === p.id);
-    const totalDebt = pPayments.reduce((sum, pay) => sum + pay.debt, 0);
-    
-    const card = document.createElement("div");
-    card.className = `project-card ${currentProjectId === p.id ? 'active' : ''}`;
-    card.innerHTML = `
-      <div><strong>${p.name}</strong></div>
-      <div style="font-size: 0.8em; color: #666;">${p.description}</div>
-      <div class="debt">Долг: ${totalDebt.toFixed(2)} ₽</div>
-      <div style="margin-top: 5px;">
-        <button class="btn-warning" onclick="event.stopPropagation(); editProject(${p.id})">✎</button>
-        <button class="btn-danger" onclick="event.stopPropagation(); deleteProject(${p.id})">✕</button>
-      </div>
-    `;
-    card.onclick = () => selectProject(p.id);
-    list.appendChild(card);
-  });
-
-  // Рисуем детали выбранной квартиры
-  if (currentProjectId) {
-    const proj = allProjects.find(x => x.id === currentProjectId);
-    if (proj) {
-      $("#no-project-selected").classList.add("hidden");
-      $("#project-details").classList.remove("hidden");
-      $("#current-project-title").textContent = `Платежи: ${proj.name} (${proj.description})`;
-      
-      renderPaymentsTable();
-    } else {
-      currentProjectId = null; // Если удалили текущую
-      $("#no-project-selected").classList.remove("hidden");
-      $("#project-details").classList.add("hidden");
-    }
-  } else {
-    $("#no-project-selected").classList.remove("hidden");
-    $("#project-details").classList.add("hidden");
-  }
-}
-
-function selectProject(id) {
-  currentProjectId = id;
-  resetPaymentForm();
-  refresh();
-}
-
-function renderPaymentsTable() {
-  const tbody = $("#payments");
-  tbody.innerHTML = "";
-  
-  const pPayments = allPayments.filter(p => p.project_id === currentProjectId);
-  
-  if (pPayments.length === 0) {
-    tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Нет платежей</td></tr>";
+  if (currentView === 'dashboard') {
+    bc.innerHTML = `<span class="current">Мои объекты</span>`;
     return;
   }
 
-  pPayments.forEach(p => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${p.service}</td>
-      <td>${p.year}-${String(p.month).padStart(2, "0")}</td>
-      <td>${p.amount_due}</td>
-      <td>${p.amount_paid}</td>
-      <td style="color:${p.debt > 0 ? 'crimson' : 'green'}">${p.debt}</td>
-      <td class="${p.status}">${p.status}</td>
-      <td>
-        <button class="btn-warning" onclick="editPayment(${p.id})">✎</button>
-        <button class="btn-danger" onclick="deletePayment(${p.id})">✕</button>
-      </td>
-    `;
-    tbody.appendChild(tr);
+  const apt = currentApartments.find(a => a.id === selectedAptId);
+  bc.innerHTML += `<span onclick="navigateTo('dashboard')">Мои объекты</span> / `;
+
+  if (currentView === 'apartment') {
+    bc.innerHTML += `<span class="current">${apt.name}</span>`;
+  } else if (currentView === 'year') {
+    bc.innerHTML += `<span onclick="navigateTo('apartment', ${apt.id})">${apt.name}</span> / `;
+    bc.innerHTML += `<span class="current">${selectedYear} год</span>`;
+  } else if (currentView === 'month') {
+    bc.innerHTML += `<span onclick="navigateTo('apartment', ${apt.id})">${apt.name}</span> / `;
+    bc.innerHTML += `<span onclick="navigateTo('year', ${apt.id}, ${selectedYear})">${selectedYear}</span> / `;
+    bc.innerHTML += `<span class="current">${MONTH_NAMES[selectedMonth - 1]}</span>`;
+  }
+}
+
+// --- РЕНДЕР КОНТЕНТА ---
+async function renderContent() {
+  const area = $("#content-area");
+  area.innerHTML = "<p>Загрузка...</p>";
+
+  try {
+    if (currentView === 'dashboard') {
+      currentApartments = await api("/projects/");
+      allPayments = await api("/payments/");
+      renderDashboard(area);
+    } else if (currentView === 'apartment') {
+      renderApartmentYears(area);
+    } else if (currentView === 'year') {
+      renderYearMonths(area);
+    } else if (currentView === 'month') {
+      renderMonthDetails(area);
+    }
+  } catch (err) {
+    area.innerHTML = `<p style="color: var(--danger)">Ошибка: ${err.message}</p>`;
+  }
+}
+
+// 1. Экран: Список квартир
+function renderDashboard(area) {
+  const debts = {};
+  allPayments.forEach(p => {
+    if (!debts[p.project_id]) debts[p.project_id] = 0;
+    debts[p.project_id] += (p.amount_due - p.amount_paid);
+  });
+
+  let html = `<h2>Мои объекты</h2>`;
+  if (currentApartments.length === 0) {
+    html += `<div class="empty-msg">У вас пока нет объектов. Добавьте квартиру справа.</div>`;
+  } else {
+    html += `<table class="list-table">
+      <thead><tr><th>Квартира</th><th>Адрес</th><th>Общий долг</th><th style="text-align:right;">Действия</th></tr></thead>
+      <tbody>`;
+    
+    currentApartments.forEach(p => {
+      const debt = debts[p.id] || 0;
+      html += `
+        <tr class="clickable-row" onclick="navigateTo('apartment', ${p.id})">
+          <td><b>${p.name}</b></td>
+          <td style="color: var(--muted);">${p.description}</td>
+          <td class="${debt > 0 ? 'debt-text' : 'debt-zero'}">${debt.toFixed(2)} ₽</td>
+          <td style="text-align: right;">
+            <button class="btn-danger" onclick="event.stopPropagation(); deleteApartment(${p.id})">Удалить</button>
+          </td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+  }
+  area.innerHTML = html;
+}
+
+// 2. Экран: Список годов для квартиры
+function renderApartmentYears(area) {
+  const apt = currentApartments.find(a => a.id === selectedAptId);
+  const aptPayments = allPayments.filter(p => p.project_id === selectedAptId);
+  
+  // Получаем уникальные годы
+  const years = [...new Set(aptPayments.map(p => p.year))].sort().reverse();
+  
+  let html = `<h2>${apt.name} — ${apt.description}</h2>`;
+  html += `<p style="color: var(--muted); margin-bottom: 20px;">Выберите год для просмотра платежей</p>`;
+
+  if (years.length === 0) {
+    html += `<div class="empty-msg">Нет данных по платежам.</div>`;
+  } else {
+    html += `<table class="list-table"><tbody>`;
+    years.forEach(year => {
+      const yearPayments = aptPayments.filter(p => p.year === year);
+      let yearDebt = 0;
+      yearPayments.forEach(p => yearDebt += (p.amount_due - p.amount_paid));
+
+      html += `
+        <tr class="clickable-row" onclick="navigateTo('year', ${apt.id}, ${year})">
+          <td><b>${year} год</b></td>
+          <td style="text-align:right;" class="${yearDebt > 0 ? 'debt-text' : 'debt-zero'}">Долг: ${yearDebt.toFixed(2)} ₽</td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+  }
+  area.innerHTML = html;
+}
+
+// 3. Экран: Список месяцев в году
+function renderYearMonths(area) {
+  const apt = currentApartments.find(a => a.id === selectedAptId);
+  const yearPayments = allPayments.filter(p => p.project_id === selectedAptId && p.year === selectedYear);
+  
+  const months = [...new Set(yearPayments.map(p => p.month))].sort((a, b) => a - b);
+
+  let html = `<h2>${apt.name} — ${selectedYear} год</h2>`;
+  html += `<button class="btn-back" onclick="navigateTo('apartment', ${apt.id})">← Назад к годам</button>`;
+
+  if (months.length === 0) {
+    html += `<div class="empty-msg">В этом году еще нет платежей.</div>`;
+  } else {
+    html += `<table class="list-table">
+      <thead><tr><th>Месяц</th><th>Сумма к оплате</th><th>Статус</th></tr></thead>
+      <tbody>`;
+    months.forEach(m => {
+      const mPayments = yearPayments.filter(p => p.month === m);
+      let mDebt = 0;
+      mPayments.forEach(p => mDebt += (p.amount_due - p.amount_paid));
+      
+      const isPaid = mDebt <= 0;
+      
+      html += `
+        <tr class="clickable-row" onclick="navigateTo('month', ${apt.id}, ${selectedYear}, ${m})">
+          <td><b>${MONTH_NAMES[m-1]}</b></td>
+          <td>${mDebt.toFixed(2)} ₽</td>
+          <td class="${isPaid ? 'status-paid' : 'status-unpaid'}">${isPaid ? 'Оплачено' : 'Есть долг'}</td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+  }
+  area.innerHTML = html;
+}
+
+// 4. Экран: Детализация по конкретному месяцу + Добавление
+function renderMonthDetails(area) {
+  const apt = currentApartments.find(a => a.id === selectedAptId);
+  const mPayments = allPayments.filter(p => p.project_id === selectedAptId && p.year === selectedYear && p.month === selectedMonth);
+
+  let html = `<h2>${apt.name} — ${MONTH_NAMES[selectedMonth-1]} ${selectedYear}</h2>`;
+  html += `<button class="btn-back" onclick="navigateTo('year', ${apt.id}, ${selectedYear})">← Назад к месяцам</button>`;
+
+  html += `
+    <div style="background: #eef2f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+      <h4 style="margin-top:0;">Добавить услугу в этот месяц</h4>
+      <form id="add-payment-form" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end;">
+        <div>
+          <label style="font-size: 12px; color: var(--muted);">Услуга</label>
+          <select name="service" style="width: 100%;" required>
+            <option value="gas">Газ</option>
+            <option value="water">Вода (ХВС)</option>
+            <option value="water_drain">Водоотведение</option>
+            <option value="electricity">Электричество</option>
+            <option value="maintenance">Содержание</option>
+            <option value="capital_repair">Капремонт</option>
+            <option value="other">Прочее</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--muted);">Начислено (₽)</label>
+          <input name="amount_due" type="number" step="0.01" placeholder="0.00" required style="width: calc(100% - 16px); margin: 0;">
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--muted);">Оплачено (₽)</label>
+          <input name="amount_paid" type="number" step="0.01" value="0" required style="width: calc(100% - 16px); margin: 0;">
+        </div>
+        <button type="submit" style="height: 36px;">Добавить</button>
+      </form>
+    </div>
+  `;
+
+  if (mPayments.length === 0) {
+    html += `<div class="empty-msg">В этом месяце пока нет начислений. Добавьте выше.</div>`;
+  } else {
+    html += `<table class="list-table">
+      <thead><tr><th>Услуга</th><th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th></tr></thead>
+      <tbody>`;
+    
+    mPayments.forEach(p => {
+      const statusClass = p.status === 'paid' ? 'status-paid' : (p.status === 'partial' ? 'status-partial' : 'status-unpaid');
+      const statusText = p.status === 'paid' ? 'Оплачено' : (p.status === 'partial' ? 'Частично' : 'Не оплачено');
+      const debt = p.amount_due - p.amount_paid;
+
+      html += `
+        <tr>
+          <td><b>${p.service}</b></td>
+          <td>${p.amount_due} ₽</td>
+          <td>${p.amount_paid} ₽</td>
+          <td class="${debt > 0 ? 'debt-text' : 'debt-zero'}">${debt.toFixed(2)} ₽</td>
+          <td class="${statusClass}">${statusText}</td>
+        </tr>
+      `;
+    });
+    html += `</tbody></table>`;
+  }
+
+  area.innerHTML = html;
+
+  // Обработчик формы добавления платежа
+  $("#add-payment-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const payload = Object.fromEntries(fd);
+    
+    payload.project_id = selectedAptId;
+    payload.year = selectedYear;
+    payload.month = selectedMonth;
+    payload.amount_due = Number(payload.amount_due);
+    payload.amount_paid = Number(payload.amount_paid);
+
+    await api("/payments/", { method: "POST", body: JSON.stringify(payload) });
+    
+    // После добавления перезагружаем данные с сервера
+    allPayments = await api("/payments/");
+    renderContent(); // Остаемся на этом же экране
   });
 }
 
-function showApp() {
-  $("#auth-block").classList.add("hidden");
-  $("#app-block").classList.remove("hidden");
-  refresh();
+// --- УДАЛЕНИЕ КВАРТИРЫ ---
+async function deleteApartment(id) {
+  if (!confirm("Удалить квартиру и все её платежи?")) return;
+  await api(`/projects/${id}`, { method: "DELETE" });
+  navigateTo('dashboard');
 }
 
-if (token()) showApp();
+// Инициализация при загрузке
+if (token()) {
+  $("#login-view").classList.add("hidden");
+  $("#app-view").classList.remove("hidden");
+  navigateTo('dashboard');
+}
 </script>
 
 </body>
