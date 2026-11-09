@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Мои квартиры и платежи</title>
+  <style>
+    body { font-family: sans-serif; max-width: 960px; margin: 2rem auto; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    .paid { color: green; } .partial { color: orange; } .unpaid { color: crimson; }
+    .hidden { display: none; }
+    form { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<h1>Мои квартиры и платежи</h1>
+
+<section id="login-block">
+  <h2>Вход</h2>
+  <form id="login-form">
+    <input name="username" placeholder="Логин" required>
+    <input name="password" type="password" placeholder="Пароль" required>
+    <button type="submit">Войти</button>
+  </form>
+  <p>Демо: <code>demo / demo1234</code></p>
+</section>
+
+<section id="app-block" class="hidden">
+  <button id="logout">Выйти</button>
+
+  <h2>Добавить квартиру (Project)</h2>
+  <form id="project-form">
+    <input name="name" placeholder="Кв. 12" required>
+    <input name="description" placeholder="ул. Ленина, 5">
+    <button type="submit">Добавить</button>
+  </form>
+
+  <h2>Мои квартиры</h2>
+  <ul id="projects"></ul>
+
+  <h2>Добавить платёж</h2>
+  <form id="payment-form">
+    <select name="project_id" id="payment-project" required></select>
+    <select name="service" required>
+      <option value="gas">Газ</option>
+      <option value="water">Вода</option>
+      <option value="electricity">Электричество</option>
+      <option value="maintenance">Содержание</option>
+      <option value="other">Прочее</option>
+    </select>
+    <input name="year" type="number" value="2026" required>
+    <input name="month" type="number" min="1" max="12" value="10" required>
+    <input name="amount_due" type="number" step="0.01" placeholder="Начислено" required>
+    <input name="amount_paid" type="number" step="0.01" placeholder="Оплачено" value="0">
+    <button type="submit">Добавить</button>
+  </form>
+
+  <h2>Платежи</h2>
+  <table>
+    <thead>
+      <tr><th>Квартира</th><th>Услуга</th><th>Период</th>
+          <th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th></tr>
+    </thead>
+    <tbody id="payments"></tbody>
+  </table>
+</section>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const token = () => localStorage.getItem("token");
+
+async function api(path, options = {}) {
+  const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+  if (token()) headers.Authorization = `Bearer ${token()}`;
+  const res = await fetch(path, { ...options, headers });
+  if (!res.ok) throw new Error((await res.json()).detail || res.statusText);
+  return res.json();
+}
+
+$("#login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const body = new URLSearchParams(new FormData(e.target)).toString();
+  const res = await fetch("/auth/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body,
+  });
+  if (!res.ok) { alert("Неверный логин или пароль"); return; }
+  const data = await res.json();
+  localStorage.setItem("token", data.access_token);
+  e.target.reset();
+  showApp();
+});
+
+$("#logout").addEventListener("click", () => {
+  localStorage.removeItem("token");
+  $("#app-block").classList.add("hidden");
+  $("#login-block").classList.remove("hidden");
+});
+
+$("#project-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const fd = Object.fromEntries(new FormData(e.target));
+  await api("/projects/", { method: "POST", body: JSON.stringify(fd) });
+  e.target.reset();
+  refresh();
+});
+
+$("#payment-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const p = Object.fromEntries(new FormData(e.target));
+  p.project_id = Number(p.project_id);
+  p.year = Number(p.year);
+  p.month = Number(p.month);
+  p.amount_due = Number(p.amount_due);
+  p.amount_paid = Number(p.amount_paid || 0);
+  await api("/payments/", { method: "POST", body: JSON.stringify(p) });
+  e.target.reset();
+  refresh();
+});
+
+async function refresh() {
+  const projects = await api("/projects/");
+  const payments = await api("/payments/");
+
+  const ul = $("#projects");
+  ul.innerHTML = "";
+  const select = $("#payment-project");
+  select.innerHTML = "";
+  for (const p of projects) {
+    const li = document.createElement("li");
+    li.textContent = `${p.name} — ${p.description}`;
+    ul.appendChild(li);
+    const opt = document.createElement("option");
+    opt.value = p.id;
+    opt.textContent = `${p.name} (${p.description})`;
+    select.appendChild(opt);
+  }
+
+  const labels = Object.fromEntries(projects.map(p => [p.id, p.name]));
+  const tbody = $("#payments");
+  tbody.innerHTML = "";
+  for (const p of payments) {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${labels[p.project_id] || p.project_id}</td>
+      <td>${p.service}</td>
+      <td>${p.year}-${String(p.month).padStart(2, "0")}</td>
+      <td>${p.amount_due}</td>
+      <td>${p.amount_paid}</td>
+      <td>${p.debt}</td>
+      <td class="${p.status}">${p.status}</td>
+    `;
+    tbody.appendChild(tr);
+  }
+}
+
+function showApp() {
+  $("#login-block").classList.add("hidden");
+  $("#app-block").classList.remove("hidden");
+  refresh();
+}
+
+if (token()) showApp();
+</script>
+
+</body>
+</html>
