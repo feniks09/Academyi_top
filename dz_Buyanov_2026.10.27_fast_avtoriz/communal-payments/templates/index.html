@@ -4,103 +4,149 @@
   <meta charset="utf-8">
   <title>Квартиры и платежи</title>
   <style>
-    body { font-family: sans-serif; max-width: 960px; margin: 2rem auto; }
+    body { font-family: sans-serif; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
     table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     .paid { color: green; } .partial { color: orange; } .unpaid { color: crimson; }
-    .hidden { display: none; }
-    form { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; }
+    .hidden { display: none !important; }
+    form { margin: 1rem 0; display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+    input, select { padding: 4px; }
+    
     .auth-container { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .auth-box { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; background: #fafafa; flex: 1; min-width: 250px; }
-    .auth-box h2 { margin-top: 0; }
+    
+    /* Стили для макета с двумя колонками */
+    .main-layout { display: flex; gap: 20px; align-items: flex-start; }
+    .sidebar { flex: 0 0 300px; border-right: 1px solid #ddd; padding-right: 20px; }
+    .content { flex: 1; }
+    
+    /* Карточка квартиры в сайдбаре */
+    .project-card {
+      border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;
+      border-radius: 5px; cursor: pointer; background: #f9f9f9; transition: 0.2s;
+    }
+    .project-card:hover { background: #eef; }
+    .project-card.active { border-color: #007bff; background: #e6f2ff; }
+    .project-card .debt { font-size: 0.9em; font-weight: bold; color: crimson; }
+    
+    /* Кнопки */
+    button { cursor: pointer; padding: 5px 10px; border: none; border-radius: 3px; }
+    .btn-primary { background: #007bff; color: white; }
+    .btn-danger { background: #dc3545; color: white; padding: 2px 6px; font-size: 0.8em; }
+    .btn-warning { background: #ffc107; color: black; padding: 2px 6px; font-size: 0.8em; }
+    .btn-sm { padding: 2px 6px; font-size: 0.8em; }
   </style>
 </head>
 <body>
 
 <h1>Квартиры и платежи</h1>
 
-<!-- БЛОК АВТОРИЗАЦИИ И РЕГИСТРАЦИИ -->
+<!-- АВТОРИЗАЦИЯ -->
 <section id="auth-block">
   <div class="auth-container">
-    <!-- Вход -->
     <div class="auth-box">
       <h2>Вход</h2>
       <form id="login-form">
         <input name="username" placeholder="Логин" required>
         <input name="password" type="password" placeholder="Пароль" required>
-        <button type="submit">Войти</button>
+        <button type="submit" class="btn-primary">Войти</button>
       </form>
-      <p style="font-size: 0.9em; color: #666;">Демо: <code>demo</code> / <code>demo1234</code></p>
     </div>
-
-    <!-- Регистрация -->
     <div class="auth-box">
       <h2>Регистрация</h2>
       <form id="register-form">
-        <input name="username" placeholder="Придумайте логин" required minlength="3">
-        <input name="password" type="password" placeholder="Придумайте пароль" required minlength="4">
-        <button type="submit">Зарегистрироваться</button>
+        <input name="username" placeholder="Логин" required minlength="3">
+        <input name="password" type="password" placeholder="Пароль" required minlength="4">
+        <button type="submit" class="btn-primary">Создать аккаунт</button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- ОСНОВНОЙ БЛОК -->
+<!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
 <section id="app-block" class="hidden">
-  <button id="logout">Выйти</button>
-
-  <h2>Добавить квартиру (Project)</h2>
-  <form id="project-form">
-    <input name="name" placeholder="Кв. 12" required>
-    <input name="description" placeholder="ул. Ленина, 5">
-    <button type="submit">Добавить</button>
-  </form>
-
-  <h2>Мои квартиры</h2>
-  <ul id="projects"></ul>
-
-  <h2>Добавить платёж</h2>
-  
-  <!-- Блок загрузки квитанции -->
-  <div style="background: #f0f8ff; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #cce5ff;">
-    <h3 style="margin-top: 0;">📄 Загрузить PDF-квитанцию (автоматическое заполнение)</h3>
-    <input type="file" id="receipt-file" accept=".pdf">
-    <button type="button" id="upload-btn" style="background: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer;">Распознать</button>
-    <span id="upload-status" style="margin-left: 10px; font-size: 0.9em;"></span>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2>Личный кабинет</h2>
+    <button id="logout" class="btn-danger">Выйти</button>
   </div>
 
-  <form id="payment-form">
-    <select name="project_id" id="payment-project" required></select>
-    <select name="service" id="payment-service" required>
-      <option value="gas">Газ</option>
-      <option value="water">Вода (ХВС)</option>
-      <option value="water_drain">Водоотведение</option>
-      <option value="electricity">Электричество</option>
-      <option value="maintenance">Содержание жилья</option>
-      <option value="capital_repair">Капремонт</option>
-      <option value="concierge">Консьержка</option>
-      <option value="other">Прочее</option>
-    </select>
-    <input name="year" type="number" value="2026" required>
-    <input name="month" type="number" min="1" max="12" value="10" required>
-    <input name="amount_due" id="payment-amount" type="number" step="0.01" placeholder="Начислено" required>
-    <input name="amount_paid" type="number" step="0.01" placeholder="Оплачено" value="0">
-    <button type="submit">Добавить</button>
-  </form>
+  <div class="main-layout">
+    <!-- ЛЕВАЯ КОЛОНКА: СПИСОК КВАРТИР -->
+    <div class="sidebar">
+      <h3>Список квартир</h3>
+      
+      <!-- Форма добавления/редактирования объекта -->
+      <form id="project-form" style="flex-direction: column; background: #f0f8ff; padding: 10px; border-radius: 5px;">
+        <input type="hidden" id="project-id" name="id">
+        <input name="name" id="project-name" placeholder="Название (Кв. 12)" required>
+        <input name="description" id="project-desc" placeholder="Адрес">
+        <div>
+          <button type="submit" class="btn-primary" id="project-submit-btn">Добавить</button>
+          <button type="button" class="btn-warning hidden" id="project-cancel-btn">Отмена</button>
+        </div>
+      </form>
 
-  <h2>Платежи</h2>
-  <table>
-    <thead>
-      <tr><th>Квартира</th><th>Услуга</th><th>Период</th>
-          <th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th></tr>
-    </thead>
-    <tbody id="payments"></tbody>
-  </table>
+      <div id="projects-list" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- ПРАВАЯ КОЛОНКА: ДЕТАЛИ И ПЛАТЕЖИ -->
+    <div class="content">
+      <div id="no-project-selected">
+        <h3>Выберите квартиру слева, чтобы увидеть платежи</h3>
+      </div>
+
+      <div id="project-details" class="hidden">
+        <h3 id="current-project-title">Платежи по квартире</h3>
+        
+        <!-- Блок загрузки квитанции -->
+        <div style="background: #f0f8ff; padding: 10px; border-radius: 5px; margin-bottom: 10px; border: 1px solid #cce5ff;">
+          <h4 style="margin: 0 0 5px 0;">📄 Загрузить PDF-квитанцию</h4>
+          <input type="file" id="receipt-file" accept=".pdf" style="font-size: 0.9em;">
+          <button type="button" id="upload-btn" class="btn-primary btn-sm">Распознать</button>
+          <span id="upload-status" style="font-size: 0.8em; margin-left: 5px;"></span>
+        </div>
+
+        <!-- Форма добавления/редактирования платежа -->
+        <form id="payment-form" style="background: #f4f4f4; padding: 10px; border-radius: 5px;">
+          <input type="hidden" id="payment-id" name="id">
+          
+          <select name="service" id="payment-service" required>
+            <option value="gas">Газ</option>
+            <option value="water">Вода (ХВС)</option>
+            <option value="water_drain">Водоотведение</option>
+            <option value="electricity">Электричество</option>
+            <option value="maintenance">Содержание жилья</option>
+            <option value="capital_repair">Капремонт</option>
+            <option value="concierge">Консьержка</option>
+            <option value="other">Прочее</option>
+          </select>
+          
+          <input name="year" type="number" value="2026" required style="width: 70px;">
+          <input name="month" type="number" min="1" max="12" value="10" required style="width: 50px;">
+          <input name="amount_due" id="payment-due" type="number" step="0.01" placeholder="Начислено" required style="width: 100px;">
+          <input name="amount_paid" id="payment-paid" type="number" step="0.01" placeholder="Оплачено" value="0" style="width: 100px;">
+          
+          <button type="submit" class="btn-primary" id="payment-submit-btn">Добавить</button>
+          <button type="button" class="btn-warning hidden" id="payment-cancel-btn">Отмена</button>
+        </form>
+
+        <table>
+          <thead>
+            <tr><th>Услуга</th><th>Период</th><th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th><th>Действия</th></tr>
+          </thead>
+          <tbody id="payments"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script>
 const $ = (s) => document.querySelector(s);
 const token = () => localStorage.getItem("token");
+let currentProjectId = null; // ID выбранной квартиры
+let allProjects = [];
+let allPayments = [];
 
 async function api(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
@@ -113,15 +159,11 @@ async function api(path, options = {}) {
   return res.json();
 }
 
-// --- ЛОГИН ---
+// --- АВТОРИЗАЦИЯ ---
 $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = new URLSearchParams(new FormData(e.target)).toString();
-  const res = await fetch("/auth/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
-  });
+  const res = await fetch("/auth/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body });
   if (!res.ok) { alert("Неверный логин или пароль"); return; }
   const data = await res.json();
   localStorage.setItem("token", data.access_token);
@@ -129,70 +171,133 @@ $("#login-form").addEventListener("submit", async (e) => {
   showApp();
 });
 
-// --- РЕГИСТРАЦИЯ ---
 $("#register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
   try {
-    const res = await fetch("/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fd)
-    });
-    
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || "Ошибка регистрации");
-    }
-    
+    const res = await fetch("/auth/register", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(fd) });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.detail); }
     const data = await res.json();
-    // Сразу авторизуем пользователя после успешной регистрации
     localStorage.setItem("token", data.access_token);
-    alert("Регистрация прошла успешно! Вы вошли в систему.");
+    alert("Регистрация успешна!");
     e.target.reset();
     showApp();
-  } catch (err) {
-    alert(err.message);
-  }
+  } catch (err) { alert(err.message); }
 });
 
 $("#logout").addEventListener("click", () => {
   localStorage.removeItem("token");
+  currentProjectId = null;
   $("#app-block").classList.add("hidden");
   $("#auth-block").classList.remove("hidden");
 });
 
+// --- КВАРТИРЫ (PROJECTS) ---
 $("#project-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const fd = Object.fromEntries(new FormData(e.target));
-  await api("/projects/", { method: "POST", body: JSON.stringify(fd) });
-  e.target.reset();
+  const id = $("#project-id").value;
+  const payload = { name: $("#project-name").value, description: $("#project-desc").value };
+  
+  if (id) {
+    await api(`/projects/${id}`, { method: "PUT", body: JSON.stringify(payload) });
+  } else {
+    await api("/projects/", { method: "POST", body: JSON.stringify(payload) });
+  }
+  resetProjectForm();
   refresh();
 });
 
+$("#project-cancel-btn").addEventListener("click", resetProjectForm);
+
+function resetProjectForm() {
+  $("#project-id").value = "";
+  $("#project-form").reset();
+  $("#project-submit-btn").textContent = "Добавить";
+  $("#project-cancel-btn").classList.add("hidden");
+}
+
+function editProject(id) {
+  const p = allProjects.find(x => x.id === id);
+  if (!p) return;
+  $("#project-id").value = p.id;
+  $("#project-name").value = p.name;
+  $("#project-desc").value = p.description;
+  $("#project-submit-btn").textContent = "Сохранить";
+  $("#project-cancel-btn").classList.remove("hidden");
+  window.scrollTo(0, 0); // Прокрутить наверх к форме
+}
+
+async function deleteProject(id) {
+  if (!confirm("Удалить квартиру и ВСЕ её платежи?")) return;
+  await api(`/projects/${id}`, { method: "DELETE" });
+  if (currentProjectId === id) currentProjectId = null;
+  refresh();
+}
+
+// --- ПЛАТЕЖИ (PAYMENTS) ---
 $("#payment-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const p = Object.fromEntries(new FormData(e.target));
-  p.project_id = Number(p.project_id);
-  p.year = Number(p.year);
-  p.month = Number(p.month);
-  p.amount_due = Number(p.amount_due);
-  p.amount_paid = Number(p.amount_paid || 0);
-  await api("/payments/", { method: "POST", body: JSON.stringify(p) });
-  e.target.reset();
-  refresh();
+  if (!currentProjectId) { alert("Сначала выберите квартиру!"); return; }
+  
+  const id = $("#payment-id").value;
+  const p = {
+    project_id: currentProjectId,
+    service: $("#payment-service").value,
+    year: Number(document.querySelector("#payment-form [name='year']").value),
+    month: Number(document.querySelector("#payment-form [name='month']").value),
+    amount_due: Number($("#payment-due").value),
+    amount_paid: Number($("#payment-paid").value || 0)
+  };
+  
+  try {
+    if (id) {
+      await api(`/payments/${id}`, { method: "PUT", body: JSON.stringify(p) });
+    } else {
+      await api("/payments/", { method: "POST", body: JSON.stringify(p) });
+    }
+    resetPaymentForm();
+    refresh();
+  } catch (err) { alert("Ошибка: " + err.message); }
 });
+
+$("#payment-cancel-btn").addEventListener("click", resetPaymentForm);
+
+function resetPaymentForm() {
+  $("#payment-id").value = "";
+  $("#payment-form").reset();
+  $("#payment-submit-btn").textContent = "Добавить";
+  $("#payment-cancel-btn").classList.add("hidden");
+}
+
+function editPayment(id) {
+  const p = allPayments.find(x => x.id === id);
+  if (!p) return;
+  $("#payment-id").value = p.id;
+  $("#payment-service").value = p.service;
+  document.querySelector("#payment-form [name='year']").value = p.year;
+  document.querySelector("#payment-form [name='month']").value = p.month;
+  $("#payment-due").value = p.amount_due;
+  $("#payment-paid").value = p.amount_paid;
+  
+  $("#payment-submit-btn").textContent = "Сохранить";
+  $("#payment-cancel-btn").classList.remove("hidden");
+}
+
+async function deletePayment(id) {
+  if (!confirm("Удалить этот платеж?")) return;
+  await api(`/payments/${id}`, { method: "DELETE" });
+  refresh();
+}
 
 // --- ЗАГРУЗКА КВИТАНЦИИ ---
 $("#upload-btn").addEventListener("click", async () => {
   const fileInput = $("#receipt-file");
   if (!fileInput.files.length) { alert("Выберите PDF-файл"); return; }
+  if (!currentProjectId) { alert("Выберите квартиру!"); return; }
 
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
-
   $("#upload-status").textContent = "Распознавание...";
-  $("#upload-status").style.color = "blue";
 
   try {
     const res = await fetch("/payments/parse-receipt/", {
@@ -200,18 +305,15 @@ $("#upload-btn").addEventListener("click", async () => {
       headers: { "Authorization": `Bearer ${token()}` },
       body: formData
     });
-
     if (!res.ok) throw new Error("Ошибка распознавания");
-
     const data = await res.json();
     
     if (data.payments && data.payments.length > 0) {
       const firstPayment = data.payments[0];
       $("#payment-service").value = firstPayment.service;
-      $("#payment-amount").value = firstPayment.amount_due;
-      
+      $("#payment-due").value = firstPayment.amount_due;
       fileInput.value = "";
-      $("#upload-status").textContent = `Успешно! Найдено услуг: ${data.payments.length}.`;
+      $("#upload-status").textContent = `Успешно! Найдено: ${data.payments.length}`;
       $("#upload-status").style.color = "green";
     } else {
       $("#upload-status").textContent = "Данные не найдены.";
@@ -225,39 +327,85 @@ $("#upload-btn").addEventListener("click", async () => {
 
 // --- ОТРИСОВКА ---
 async function refresh() {
-  const projects = await api("/projects/");
-  const payments = await api("/payments/");
+  allProjects = await api("/projects/");
+  allPayments = await api("/payments/");
 
-  const ul = $("#projects");
-  ul.innerHTML = "";
-  const select = $("#payment-project");
-  select.innerHTML = "";
-  for (const p of projects) {
-    const li = document.createElement("li");
-    li.textContent = `${p.name} — ${p.description}`;
-    ul.appendChild(li);
-    const opt = document.createElement("option");
-    opt.value = p.id;
-    opt.textContent = `${p.name} (${p.description})`;
-    select.appendChild(opt);
+  // Рисуем список квартир (сайдбар)
+  const list = $("#projects-list");
+  list.innerHTML = "";
+  allProjects.forEach(p => {
+    // Считаем долг по этой квартире
+    const pPayments = allPayments.filter(pay => pay.project_id === p.id);
+    const totalDebt = pPayments.reduce((sum, pay) => sum + pay.debt, 0);
+    
+    const card = document.createElement("div");
+    card.className = `project-card ${currentProjectId === p.id ? 'active' : ''}`;
+    card.innerHTML = `
+      <div><strong>${p.name}</strong></div>
+      <div style="font-size: 0.8em; color: #666;">${p.description}</div>
+      <div class="debt">Долг: ${totalDebt.toFixed(2)} ₽</div>
+      <div style="margin-top: 5px;">
+        <button class="btn-warning" onclick="event.stopPropagation(); editProject(${p.id})">✎</button>
+        <button class="btn-danger" onclick="event.stopPropagation(); deleteProject(${p.id})">✕</button>
+      </div>
+    `;
+    card.onclick = () => selectProject(p.id);
+    list.appendChild(card);
+  });
+
+  // Рисуем детали выбранной квартиры
+  if (currentProjectId) {
+    const proj = allProjects.find(x => x.id === currentProjectId);
+    if (proj) {
+      $("#no-project-selected").classList.add("hidden");
+      $("#project-details").classList.remove("hidden");
+      $("#current-project-title").textContent = `Платежи: ${proj.name} (${proj.description})`;
+      
+      renderPaymentsTable();
+    } else {
+      currentProjectId = null; // Если удалили текущую
+      $("#no-project-selected").classList.remove("hidden");
+      $("#project-details").classList.add("hidden");
+    }
+  } else {
+    $("#no-project-selected").classList.remove("hidden");
+    $("#project-details").classList.add("hidden");
   }
+}
 
-  const labels = Object.fromEntries(projects.map(p => [p.id, p.name]));
+function selectProject(id) {
+  currentProjectId = id;
+  resetPaymentForm();
+  refresh();
+}
+
+function renderPaymentsTable() {
   const tbody = $("#payments");
   tbody.innerHTML = "";
-  for (const p of payments) {
+  
+  const pPayments = allPayments.filter(p => p.project_id === currentProjectId);
+  
+  if (pPayments.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>Нет платежей</td></tr>";
+    return;
+  }
+
+  pPayments.forEach(p => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${labels[p.project_id] || p.project_id}</td>
       <td>${p.service}</td>
       <td>${p.year}-${String(p.month).padStart(2, "0")}</td>
       <td>${p.amount_due}</td>
       <td>${p.amount_paid}</td>
-      <td>${p.debt}</td>
+      <td style="color:${p.debt > 0 ? 'crimson' : 'green'}">${p.debt}</td>
       <td class="${p.status}">${p.status}</td>
+      <td>
+        <button class="btn-warning" onclick="editPayment(${p.id})">✎</button>
+        <button class="btn-danger" onclick="deletePayment(${p.id})">✕</button>
+      </td>
     `;
     tbody.appendChild(tr);
-  }
+  });
 }
 
 function showApp() {
