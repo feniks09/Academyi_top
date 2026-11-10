@@ -14,17 +14,20 @@ class Token(BaseModel):
 class ProjectCreate(BaseModel):
     name: str = Field(min_length=1, max_length=100)
     description: str = ""
+    epd_code: str = ""
 
 
 class ProjectUpdate(BaseModel):
     name: str | None = None
     description: str | None = None
+    epd_code: str | None = None
 
 
 class ProjectOut(BaseModel):
     id: int
     name: str
     description: str
+    epd_code: str
     owner_id: int
 
     class Config:
@@ -38,6 +41,8 @@ class PaymentCreate(BaseModel):
     month: int = Field(ge=1, le=12)
     amount_due: float = Field(ge=0)
     amount_paid: float = Field(default=0, ge=0)
+    volume: float = Field(default=0.0, ge=0)
+    tariff: float = Field(default=0.0, ge=0)
 
 
 class PaymentOut(BaseModel):
@@ -48,6 +53,8 @@ class PaymentOut(BaseModel):
     month: int
     amount_due: float
     amount_paid: float
+    volume: float
+    tariff: float
 
     class Config:
         from_attributes = True

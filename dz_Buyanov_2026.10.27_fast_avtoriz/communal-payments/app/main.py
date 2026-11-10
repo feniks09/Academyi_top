@@ -5,22 +5,31 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
-# Импортируем engine и Base для создания таблиц
 from app.database import get_db, engine, Base
 from app.cache import close_cache
 from app.routers import router
-# Важно импортировать модели, чтобы Base "увидел" их перед созданием
 import app.models 
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # При запуске приложения (на Render или локально) создаем таблицы
     async with engine.begin() as conn:
+        # Создаем таблицы, если их нет
         await conn.run_sync(Base.metadata.create_all)
         
+        # Принудительно добавляем новые колонки, если база уже была создана ранее
+        try:
+            await conn.execute(text("ALTER TABLE projects ADD COLUMN epd_code VARCHAR DEFAULT ''"))
+        except Exception:
+            pass # Колонка уже есть
+        
+        try:
+            await conn.execute(text("ALTER TABLE payments ADD COLUMN volume FLOAT DEFAULT 0.0"))
+            await conn.execute(text("ALTER TABLE payments ADD COLUMN tariff FLOAT DEFAULT 0.0"))
+        except Exception:
+            pass # Колонки уже есть
+            
     yield
-    # При остановке приложения закрываем соединение с Redis/кэшем
     await close_cache()
 
 
