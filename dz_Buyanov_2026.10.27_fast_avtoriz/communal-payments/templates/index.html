@@ -74,23 +74,30 @@
 </head>
 <body>
 
+<!-- ЭКРАН ВХОДА И РЕГИСТРАЦИИ -->
 <div id="login-view" class="card">
   <div class="auth-tabs">
     <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
     <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
   </div>
+
+  <!-- Форма входа -->
   <form id="login-form">
     <input name="username" placeholder="Логин" required>
     <input name="password" type="password" placeholder="Пароль" required>
     <button type="submit" class="btn-action">Войти</button>
   </form>
+
+  <!-- Форма регистрации (с подтверждением пароля) -->
   <form id="register-form" class="hidden">
     <input name="username" placeholder="Придумайте логин" required>
     <input name="password" type="password" placeholder="Придумайте пароль" required>
+    <input name="password2" type="password" placeholder="Повторите пароль" required> <!-- НОВОЕ ПОЛЕ -->
     <button type="submit" class="btn-action">Зарегистрироваться</button>
   </form>
 </div>
 
+<!-- ОСНОВНОЙ ЭКРАН -->
 <div id="app-view" class="container hidden">
   <div class="main-content" id="main-content-area">
     <div class="card">
@@ -158,6 +165,7 @@ function switchAuthTab(tab) {
   else { $("#login-form").classList.add("hidden"); $("#register-form").classList.remove("hidden"); }
 }
 
+// --- ЛОГИКА ВХОДА ---
 $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = new URLSearchParams(new FormData(e.target)).toString();
@@ -168,14 +176,34 @@ $("#login-form").addEventListener("submit", async (e) => {
   enterApp();
 });
 
+// --- ЛОГИКА РЕГИСТРАЦИИ (С ПРОВЕРКОЙ ПАРОЛЕЙ) ---
 $("#register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
+  
+  const formData = new FormData(e.target);
+  const password = formData.get("password");
+  const password2 = formData.get("password2");
+
+  // Проверка: совпадают ли пароли?
+  if (password !== password2) {
+    alert("Пароли не совпадают! Пожалуйста, проверьте ввод.");
+    return; // Останавливаем отправку формы
+  }
+
   try {
-    const data = await api("/auth/register", { method: "POST", body: JSON.stringify(Object.fromEntries(new FormData(e.target))) });
-    alert("Регистрация успешна!");
+    const data = await api("/auth/register", { 
+      method: "POST", 
+      body: JSON.stringify({ 
+        username: formData.get("username"), 
+        password: password // Отправляем на сервер только первый пароль
+      }) 
+    });
+    alert("Регистрация успешна! Добро пожаловать.");
     localStorage.setItem("token", data.access_token);
     enterApp();
-  } catch (err) { alert(err.message); }
+  } catch (err) { 
+    alert(err.message); 
+  }
 });
 
 function enterApp() { $("#login-view").classList.add("hidden"); $("#app-view").classList.remove("hidden"); navigateTo('dashboard'); }
