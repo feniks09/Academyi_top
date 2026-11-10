@@ -23,6 +23,7 @@ class Project(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(String, default="")
+    epd_code = Column(String, default="")  # <--- ДОБАВЛЕНО ПОЛЕ ДЛЯ КОДА ЕПД
     owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     owner = relationship("User", back_populates="projects")
@@ -40,6 +41,10 @@ class Payment(Base):
     month = Column(Integer, nullable=False)
     amount_due = Column(Float, nullable=False)
     amount_paid = Column(Float, default=0.0)
+
+    # Добавляем поля для объема и тарифа, чтобы соответствовать квитанции
+    volume = Column(Float, nullable=True, default=0.0)
+    tariff = Column(Float, nullable=True, default=0.0)
 
     project = relationship("Project", back_populates="payments")
 

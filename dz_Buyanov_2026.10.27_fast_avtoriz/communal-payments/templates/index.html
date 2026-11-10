@@ -26,7 +26,7 @@
     .container { display: flex; gap: 20px; max-width: 1200px; width: 100%; }
     
     /* Левая колонка */
-    .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .main-content { flex: 1; display: flex; flex-direction: column; gap: 20px; width: 100%; }
     /* Правая колонка */
     .sidebar { width: 320px; flex-shrink: 0; display: flex; flex-direction: column; gap: 20px; }
 
@@ -85,11 +85,7 @@
     .clickable-row { cursor: pointer; transition: background 0.2s; }
     .clickable-row:hover { background: #f8fafc; }
     
-    .disabled-row {
-      background-color: #f9f9f9;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
+    .disabled-row { background-color: #f9f9f9; cursor: not-allowed; opacity: 0.6; }
     .disabled-row:hover { background-color: #f9f9f9; }
     
     .debt-text { color: var(--danger); font-weight: bold; }
@@ -104,31 +100,39 @@
     #login-view { max-width: 400px; width: 100%; margin-top: 50px; }
     
     .empty-msg { text-align: center; color: var(--muted); padding: 20px; }
-    
-    /* Форма редактирования внутри строки */
-    .edit-row { background: #fdfbf7; }
-    .edit-form { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .edit-form input { width: 80px; margin: 0; padding: 4px 8px; }
-    .edit-form button { padding: 4px 8px; font-size: 12px; width: auto;}
+
+    /* Заголовки на страницах */
+    .page-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+    }
+    .header-title-group {
+      display: flex; align-items: baseline; gap: 15px;
+    }
+    .current-month-badge {
+      background: #e1f0fa; color: var(--primary); padding: 4px 10px; border-radius: 20px;
+      font-size: 13px; font-weight: 600;
+    }
+
+    /* Выпадающая форма */
+    .add-form-container { margin-bottom: 20px; text-align: right; }
+    .form-hidden { display: none; text-align: left; background: #eef2f5; padding: 15px; border-radius: 8px; margin-top: 10px;}
   </style>
 </head>
 <body>
 
-<!-- ЭКРАН ВХОДА И РЕГИСТРАЦИИ -->
+<!-- ЭКРАН ВХОДА -->
 <div id="login-view" class="card">
   <div class="auth-tabs">
     <button class="auth-tab active" onclick="switchAuthTab('login')">Вход</button>
     <button class="auth-tab" onclick="switchAuthTab('register')">Регистрация</button>
   </div>
 
-  <!-- Форма входа -->
   <form id="login-form">
     <input name="username" placeholder="Логин" required>
     <input name="password" type="password" placeholder="Пароль" required>
     <button type="submit" class="btn-action">Войти</button>
   </form>
 
-  <!-- Форма регистрации (скрыта по умолчанию) -->
   <form id="register-form" class="hidden">
     <input name="username" placeholder="Придумайте логин" required>
     <input name="password" type="password" placeholder="Придумайте пароль" required>
@@ -139,16 +143,16 @@
 <!-- ОСНОВНОЙ ЭКРАН -->
 <div id="app-view" class="container hidden">
   
-  <!-- ЛЕВАЯ ЧАСТЬ: Рабочая область -->
-  <div class="main-content">
+  <!-- ЛЕВАЯ ЧАСТЬ -->
+  <div class="main-content" id="main-content-area">
     <div class="card">
       <div class="breadcrumbs" id="breadcrumbs"></div>
       <div id="content-area"></div>
     </div>
   </div>
 
-  <!-- ПРАВАЯ ЧАСТЬ: Личный кабинет -->
-  <div class="sidebar">
+  <!-- ПРАВАЯ ЧАСТЬ (Личный кабинет на главной) -->
+  <div class="sidebar" id="sidebar-area">
     <div class="card">
       <h3>Личный кабинет</h3>
       <button id="logout" style="background: var(--muted); margin-bottom: 15px;">Выйти</button>
@@ -157,6 +161,7 @@
       <form id="apartment-form">
         <input name="name" placeholder="Название (Кв. 12)" required>
         <input name="description" placeholder="Адрес" required>
+        <input name="epd_code" placeholder="Код ЕПД (не обяз.)">
         <button type="submit" class="btn-action">Добавить квартиру</button>
       </form>
     </div>
@@ -177,6 +182,14 @@ let selectedMonth = null;
 let editingPaymentId = null;
 
 const MONTH_NAMES = ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+const SERVICES_LIST = [
+  { val: "water", label: "ХВС КПУ" },
+  { val: "water_drain", label: "Водоотв. КПУ" },
+  { val: "capital_repair", label: "Взнос на кап. ремонт" },
+  { val: "maintenance", label: "Сод.жил.пом. и ТКО" },
+  { val: "concierge", label: "Консьержка" },
+  { val: "penalty", label: "Пени" }
+];
 
 async function api(path, options = {}) {
   const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
@@ -186,11 +199,20 @@ async function api(path, options = {}) {
   return res.json();
 }
 
-// --- ВКЛАДКИ ВХОДА/РЕГИСТРАЦИИ ---
+function getCurrentBillingMonth() {
+  const today = new Date();
+  let m = today.getMonth() + 1; // 0-indexed
+  let y = today.getFullYear();
+  if (today.getDate() < 12) {
+    m -= 1;
+    if (m === 0) { m = 12; y -= 1; }
+  }
+  return MONTH_NAMES[m - 1];
+}
+
 function switchAuthTab(tab) {
   document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
-  
   if (tab === 'login') {
     $("#login-form").classList.remove("hidden");
     $("#register-form").classList.add("hidden");
@@ -200,14 +222,11 @@ function switchAuthTab(tab) {
   }
 }
 
-// --- АВТОРИЗАЦИЯ ---
 $("#login-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const body = new URLSearchParams(new FormData(e.target)).toString();
   const res = await fetch("/auth/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
+    method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body,
   });
   if (!res.ok) { alert("Неверный логин или пароль"); return; }
   const data = await res.json();
@@ -215,23 +234,15 @@ $("#login-form").addEventListener("submit", async (e) => {
   enterApp();
 });
 
-// --- РЕГИСТРАЦИЯ ---
 $("#register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
-  const fd = new FormData(e.target);
-  const body = Object.fromEntries(fd);
-  
+  const body = Object.fromEntries(new FormData(e.target));
   try {
-    const data = await api("/auth/register", {
-      method: "POST",
-      body: JSON.stringify(body)
-    });
-    alert("Регистрация успешна! Вы вошли в систему.");
+    const data = await api("/auth/register", { method: "POST", body: JSON.stringify(body) });
+    alert("Регистрация успешна!");
     localStorage.setItem("token", data.access_token);
     enterApp();
-  } catch (err) {
-    alert(err.message);
-  }
+  } catch (err) { alert(err.message); }
 });
 
 function enterApp() {
@@ -245,7 +256,6 @@ $("#logout").addEventListener("click", () => {
   location.reload();
 });
 
-// --- ДОБАВЛЕНИЕ КВАРТИРЫ ---
 $("#apartment-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const fd = Object.fromEntries(new FormData(e.target));
@@ -254,7 +264,6 @@ $("#apartment-form").addEventListener("submit", async (e) => {
   navigateTo('dashboard'); 
 });
 
-// --- НАВИГАЦИЯ ---
 function navigateTo(view, aptId = null, year = null, month = null) {
   currentView = view;
   if (aptId !== null) selectedAptId = aptId;
@@ -262,6 +271,16 @@ function navigateTo(view, aptId = null, year = null, month = null) {
   if (month !== null) selectedMonth = month;
 
   editingPaymentId = null;
+
+  // Прячем/Показываем сайдбар
+  if (view === 'dashboard') {
+    $("#sidebar-area").classList.remove("hidden");
+    $("#main-content-area").style.flex = "1"; // сжимаем
+  } else {
+    $("#sidebar-area").classList.add("hidden");
+    $("#main-content-area").style.flex = "100%"; // растягиваем
+  }
+
   renderBreadcrumbs();
   renderContent();
 }
@@ -276,7 +295,9 @@ function renderBreadcrumbs() {
   }
 
   const apt = currentApartments.find(a => a.id === selectedAptId);
-  bc.innerHTML += `<span onclick="navigateTo('dashboard')">Мои объекты</span> / `;
+  
+  // Ссылка на главную
+  bc.innerHTML += `<span onclick="navigateTo('dashboard')">Личный кабинет</span> / `;
 
   if (currentView === 'apartment') {
     bc.innerHTML += `<span class="current">${apt.name}</span>`;
@@ -290,7 +311,6 @@ function renderBreadcrumbs() {
   }
 }
 
-// --- РЕНДЕР КОНТЕНТА ---
 async function renderContent() {
   const area = $("#content-area");
   area.innerHTML = "<p>Загрузка...</p>";
@@ -312,7 +332,6 @@ async function renderContent() {
   }
 }
 
-// 1. Дашборд
 function renderDashboard(area) {
   const debts = {};
   allPayments.forEach(p => {
@@ -320,24 +339,34 @@ function renderDashboard(area) {
     debts[p.project_id] += (p.amount_due - p.amount_paid);
   });
 
-  let html = ``;
+  const curMonth = getCurrentBillingMonth();
+  
+  let html = `
+    <div class="page-header">
+      <div class="header-title-group">
+        <h2>Мои объекты</h2>
+        <span class="current-month-badge">Текущий месяц: ${curMonth}</span>
+      </div>
+    </div>
+  `;
 
   if (currentApartments.length === 0) {
     html += `<div class="empty-msg">У вас пока нет объектов. Добавьте квартиру справа.</div>`;
   } else {
     html += `<table class="list-table">
-      <thead><tr><th>Квартира</th><th>Адрес</th><th>Общий долг</th><th style="text-align:right;">Действия</th></tr></thead>
+      <thead><tr><th>Квартира / ЕПД</th><th>Адрес</th><th>Общий долг</th><th style="text-align:right;"></th></tr></thead>
       <tbody>`;
     
     currentApartments.forEach(p => {
       const debt = debts[p.id] || 0;
       html += `
         <tr class="clickable-row" onclick="navigateTo('apartment', ${p.id})">
-          <td><b>${p.name}</b></td>
+          <td><b>${p.name}</b><br><small style="color:var(--muted)">Код: ${p.epd_code || '-'}</small></td>
           <td style="color: var(--muted);">${p.description}</td>
           <td class="${debt > 0 ? 'debt-text' : 'debt-zero'}">${debt.toFixed(2)} ₽</td>
-          <td style="text-align: right;">
-            <button class="btn-danger" onclick="event.stopPropagation(); deleteApartment(${p.id})">Удалить</button>
+          <td style="text-align: right; white-space: nowrap;">
+            <button class="btn-icon edit" title="Редактировать" onclick="event.stopPropagation(); alert('Редактирование квартиры в разработке')">✏️</button>
+            <button class="btn-icon delete" title="Удалить" onclick="event.stopPropagation(); deleteApartment(${p.id})">❌</button>
           </td>
         </tr>
       `;
@@ -347,22 +376,30 @@ function renderDashboard(area) {
   area.innerHTML = html;
 }
 
-// 2. Годы (2025 и 2026)
 function renderApartmentYears(area) {
   const apt = currentApartments.find(a => a.id === selectedAptId);
   const aptPayments = allPayments.filter(p => p.project_id === selectedAptId);
-  
   const years = [2026, 2025]; 
   
-  let html = `<h2>${apt.name} — ${apt.description}</h2>`;
-  html += `<p style="color: var(--muted); margin-bottom: 20px;">Выберите год для просмотра платежей</p>`;
+  let html = `
+    <div class="page-header">
+      <div class="header-title-group">
+        <h2>${apt.name}</h2>
+        <span style="color: var(--muted);">${apt.description}</span>
+      </div>
+      <div>
+        <span style="color: var(--muted); font-size:14px; margin-right:10px;">Код ЕПД: <b>${apt.epd_code || 'не указан'}</b></span>
+        <button onclick="navigateTo('dashboard')" style="width:auto; background:var(--muted); padding:6px 12px; font-size:13px;">← В личный кабинет</button>
+      </div>
+    </div>
+    <p style="color: var(--muted); margin-bottom: 20px;">Выберите год для просмотра платежей</p>
+  `;
 
   html += `<table class="list-table"><tbody>`;
   years.forEach(year => {
     const yearPayments = aptPayments.filter(p => p.year === year);
     let yearDebt = 0;
     yearPayments.forEach(p => yearDebt += (p.amount_due - p.amount_paid));
-
     html += `
       <tr class="clickable-row" onclick="navigateTo('year', ${apt.id}, ${year})">
         <td><b>${year} год</b></td>
@@ -371,11 +408,9 @@ function renderApartmentYears(area) {
     `;
   });
   html += `</tbody></table>`;
-  
   area.innerHTML = html;
 }
 
-// 3. Месяцы (с блокировкой до 12-го числа)
 function renderYearMonths(area) {
   const apt = currentApartments.find(a => a.id === selectedAptId);
   const yearPayments = allPayments.filter(p => p.project_id === selectedAptId && p.year === selectedYear);
@@ -387,23 +422,17 @@ function renderYearMonths(area) {
     <thead><tr><th>Месяц</th><th>Сумма к оплате</th><th>Статус</th></tr></thead>
     <tbody>`;
 
-  // --- ЛОГИКА БЛОКИРОВКИ (привязка к 12-му числу) ---
   const today = new Date();
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
   const currentDay = today.getDate();
 
   for (let m = 1; m <= 12; m++) {
-    
     let isFuture = false;
-    if (selectedYear > currentYear) {
-      isFuture = true;
-    } else if (selectedYear === currentYear) {
-      if (m > currentMonth) {
-        isFuture = true; // Следующие месяцы закрыты
-      } else if (m === currentMonth && currentDay < 12) {
-        isFuture = true; // Текущий месяц закрыт, пока не наступит 12-е число
-      }
+    if (selectedYear > currentYear) isFuture = true;
+    else if (selectedYear === currentYear) {
+      if (m > currentMonth) isFuture = true;
+      else if (m === currentMonth && currentDay < 12) isFuture = true;
     }
 
     const mPayments = yearPayments.filter(p => p.month === m);
@@ -418,19 +447,12 @@ function renderYearMonths(area) {
     let rowClass = 'clickable-row';
     let onClickAction = `onclick="navigateTo('month', ${apt.id}, ${selectedYear}, ${m})"`;
 
-    if (isEmpty && !isFuture) {
-      statusText = 'Нет начислений';
-      statusClass = '';
-    } else if (isPaid) {
-      statusText = 'Оплачено';
-      statusClass = 'status-paid';
-    }
+    if (isEmpty && !isFuture) { statusText = 'Нет начислений'; statusClass = ''; } 
+    else if (isPaid) { statusText = 'Оплачено'; statusClass = 'status-paid'; }
 
     if (isFuture) {
-      statusText = 'Не наступил';
-      statusClass = '';
-      rowClass = 'disabled-row';
-      onClickAction = `onclick="alert('Платежи за этот месяц откроются 12-го числа.')"`;
+      statusText = 'Не наступил'; statusClass = ''; rowClass = 'disabled-row';
+      onClickAction = `onclick="alert('Платежи откроются 12-го числа.')"`;
     }
 
     html += `
@@ -441,86 +463,72 @@ function renderYearMonths(area) {
       </tr>
     `;
   }
-  
   html += `</tbody></table>`;
   area.innerHTML = html;
 }
 
-// 4. Детализация за месяц
 function renderMonthDetails(area) {
   const apt = currentApartments.find(a => a.id === selectedAptId);
   const mPayments = allPayments.filter(p => p.project_id === selectedAptId && p.year === selectedYear && p.month === selectedMonth);
 
-  let html = `<h2>${apt.name} — ${MONTH_NAMES[selectedMonth-1]} ${selectedYear}</h2>`;
-  html += `<button class="btn-back" onclick="navigateTo('year', ${apt.id}, ${selectedYear})">← Назад к месяцам</button>`;
-
-  html += `
-    <div style="background: #eef2f5; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-      <h4 style="margin-top:0;">Добавить услугу в этот месяц</h4>
-      <form id="add-payment-form" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 10px; align-items: end;">
-        <div>
-          <label style="font-size: 12px; color: var(--muted);">Услуга</label>
-          <select name="service" style="width: 100%; padding: 8px;" required>
-            <option value="gas">Газ</option>
-            <option value="water">Вода (ХВС)</option>
-            <option value="water_drain">Водоотведение</option>
-            <option value="electricity">Электричество</option>
-            <option value="maintenance">Содержание</option>
-            <option value="capital_repair">Капремонт</option>
-            <option value="other">Прочее</option>
-          </select>
-        </div>
-        <div>
-          <label style="font-size: 12px; color: var(--muted);">Начислено (₽)</label>
-          <input name="amount_due" type="number" step="0.01" placeholder="0.00" required style="margin: 0;">
-        </div>
-        <div>
-          <label style="font-size: 12px; color: var(--muted);">Оплачено (₽)</label>
-          <input name="amount_paid" type="number" step="0.01" value="0" required style="margin: 0;">
-        </div>
-        <button type="submit" style="height: 38px;">Добавить</button>
-      </form>
+  let html = `
+    <div class="page-header">
+      <h2>${apt.name} — ${MONTH_NAMES[selectedMonth-1]} ${selectedYear}</h2>
+      <button class="btn-back" style="margin:0;" onclick="navigateTo('year', ${apt.id}, ${selectedYear})">← Назад</button>
+    </div>
+    
+    <div class="add-form-container">
+      <button onclick="toggleAddForm()" style="width:auto;">+ Добавить услугу</button>
+      <div id="add-form-wrapper" class="form-hidden">
+        <form id="add-payment-form" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr auto; gap: 10px; align-items: end; margin-top:10px;">
+          <div>
+            <label style="font-size: 12px; color: var(--muted);">Услуга</label>
+            <select name="service" style="width: 100%; padding: 8px;" required>
+              ${SERVICES_LIST.map(s => `<option value="${s.val}">${s.label}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted);">Объем</label>
+            <input name="volume" type="number" step="0.01" placeholder="0" style="margin: 0;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted);">Тариф</label>
+            <input name="tariff" type="number" step="0.01" placeholder="0.00" style="margin: 0;">
+          </div>
+          <div>
+            <label style="font-size: 12px; color: var(--muted);">Начислено (₽)</label>
+            <input name="amount_due" type="number" step="0.01" placeholder="0.00" required style="margin: 0;">
+          </div>
+          <button type="submit" style="height: 38px;">OK</button>
+        </form>
+      </div>
     </div>
   `;
 
   if (mPayments.length === 0) {
-    html += `<div class="empty-msg">В этом месяце пока нет начислений. Добавьте выше.</div>`;
+    html += `<div class="empty-msg">В этом месяце пока нет начислений.</div>`;
   } else {
     html += `<table class="list-table">
-      <thead><tr><th>Услуга</th><th>Начислено</th><th>Оплачено</th><th>Долг</th><th>Статус</th><th style="text-align:right;">Действия</th></tr></thead>
+      <thead><tr><th>Услуга</th><th>Объем</th><th>Тариф</th><th>Начислено</th><th>Оплачено</th><th>Долг</th><th style="text-align:right;">Действия</th></tr></thead>
       <tbody>`;
     
     mPayments.forEach(p => {
       if (editingPaymentId === p.id) {
-        html += `
-          <tr class="edit-row">
-            <td><b>${p.service}</b></td>
-            <td colspan="4">
-              <form class="edit-form" onsubmit="savePaymentEdit(event, ${p.id})">
-                <span style="font-size:12px; color:var(--muted);">Начислено:</span>
-                <input name="amount_due" type="number" step="0.01" value="${p.amount_due}" required>
-                <span style="font-size:12px; color:var(--muted);">Оплачено:</span>
-                <input name="amount_paid" type="number" step="0.01" value="${p.amount_paid}" required>
-                <button type="submit" class="btn-edit">Сохранить</button>
-                <button type="button" class="btn-icon" onclick="cancelEdit()">❌</button>
-              </form>
-            </td>
-          </tr>
-        `;
+        html += `<tr class="edit-row"><td colspan="7">Форма редактирования в разработке...</td></tr>`;
       } else {
-        const statusClass = p.status === 'paid' ? 'status-paid' : (p.status === 'partial' ? 'status-partial' : 'status-unpaid');
-        const statusText = p.status === 'paid' ? 'Оплачено' : (p.status === 'partial' ? 'Частично' : 'Не оплачено');
         const debt = p.amount_due - p.amount_paid;
-
+        const serviceName = SERVICES_LIST.find(s => s.val === p.service)?.label || p.service;
+        
         html += `
           <tr>
-            <td><b>${p.service}</b></td>
+            <td><b>${serviceName}</b></td>
+            <td>${p.volume || '-'}</td>
+            <td>${p.tariff || '-'}</td>
             <td>${p.amount_due} ₽</td>
             <td>${p.amount_paid} ₽</td>
             <td class="${debt > 0 ? 'debt-text' : 'debt-zero'}">${debt.toFixed(2)} ₽</td>
-            <td class="${statusClass}">${statusText}</td>
             <td style="text-align: right; white-space: nowrap;">
-              <button class="btn-icon edit" title="Редактировать" onclick="startEditPayment(${p.id})">✏️</button>
+              <button class="btn-icon edit" title="Редактировать" onclick="alert('Ред. в разработке')">✏️</button>
               <button class="btn-icon delete" title="Удалить" onclick="deletePayment(${p.id})">❌</button>
             </td>
           </tr>
@@ -536,55 +544,28 @@ function renderMonthDetails(area) {
     e.preventDefault();
     const fd = new FormData(e.target);
     const payload = Object.fromEntries(fd);
-    
     payload.project_id = selectedAptId;
     payload.year = selectedYear;
     payload.month = selectedMonth;
     payload.amount_due = Number(payload.amount_due);
-    payload.amount_paid = Number(payload.amount_paid);
-
-    await api("/payments/", { method: "POST", body: JSON.stringify(payload) });
+    payload.amount_paid = 0; // по умолчанию
+    // В БД сейчас нет полей volume и tariff, мы их пока просто игнорируем
+    // или нужно будет добавить в модель Payment (в app/models.py)
     
+    await api("/payments/", { method: "POST", body: JSON.stringify(payload) });
     allPayments = await api("/payments/");
     renderContent(); 
   });
 }
 
-// --- РЕДАКТИРОВАНИЕ И УДАЛЕНИЕ ПЛАТЕЖЕЙ ---
-function startEditPayment(id) {
-  editingPaymentId = id;
-  renderContent(); 
-}
-
-function cancelEdit() {
-  editingPaymentId = null;
-  renderContent();
-}
-
-async function savePaymentEdit(e, id) {
-  e.preventDefault();
-  const form = e.target;
-  const fd = new FormData(form);
-  const currentPayment = allPayments.find(p => p.id === id);
-  
-  const payload = {
-    project_id: currentPayment.project_id,
-    service: currentPayment.service,
-    year: currentPayment.year,
-    month: currentPayment.month,
-    amount_due: Number(fd.get("amount_due")),
-    amount_paid: Number(fd.get("amount_paid"))
-  };
-
-  await api(`/payments/${id}`, { method: "PUT", body: JSON.stringify(payload) });
-  
-  editingPaymentId = null;
-  allPayments = await api("/payments/");
-  renderContent();
+function toggleAddForm() {
+  const wrapper = $("#add-form-wrapper");
+  if (wrapper.classList.contains("form-hidden")) wrapper.classList.remove("form-hidden");
+  else wrapper.classList.add("form-hidden");
 }
 
 async function deletePayment(id) {
-  if (!confirm("Удалить эту услугу из квитанции?")) return;
+  if (!confirm("Удалить эту услугу?")) return;
   await api(`/payments/${id}`, { method: "DELETE" });
   allPayments = await api("/payments/");
   renderContent();
@@ -596,10 +577,7 @@ async function deleteApartment(id) {
   navigateTo('dashboard');
 }
 
-// Инициализация
-if (token()) {
-  enterApp();
-}
+if (token()) enterApp();
 </script>
 
 </body>
