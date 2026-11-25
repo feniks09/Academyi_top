@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой блог</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 40px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .menu li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .menu a {
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .menu a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Добро пожаловать в Мой Блог!</h1>
+        <p>Здесь публикуются статьи на разные темы: от технологий до образования и новостей.</p>
+        
+        <ul class="menu">
+            <!-- Используем теги {% url %} для правильных ссылок -->
+            <li><a href="{% url 'article_list' %}">Все статьи</a></li>
+            <li><a href="{% url 'articles_stats' %}">Статистика</a></li>
+        </ul>
+    </div>
+</body>
+</html>

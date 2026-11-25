@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой блог - Статьи</title>
+</head>
+<body>
+    <h1>Все статьи</h1>
+    
+    <!-- Добавим простую форму поиска прямо на страницу -->
+    <form action="/articles/search/" method="get">
+        <input type="text" name="q" placeholder="Поиск по заголовку...">
+        <button type="submit">Найти</button>
+    </form>
+
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h3>{{ article.title }}</h3>
+                <p>Категория: 
+                    <!-- Ссылка на фильтрацию по категории -->
+                    <a href="/articles/category/{{ article.category }}/">{{ article.category }}</a>
+                </p>
+                <p>{{ article.content }}</p>
+            </li>
+        {% empty %}
+            <li>Статей пока нет.</li>
+        {% endfor %}
+    </ul>
+    
+    <hr>
+    <a href="/">На главную</a> | <a href="/articles/stats/">Статистика</a>
+</body>
+</html>

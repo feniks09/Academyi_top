@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск статей</title>
+</head>
+<body>
+    <h1>Поиск статей</h1>
+    
+    <form action="/articles/search/" method="get">
+        <input type="text" name="q" value="{{ query }}" placeholder="Введите заголовок">
+        <button type="submit">Найти</button>
+    </form>
+
+    <hr>
+
+    {% if no_results %}
+        <h3 style="color: red;">По запросу «{{ query }}» ничего не найдено.</h3>
+    {% elif query %}
+        <p>Результаты по запросу: <b>{{ query }}</b></p>
+        <ul>
+            {% for article in articles %}
+                <li>
+                    <h3>{{ article.title }}</h3>
+                    <p>Категория: <a href="/articles/category/{{ article.category }}/">{{ article.category }}</a></p>
+                    <p>{{ article.content }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Введите запрос в строку выше, чтобы найти статью.</p>
+    {% endif %}
+
+    <hr>
+    <a href="/">На главную</a> | <a href="/articles/">Все статьи</a>
+</body>
+</html>

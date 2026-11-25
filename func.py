@@ -26,3 +26,14 @@ print(c)
 # print('док', function.__doc__)
 
 # print(callable(function))
+
+class User:
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return self.name
+
+user = User("Алексей")
+
+print(user)
