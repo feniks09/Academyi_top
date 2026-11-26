@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитика коммунальных платежей</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; }
+        th, td { border: 1px solid #ccc; padding: 6px 12px; text-align: left; }
+        th { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Аналитика коммунальных платежей</h1>
+
+    <h2>Квартиры: начисления и суммы</h2>
+    <table>
+        <tr><th>Квартира</th><th>Количество начислений</th><th>Сумма начислений</th></tr>
+        {% for a in apartments %}
+        <tr>
+            <td>{{ a.name }}</td>
+            <td>{{ a.payments_count }}</td>
+            <td>{{ a.total_due|default:"0" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Задолженность по квартирам (Raw SQL)</h2>
+    <table>
+        <tr><th>Квартира</th><th>Задолженность, ₽</th></tr>
+        {% for d in debt_by_apartment %}
+        <tr><td>{{ d.name }}</td><td>{{ d.debt }}</td></tr>
+        {% endfor %}
+    </table>
+
+    <p><em>Количество SQL-запросов на странице: {{ sql_count }}</em></p>
+</body>
+</html>
