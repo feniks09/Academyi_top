@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная - Учет ЖКХ</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            text-align: center; 
+            padding-top: 80px; 
+            background-color: #f4f7f6; 
+            margin: 0;
+        }
+        h1 { 
+            color: #2c3e50; 
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #555;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        .menu { 
+            margin-top: 30px; 
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .btn { 
+            display: inline-block; 
+            padding: 12px 24px; 
+            background: #3498db; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            font-size: 16px;
+            transition: background 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn:hover { 
+            background: #2980b9; 
+            transform: translateY(-2px);
+        }
+        .btn-login {
+            background: #27ae60;
+        }
+        .btn-login:hover {
+            background: #219653;
+        }
+        .btn-admin { 
+            background: #e74c3c; 
+        }
+        .btn-admin:hover { 
+            background: #c0392b; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Добро пожаловать в систему учета коммунальных платежей!</h1>
+    <p>Это дипломный проект. Выберите действие:</p>
+
+    <div class="menu">
+        <!-- Кнопка Входа -->
+        <a href="/login/" class="btn btn-login">Вход</a>
+        
+        <!-- Кнопка Регистрации -->
+        <a href="/register/" class="btn">Регистрация</a>
+        
+        <!-- Остальные кнопки -->
+        <a href="/analytics/" class="btn">Аналитика (требует входа)</a>
+        <a href="/admin/" class="btn btn-admin">Админ-панель</a>
+        <a href="/api/" class="btn">API (JSON)</a>
+    </div>
+</body>
+</html>

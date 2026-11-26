@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><title>Вход</title></head>
+<body style="font-family: sans-serif; text-align: center; padding-top: 50px;">
+    <h2>Вход в систему</h2>
+    <form method="post" style="display: inline-block; text-align: left; background: #f4f4f4; padding: 20px; border-radius: 8px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor:pointer;">Войти</button>
+    </form>
+</body>
+</html>

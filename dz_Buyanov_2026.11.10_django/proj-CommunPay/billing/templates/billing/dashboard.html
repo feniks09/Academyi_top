@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Мои квартиры</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f4f8; padding: 20px; }
+        .container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .main-content { flex: 1; }
+        .sidebar { width: 320px; }
+        .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        .debt { color: #e74c3c; font-weight: bold; }
+        .btn { background: #3498db; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; text-decoration: none; display: inline-block; text-align: center; box-sizing: border-box; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
+        a { text-decoration: none; color: #3498db; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h2>Мои объекты</h2>
+                <table>
+                    <tr><th>Квартира / ЕПД</th><th>Адрес</th><th>Долг</th></tr>
+                    {% for apt in apartments %}
+                    <tr>
+                        <td><a href="{% url 'apartment_years' apt.id %}"><b>{{ apt.name }}</b></a><br><small>Код: {{ apt.epd_code|default:"-" }}</small></td>
+                        <td>{{ apt.description }}</td>
+                        <td class="debt">{{ apt.total_due|default:"0" }} ₽</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3">Нет квартир. Добавьте первую!</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="card">
+                <h3>Личный кабинет</h3>
+                <p>{{ request.user.email }}</p>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn" style="background:#7f8c8d; margin-bottom:15px;">Выйти</button>
+                </form>
+                <hr>
+                <h4>Добавить квартиру</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Название (Кв. 12)" required>
+                    <input type="text" name="description" placeholder="Адрес" required>
+                    <input type="text" name="epd_code" placeholder="Код ЕПД (не обяз.)">
+                    <button type="submit" class="btn">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

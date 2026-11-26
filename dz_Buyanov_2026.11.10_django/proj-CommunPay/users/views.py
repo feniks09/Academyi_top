@@ -21,3 +21,6 @@ def register(request):
 def user_list(request):
     users = User.objects.select_related("profile").all().order_by("-date_joined")
     return render(request, "users/user_list.html", {"users": users})
+
+def index(request):
+    return render(request, "users/index.html")

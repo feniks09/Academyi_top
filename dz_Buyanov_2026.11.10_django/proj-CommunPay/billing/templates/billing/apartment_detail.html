@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{{ apartment.name }}</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f4f8; padding: 20px; }
+        .card { background: white; border-radius: 12px; padding: 20px; max-width: 900px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+        .debt { color: #e74c3c; font-weight: bold; }
+        .btn { background: #3498db; color: white; padding: 8px 15px; text-decoration: none; border-radius: 6px; border: none; cursor: pointer; }
+        input, select { padding: 8px; margin-right: 10px; border: 1px solid #ccc; border-radius: 6px; }
+        .form-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: #eef2f5; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <a href="{% url 'dashboard' %}" style="color: #7f8c8d; text-decoration: none;">← Назад в кабинет</a>
+        <h2>{{ apartment.name }} ({{ apartment.description }})</h2>
+        
+        <h3>Добавить начисление</h3>
+        <form method="post" class="form-row">
+            {% csrf_token %}
+            <select name="service" required>
+                <option value="water">ХВС</option>
+                <option value="electricity">Электричество</option>
+                <option value="gas">Газ</option>
+                <option value="maintenance">Содержание</option>
+            </select>
+            <input type="number" name="year" placeholder="Год" value="2026" required style="width: 80px;">
+            <input type="number" name="month" placeholder="Месяц" min="1" max="12" required style="width: 80px;">
+            <input type="number" name="amount_due" placeholder="Начислено (₽)" step="0.01" required style="width: 120px;">
+            <input type="number" name="amount_paid" placeholder="Оплачено (₽)" step="0.01" value="0" style="width: 120px;">
+            <button type="submit" class="btn">Добавить</button>
+        </form>
+
+        <h3>История начислений</h3>
+        <table>
+            <tr><th>Услуга</th><th>Период</th><th>Начислено</th><th>Оплачено</th><th>Долг</th></tr>
+            {% for p in payments %}
+            <tr>
+                <td>{{ p.service }}</td>
+                <td>{{ p.month }}.{{ p.year }}</td>
+                <td>{{ p.amount_due }} ₽</td>
+                <td>{{ p.amount_paid }} ₽</td>
+                <td class="debt">{% if p.amount_due > p.amount_paid %}{{ p.amount_due|add:"-"|add:p.amount_paid }} ₽{% else %}0 ₽{% endif %}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">Начислений пока нет.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
