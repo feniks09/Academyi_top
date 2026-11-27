@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>{{ apartment.name }} - {{ year }}</title>
+    <title>{{ apartment.name }} — {{ year }}</title>
     <style>
         body { font-family: sans-serif; background: #f0f4f8; padding: 20px; }
         .card { background: white; border-radius: 12px; padding: 20px; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
@@ -12,27 +12,34 @@
         .list-table td { padding: 12px; border-bottom: 1px solid #eee; }
         .list-table tr:hover { background: #f8fafc; cursor: pointer; }
         .debt { color: #e74c3c; font-weight: bold; }
+        .paid { color: #27ae60; font-weight: bold; }
         .empty { color: #bdc3c7; }
     </style>
 </head>
 <body>
     <div class="card">
         <div class="breadcrumbs">
-            <a href="{% url 'dashboard' %}">Личный кабинет</a> / 
-            <a href="{% url 'apartment_years' apartment.id %}">{{ apartment.name }}</a> / 
+            <a href="{% url 'dashboard' %}">Личный кабинет</a> /
+            <a href="{% url 'apartment_years' apartment.id %}">{{ apartment.name }}</a> /
             <span>{{ year }}</span>
         </div>
         <h2>{{ apartment.name }} — {{ year }} год</h2>
-        
+        <p style="color: #7f8c8d; font-size: 14px;">Нажмите на любой месяц, чтобы открыть квитанцию</p>
+
         <table class="list-table">
             {% for m in months %}
-            <tr {% if m.has_data %}onclick="window.location='{% url 'month_details' apartment.id year m.num %}'"{% endif %}>
+            <tr onclick="window.location='{% url 'month_details' apartment.id year m.num %}'">
                 <td><b>{{ m.name }}</b></td>
-                <td style="text-align: right;" class="{% if m.debt > 0 %}debt{% elif not m.has_data %}empty{% endif %}">
+                <td style="text-align: right;"
+                    class="{% if m.debt > 0 %}debt{% elif m.has_data %}paid{% else %}empty{% endif %}">
                     {% if m.has_data %}
-                        {% if m.debt > 0 %}Долг: {{ m.debt }} ₽{% else %}Оплачено{% endif %}
+                        {% if m.debt > 0 %}
+                            Долг: {{ m.debt }} ₽
+                        {% else %}
+                            Оплачено
+                        {% endif %}
                     {% else %}
-                        Нет начислений
+                        Нет начислений →
                     {% endif %}
                 </td>
             </tr>

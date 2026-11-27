@@ -13,9 +13,12 @@
         th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #ddd; }
         .debt { color: #e74c3c; font-weight: bold; }
         .btn { background: #3498db; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; text-decoration: none; display: inline-block; text-align: center; box-sizing: border-box; }
+        .btn:hover { background: #2980b9; }
         input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        a { text-decoration: none; color: #3498db; }
-        a:hover { text-decoration: underline; }
+        
+        /* Кнопки действий */
+        .btn-icon { background: none; border: none; cursor: pointer; font-size: 18px; text-decoration: none; padding: 5px; }
+        .btn-icon:hover { transform: scale(1.1); }
     </style>
 </head>
 <body>
@@ -24,15 +27,39 @@
             <div class="card">
                 <h2>Мои объекты</h2>
                 <table>
-                    <tr><th>Квартира / ЕПД</th><th>Адрес</th><th>Долг</th></tr>
+                    <tr>
+                        <th>Квартира / ЕПД</th>
+                        <th>Адрес</th>
+                        <th>Долг</th>
+                        <th style="text-align: center;">Действия</th>
+                    </tr>
                     {% for apt in apartments %}
                     <tr>
-                        <td><a href="{% url 'apartment_years' apt.id %}"><b>{{ apt.name }}</b></a><br><small>Код: {{ apt.epd_code|default:"-" }}</small></td>
+                        <td>
+                            <a href="{% url 'apartment_years' apt.id %}"><b>{{ apt.name }}</b></a><br>
+                            <small>Код: {{ apt.epd_code|default:"-" }}</small>
+                        </td>
                         <td>{{ apt.description }}</td>
                         <td class="debt">{{ apt.total_due|default:"0" }} ₽</td>
+                        <td style="text-align: center; white-space: nowrap;">
+                            <!-- Кнопка РЕДАКТИРОВАТЬ (ведет в админку) -->
+                            <a href="/admin/billing/apartment/{{ apt.id }}/change/" target="_blank" class="btn-icon" title="Редактировать">
+                                ✏️
+                            </a>
+                            
+                            <!-- Кнопка УДАЛИТЬ (отправляет POST-запрос) -->
+                            <form method="post" style="display: inline;" onsubmit="return confirm('Вы уверены, что хотите удалить эту квартиру и все её начисления?');">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="apartment_id" value="{{ apt.id }}">
+                                <button type="submit" class="btn-icon" title="Удалить" style="color: red;">
+                                    🗑️
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     {% empty %}
-                    <tr><td colspan="3">Нет квартир. Добавьте первую!</td></tr>
+                    <tr><td colspan="4">Нет квартир. Добавьте первую!</td></tr>
                     {% endfor %}
                 </table>
             </div>
@@ -50,6 +77,7 @@
                 <h4>Добавить квартиру</h4>
                 <form method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="action" value="add">
                     <input type="text" name="name" placeholder="Название (Кв. 12)" required>
                     <input type="text" name="description" placeholder="Адрес" required>
                     <input type="text" name="epd_code" placeholder="Код ЕПД (не обяз.)">

@@ -2,293 +2,213 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Квитанция ЕПД - {{ month_name }} {{ year }}</title>
+    <title>Квитанция ЕПД — {{ month_name }} {{ year }}</title>
     <style>
         body { font-family: 'Times New Roman', Times, serif; background: #e0e0e0; padding: 20px; color: #000; }
-        .receipt { background: white; max-width: 1100px; margin: 0 auto; padding: 30px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .receipt { background: white; max-width: 1000px; margin: 0 auto; padding: 30px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         .header { display: flex; justify-content: space-between; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
         .header h1 { margin: 0; font-size: 24px; text-transform: uppercase; }
+        .header .period { font-size: 18px; font-weight: bold; }
         .info-block { margin-bottom: 20px; font-size: 14px; line-height: 1.5; }
         .info-block span { font-weight: bold; }
-
-        .receipt-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
-        .receipt-table th, .receipt-table td { border: 1px solid #000; padding: 4px; text-align: center; vertical-align: middle; }
-        .receipt-table th { background: #f0f0f0; font-weight: bold; padding: 8px; }
-        .receipt-table td.left { text-align: left; padding-left: 10px; font-weight: bold; }
         
-        .receipt-table input { 
-            width: 100%; border: 1px solid transparent; padding: 6px; text-align: center; 
-            font-family: inherit; font-size: 14px; background: transparent; box-sizing: border-box;
-        }
-        .receipt-table input:hover { border: 1px dashed #999; background: #f9f9f9; }
-        .receipt-table input:focus { border: 1px solid #0055aa; background: #fff; outline: none; }
+        .receipt-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }
+        .receipt-table th, .receipt-table td { border: 1px solid #000; padding: 6px; text-align: center; }
+        .receipt-table th { background: #f0f0f0; font-weight: bold; }
+        .receipt-table td.left { text-align: left; font-weight: bold; }
         
-        .empty-val { color: #888; }
-        .red { color: #cc0000; font-weight: bold; }
+        .receipt-table input { width: 100%; padding: 4px; border: 1px solid #ddd; text-align: center; font-family: inherit; font-size: 13px; box-sizing: border-box; }
+        .read-only-val { font-weight: bold; color: #333; }
+        
+        .totals { display: flex; justify-content: flex-end; font-size: 16px; margin-bottom: 20px; }
+        .totals table { border-collapse: collapse; width: 50%; }
+        .totals td { padding: 8px; border-bottom: 1px solid #000; }
+        .totals .label { text-align: right; font-weight: bold; }
+        .totals .value { text-align: right; }
+        .total-debt { font-size: 20px; font-weight: bold; color: #cc0000; border-bottom: 2px solid #000 !important; }
 
-        .summary-box { display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 20px; font-family: Arial, sans-serif; }
-        .summary-table { width: 450px; border-collapse: collapse; font-size: 16px; }
-        .summary-table td { padding: 8px 10px; border-bottom: 1px solid #ccc; }
-        .summary-table .label { text-align: left; color: #333; }
-        .summary-table .value { text-align: right; font-weight: bold; }
-        .summary-table .total-row td { font-size: 20px; font-weight: bold; border-top: 2px solid #000; border-bottom: 2px solid #000; background: #f9f9f9; }
-
-        .save-bar { display: flex; justify-content: flex-end; margin-top: 15px; }
-        .btn-save { padding: 12px 30px; background: #27ae60; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-save:hover { background: #219653; }
+        .btn-save { background: #27ae60; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 5px; cursor: pointer; display: block; margin: 20px auto; font-weight: bold; width: 100%; }
+        .btn-save:hover { background: #219150; }
+        
         .back-link { display: inline-block; margin-bottom: 15px; font-family: Arial, sans-serif; color: #0055aa; text-decoration: none; font-size: 14px; }
+        .back-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-
     <a href="{% url 'apartment_months' apartment.id year %}" class="back-link">← Вернуться к выбору месяцев</a>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="receipt">
-            <div class="header">
-                <div>
-                    <h1>Квитанция ЕПД</h1>
-                    <div style="font-size: 12px; margin-top: 5px;">ООО "Управляющая Компания ЖКХ"</div>
-                </div>
-                <div class="period">Период: {{ month_name }} {{ year }} г.</div>
+    <div class="receipt">
+        <div class="header">
+            <div>
+                <h1>Квитанция ЕПД</h1>
+                <div style="font-size: 12px; margin-top: 5px;">ООО "Управляющая Компания ЖКХ"</div>
             </div>
+            <div class="period">Период: {{ month_name }} {{ year }} г.</div>
+        </div>
 
-            <div class="info-block">
-                <div>Плательщик: <span>{{ request.user.first_name }} {{ request.user.last_name }}</span></div>
-                <div>Адрес: <span>{{ apartment.description }}</span></div>
-                <div>Лицевой счет: <span>{{ apartment.epd_code|default:"Не указан" }}</span> ({{ apartment.name }})</div>
-            </div>
+        <div class="info-block">
+            <div>Плательщик: <span>{{ request.user.first_name }} {{ request.user.last_name }}</span></div>
+            <div>Адрес: <span>{{ apartment.description }}</span> | Площадь: <span id="apt_area">{{ apartment.area|default:0 }}</span> м²</div>
+            <div>Лицевой счет: <span>{{ apartment.epd_code|default:"Не указан" }}</span></div>
+        </div>
 
-            <!-- ТАБЛИЦА -->
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="update_rows">
+            
             <table class="receipt-table">
                 <thead>
                     <tr>
-                        <th rowspan="2" style="width: 25%;">Услуга</th>
+                        <th rowspan="2">Услуга</th>
                         <th colspan="2">Показания</th>
-                        <th rowspan="2">Расход</th>
-                        <th rowspan="2">Тариф</th>
-                        <th rowspan="2">Начислено</th>
-                        <th rowspan="2">Оплачено</th>
-                        <th rowspan="2">Баланс</th>
+                        <th rowspan="2">Ед. изм.</th>
+                        <th rowspan="2">Объем</th>
+                        <th rowspan="2">Тариф, ₽</th>
+                        <th rowspan="2">Начислено, ₽</th>
+                        <th rowspan="2">Оплачено, ₽</th>
                     </tr>
                     <tr>
-                        <th style="width: 10%;">Пред.</th>
-                        <th style="width: 10%;">Тек.</th>
+                        <th>Пред.</th>
+                        <th>Тек.</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in receipt_rows %}
-                    <tr>
-                        <td class="left">{{ row.name }}</td>
+                    {% for p in payments %}
+                    <!-- data-атрибуты нужны для работы JavaScript -->
+                    <tr class="payment-row" data-id="{{ p.id }}" data-service="{{ p.service }}">
+                        <td class="left">{{ p.get_service_display|default:p.service }}</td>
                         
                         <!-- Показания -->
-                        {% if row.prev is not None %}
-                            <td><input type="number" step="0.01" name="prev_{{ row.code }}" id="prev_{{ row.code }}" value="{{ row.prev|floatformat:'-2' }}" oninput="recalcRow('{{ row.code }}', true)"></td>
-                            <td><input type="number" step="0.01" name="curr_{{ row.code }}" id="curr_{{ row.code }}" value="{{ row.curr|floatformat:'-2' }}" oninput="recalcRow('{{ row.code }}', true)"></td>
-                            <td id="qty_{{ row.code }}">{{ row.quantity|floatformat:"-2" }} {{ row.unit }}</td>
+                        {% if p.service == "maintenance" %}
+                            <td style="color: #999;">—</td>
+                            <td style="color: #999;">—</td>
                         {% else %}
-                            <td class="empty-val">—</td>
-                            <td class="empty-val">—</td>
-                            {% if row.code == 'water_drain' %}
-                                <!-- Для водоотведения объем считается автоматически (readonly) -->
-                                <td id="qty_{{ row.code }}" style="font-weight:bold;">{{ row.quantity|floatformat:"-2" }} {{ row.unit }}</td>
-                            {% else %}
-                                <td class="empty-val">—</td>
-                            {% endif %}
+                            <td><input type="number" step="0.01" class="inp-prev" name="prev_{{ p.id }}" value="{{ p.prev_reading|floatformat:'-2' }}"></td>
+                            <td><input type="number" step="0.01" class="inp-curr" name="curr_{{ p.id }}" value="{{ p.curr_reading|floatformat:'-2' }}"></td>
                         {% endif %}
                         
-                        <!-- Тариф -->
-                        <td><input type="number" step="0.01" name="tariff_{{ row.code }}" id="tariff_{{ row.code }}" value="{{ row.tariff|floatformat:'-2' }}" oninput="recalcRow('{{ row.code }}', {% if row.prev is not None %}true{% else %}false{% endif %})"></td>
-                        
-                        <!-- Начислено -->
-                        {% if row.prev is not None or row.code == 'water_drain' %}
-                            <td id="due_{{ row.code }}" style="font-weight:bold;">{{ row.due|floatformat:"-2" }} ₽</td>
-                        {% else %}
-                            <td><input type="number" step="0.01" name="due_{{ row.code }}" id="due_{{ row.code }}" value="{{ row.due|floatformat:'-2' }}" oninput="recalcRow('{{ row.code }}', false)"></td>
-                        {% endif %}
-                        
-                        <!-- Оплачено -->
-                        <td><input type="number" step="0.01" name="paid_{{ row.code }}" id="paid_{{ row.code }}" value="{{ row.paid|floatformat:'-2' }}" oninput="recalcRow('{{ row.code }}', {% if row.prev is not None %}true{% else %}false{% endif %})"></td>
-                        
-                        <!-- Баланс -->
-                        <td id="balance_{{ row.code }}" class="{% if row.balance > 0 %}red{% endif %}" style="font-weight:bold;">
-                            {% if row.balance > 0 %}{{ row.balance|floatformat:"-2" }} ₽{% else %}0 ₽{% endif %}
+                        <!-- Единицы измерения -->
+                        <td>
+                            {% if p.service == "electricity" %}кВт·ч
+                            {% elif p.service == "heating" %}Гкал
+                            {% elif p.service == "maintenance" %}м²
+                            {% else %}куб.м{% endif %}
                         </td>
+                        
+                        <!-- Объем и начислено (обновляются JS) -->
+                        <td class="read-only-val val-qty">{{ p.quantity|floatformat:2 }}</td>
+                        <td><input type="number" step="0.01" class="inp-tariff" name="tariff_{{ p.id }}" value="{{ p.tariff|floatformat:'-2' }}"></td>
+                        <td class="read-only-val val-amount">{{ p.amount_due|floatformat:2 }}</td>
+                        <td><input type="number" step="0.01" class="inp-paid" name="amount_paid_{{ p.id }}" value="{{ p.amount_paid|floatformat:'-2' }}"></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8">В этом месяце начислений нет. Обратитесь в управляющую компанию.</td>
                     </tr>
                     {% endfor %}
-                    
-                    <!-- Итоговая строка -->
-                    <tr style="font-weight: bold; background: #f9f9f9;">
-                        <td colspan="5" style="text-align: right; padding-right: 15px;">ИТОГО за месяц:</td>
-                        <td id="total_due">0 ₽</td>
-                        <td id="total_paid">0 ₽</td>
-                        <td id="total_balance" class="red">0 ₽</td>
-                    </tr>
                 </tbody>
             </table>
 
-            <!-- Блок итогов -->
-            <div class="summary-box">
-                <table class="summary-table">
-                    <tr>
-                        <td class="label">Остаток за текущий месяц</td>
-                        <td class="value" id="summary_current">0 ₽</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Задолженность за прошлые месяцы</td>
-                        <td class="value">{{ past_debt }} ₽</td>
-                    </tr>
-                    <tr>
-                        <td class="label">Перерасчёт / льготы</td>
-                        <td class="value">0.00 ₽</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td class="label">ИТОГО К ОПЛАТЕ</td>
-                        <td class="value red" id="summary_total">0 ₽</td>
-                    </tr>
-                </table>
-            </div>
+            {% if payments %}
+            <button type="submit" class="btn-save">💾 Сохранить изменения в базе</button>
+            {% endif %}
+        </form>
 
-            <div class="save-bar">
-                <button type="submit" class="btn-save">Сохранить изменения</button>
-            </div>
+        <div class="totals">
+            <table>
+                <tr><td class="label">Итого начислено:</td><td class="value" id="total-due">{{ total_due|floatformat:2 }} ₽</td></tr>
+                <tr><td class="label">Итого оплачено:</td><td class="value" id="total-paid">{{ total_paid|floatformat:2 }} ₽</td></tr>
+                <tr><td class="label">К оплате (Долг):</td><td class="value total-debt" id="total-debt">{{ total_debt|floatformat:2 }} ₽</td></tr>
+            </table>
         </div>
-    </form>
+    </div>
 
+    <!-- СКРИПТ МГНОВЕННОГО ПЕРЕСЧЕТА -->
     <script>
-        // Пересчет одной строки
-        function recalcRow(code, isMetered) {
-            const prevEl = document.getElementById('prev_' + code);
-            const currEl = document.getElementById('curr_' + code);
-            const tariffEl = document.getElementById('tariff_' + code);
-            const dueEl = document.getElementById('due_' + code);
-            const paidEl = document.getElementById('paid_' + code);
-            const qtyEl = document.getElementById('qty_' + code);
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll('.payment-row');
+            const aptArea = parseFloat(document.getElementById('apt_area').textContent) || 0;
 
-            const tariff = parseFloat(tariffEl.value) || 0;
-            const paid = parseFloat(paidEl.value) || 0;
-            let due = 0;
-
-            // Если это ХВС или ГВС, после пересчета вызываем пересчет водоотведения
-            if (code === 'water' || code === 'hot_water') {
-                setTimeout(recalcDrain, 0);
-            }
-
-            if (isMetered && prevEl && currEl) {
-                const prev = parseFloat(prevEl.value) || 0;
-                const curr = parseFloat(currEl.value) || 0;
-                const qty = Math.max(0, curr - prev);
+            function calculateRow(row) {
+                const service = row.dataset.service;
+                const qtyLabel = row.querySelector('.val-qty');
+                const amountLabel = row.querySelector('.val-amount');
+                const tariffInput = row.querySelector('.inp-tariff');
                 
-                // Обновляем отображение расхода
-                if(qtyEl) {
-                    const unit = qtyEl.innerText.split(' ')[1] || '';
-                    qtyEl.innerText = qty.toFixed(2) + ' ' + unit;
-                }
+                const tariff = parseFloat(tariffInput.value) || 0;
+                let qty = 0;
+                let amount = 0;
 
-                due = qty * tariff;
-                dueEl.innerText = due.toFixed(2) + ' ₽';
-            } else if (code === 'water_drain') {
-                // Для водоотведения объем берем из ячейки (он уже посчитан функцией recalcDrain)
-                let qtyText = qtyEl.innerText.split(' ')[0].replace(',', '.');
-                let qty = parseFloat(qtyText) || 0;
-                due = qty * tariff;
-                dueEl.innerText = due.toFixed(2) + ' ₽';
-            } else {
-                // Фиксированная услуга (Содержание, Отопление)
-                due = parseFloat(dueEl.value) || 0;
-            }
-
-            const balance = due - paid;
-            const balanceEl = document.getElementById('balance_' + code);
-            if (balance > 0) {
-                balanceEl.innerText = balance.toFixed(2) + ' ₽';
-                balanceEl.classList.add('red');
-            } else {
-                balanceEl.innerText = '0 ₽';
-                balanceEl.classList.remove('red');
-            }
-
-            recalcTotals();
-        }
-
-        // Пересчет водоотведения на основе ХВС и ГВС
-        function recalcDrain() {
-            const waterQtyEl = document.getElementById('qty_water');
-            const hotWaterQtyEl = document.getElementById('qty_hot_water');
-            const drainQtyEl = document.getElementById('qty_water_drain');
-
-            if (!waterQtyEl || !hotWaterQtyEl || !drainQtyEl) return;
-
-            const waterQty = parseFloat(waterQtyEl.innerText.split(' ')[0].replace(',', '.')) || 0;
-            const hotWaterQty = parseFloat(hotWaterQtyEl.innerText.split(' ')[0].replace(',', '.')) || 0;
-            
-            const totalDrain = waterQty + hotWaterQty;
-            
-            // Обновляем расход водоотведения
-            drainQtyEl.innerText = totalDrain.toFixed(2) + ' м³';
-
-            // Пересчитываем сумму и баланс для водоотведения
-            const drainTariffEl = document.getElementById('tariff_water_drain');
-            const drainDueEl = document.getElementById('due_water_drain');
-            const drainPaidEl = document.getElementById('paid_water_drain');
-            const drainBalanceEl = document.getElementById('balance_water_drain');
-
-            if (drainTariffEl && drainDueEl && drainPaidEl) {
-                const tariff = parseFloat(drainTariffEl.value) || 0;
-                const paid = parseFloat(drainPaidEl.value) || 0;
-                const due = totalDrain * tariff;
-
-                drainDueEl.innerText = due.toFixed(2) + ' ₽';
-                
-                const balance = due - paid;
-                if (balance > 0) {
-                    drainBalanceEl.innerText = balance.toFixed(2) + ' ₽';
-                    drainBalanceEl.classList.add('red');
+                if (service === 'maintenance') {
+                    // Содержание = Площадь * Тариф
+                    qty = aptArea > 0 ? aptArea : 1;
+                    amount = qty * tariff;
                 } else {
-                    drainBalanceEl.innerText = '0 ₽';
-                    drainBalanceEl.classList.remove('red');
+                    // Для всех остальных: Объем = Тек - Пред
+                    const prevInput = row.querySelector('.inp-prev');
+                    const currInput = row.querySelector('.inp-curr');
+                    
+                    if (prevInput && currInput) {
+                        const prev = parseFloat(prevInput.value) || 0;
+                        const curr = parseFloat(currInput.value) || 0;
+                        qty = curr - prev;
+                        if (qty < 0) qty = 0; // Защита от минуса
+                        amount = qty * tariff;
+                    }
                 }
+
+                qtyLabel.textContent = qty.toFixed(2);
+                amountLabel.textContent = amount.toFixed(2);
+                return amount;
             }
 
-            recalcTotals();
-        }
+            function updateTotals() {
+                let totalDue = 0;
+                let totalPaid = 0;
 
-        // Пересчет глобальных итогов (внизу)
-        function recalcTotals() {
-            let totalDue = 0;
-            let totalPaid = 0;
-            const pastDebt = parseFloat("{{ past_debt|default:0 }}".replace(',', '.')) || 0;
+                rows.forEach(row => {
+                    calculateRow(row);
+                });
 
-            const codes = [{% for row in receipt_rows %}"{{ row.code }}",{% endfor %}];
-            
-            codes.forEach(code => {
-                const dueEl = document.getElementById('due_' + code);
-                const paidEl = document.getElementById('paid_' + code);
-                
-                let due = 0;
-                if (dueEl.tagName === 'INPUT') due = parseFloat(dueEl.value) || 0;
-                else due = parseFloat(dueEl.innerText.replace(' ₽', '').replace(',', '.')) || 0;
-                
-                const paid = parseFloat(paidEl.value) || 0;
-                
-                totalDue += due;
-                totalPaid += paid;
+                // Водоотведение = сумма ХВС и ГВС
+                let waterVol = 0;
+                rows.forEach(row => {
+                    if (row.dataset.service === 'water' || row.dataset.service === 'hot_water') {
+                        waterVol += parseFloat(row.querySelector('.val-qty').textContent) || 0;
+                    }
+                });
+                rows.forEach(row => {
+                    if (row.dataset.service === 'water_drain') {
+                        const qtyLabel = row.querySelector('.val-qty');
+                        const amountLabel = row.querySelector('.val-amount');
+                        const tariff = parseFloat(row.querySelector('.inp-tariff').value) || 0;
+                        qtyLabel.textContent = waterVol.toFixed(2);
+                        amountLabel.textContent = (waterVol * tariff).toFixed(2);
+                    }
+                });
+
+                rows.forEach(row => {
+                    const amount = parseFloat(row.querySelector('.val-amount').textContent) || 0;
+                    const paid = parseFloat(row.querySelector('.inp-paid').value) || 0;
+                    totalDue += amount;
+                    totalPaid += paid;
+                });
+
+                document.getElementById('total-due').textContent = totalDue.toFixed(2) + ' ₽';
+                document.getElementById('total-paid').textContent = totalPaid.toFixed(2) + ' ₽';
+                document.getElementById('total-debt').textContent = (totalDue - totalPaid).toFixed(2) + ' ₽';
+            }
+
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach(input => {
+                    input.addEventListener('input', updateTotals);
+                });
             });
-
-            const totalBalance = totalDue - totalPaid;
-            const totalToPay = totalBalance + pastDebt;
-
-            document.getElementById('total_due').innerText = totalDue.toFixed(2) + ' ₽';
-            document.getElementById('total_paid').innerText = totalPaid.toFixed(2) + ' ₽';
-            document.getElementById('total_balance').innerText = totalBalance.toFixed(2) + ' ₽';
             
-            document.getElementById('summary_current').innerText = totalBalance.toFixed(2) + ' ₽';
-            document.getElementById('summary_total').innerText = totalToPay.toFixed(2) + ' ₽';
-        }
-
-        // Запускаем пересчет при загрузке страницы
-        window.onload = recalcTotals;
+            // Запускаем пересчет при загрузке
+            updateTotals();
+        });
     </script>
 </body>
 </html>
